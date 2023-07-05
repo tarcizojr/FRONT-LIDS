@@ -1,0 +1,16 @@
+.left-colaborador .nome{
+    color: #F59E0B;
+    font-weight: bold;
+    font-size: 4vh;
+}
+
+.left-colaborador .tipo,.left-colaborador .email {
+    color: black;
+    font-size: 3vh;
+    margin-left: 1vh;
+}
+
+.p-button.p-button-warning{
+    color: black;
+}
+

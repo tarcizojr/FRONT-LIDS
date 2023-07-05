@@ -1,0 +1,13 @@
+.input-texts{
+    display: flex;
+}
+.input-texts input{
+    
+    margin-top: 2vw;
+    width: 25vw;
+    height: 6vh;
+}
+
+.input-texts .input-endereco{
+    margin-left: 2vw;
+}

@@ -1,0 +1,33 @@
+.container-login{
+    display: flex;
+}
+
+.left-login {
+    background-color: #F59E0B;
+    width: 50vw;
+    height: 100vh;
+   
+}
+
+.left-login .imagem{
+    margin-top: 30vh;
+    background-color: white;
+    width: 50vw;
+    height: 40vh; 
+       
+}
+
+
+.hight-login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+  
+
+
+    
+
+

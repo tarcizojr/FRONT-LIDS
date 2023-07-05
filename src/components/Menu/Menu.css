@@ -1,0 +1,38 @@
+
+*{
+   
+    margin: 0;
+    padding: 0;
+}
+
+.menu{
+    width: 30vw;
+    height: 100vh;
+    background-color: #F59E0B;
+    position: fixed;
+    top: 0;
+    
+}
+
+.logo{
+    width: 30vw;
+    height: 20vh;    
+    margin: auto;
+   
+    background-color: rgba(252, 254, 255, 0.842);
+    
+  }
+
+.butoes #bt{       
+    color: black;
+    width: 30vw;
+    text-align: left;
+    padding-left: 5vw;
+}
+
+.butoes #bt:focus,.butoes #bt:hover { 
+    background-color: white;
+    border-radius: 0;
+    border-color: none;
+}
+

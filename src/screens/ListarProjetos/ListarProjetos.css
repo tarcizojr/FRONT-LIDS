@@ -1,0 +1,19 @@
+*{
+    margin: 0;
+}
+.container{
+    margin-left: 32vw;
+    margin-right: 2vw;
+   
+}
+
+.header{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2vw;
+
+}
+
+.projetos{
+    margin-top: 10vh;
+}
