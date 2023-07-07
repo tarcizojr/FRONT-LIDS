@@ -64,7 +64,7 @@ export default class CriarProjeto extends React.Component{
 
                 <div className="card flex justify-content-center borderColorEdit">
                     <Calendar className="borderColorEdit" value={data}  
-                    onChange={(e) => this.state.dataT =e} 
+                   // onChange={(e) => this.state.dataT =e} 
                     dateFormat="dd/mm/yy" showIcon />
 
                 </div>

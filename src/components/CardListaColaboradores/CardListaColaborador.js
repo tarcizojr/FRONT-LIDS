@@ -1,52 +1,52 @@
 import React from "react";
 import { Card } from 'primereact/card';
-import './CardDeColaboradores.css';
 import { Button } from 'primereact/button';
-import './CardDeColaboradores.css';
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 
-
-export default class ListagemDeColaboradores extends React.Component{
-    
-
-    
-    render(){
-        
+import './CardListaColaboradores.css'
+// eslint-disable-next-line import/no-anonymous-default-export
+export default props =>{
+    const rows = props.colaboradores.map(colaborador =>{
         return(
-            <div>
-                
+            <div className="card">                
                 <Card>
                     <div className="left-colaborador">
                         <p className="nome">
-                            {this.props.nome_colaborador}
+                            {colaborador.nome}
                         </p>
                         
                         <p className="tipo">
-                            {this.props.tipo_colaborador}
+                            {colaborador.tipo}
                         </p>
                         <p className="email">
-                            {this.props.email}
+                            {colaborador.email}
                         </p>
                     </div>
 
                     <div id="status" className="center">
                         <p>
-                            {this.props.status}
+                            {colaborador.status}
                         </p>
                     </div>
 
                     <div className="card-butons">
-                        <Button title="Editar Projet" severity="warning" aria-label="Editar Projet">
+                        <Button onClick={e => props.editar(colaborador.id)} title="Editar Projet" severity="warning" aria-label="Editar Projet">
                             <AiFillEdit></AiFillEdit>
                         </Button>
                         
                         
-                        <Button title="Deletar Projeto" severity="warning" aria-label="Deletar Projeto">
+                        <Button onClick={e => props.delete(colaborador.id)} title="Deletar Projeto" severity="warning" aria-label="Deletar Projeto">
                             <AiFillDelete></AiFillDelete>
                         </Button>
                     </div>
                 </Card>
             </div>
         )
-    }
+    })
+
+    return(
+        <div>
+            {rows}
+        </div>
+    )
 }

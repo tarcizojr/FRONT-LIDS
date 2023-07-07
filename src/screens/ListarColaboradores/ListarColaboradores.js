@@ -1,11 +1,15 @@
 import React from "react";
-import ListagemDeColaboradores from '../../components/CardDeColaboradores/CardDeColaboradores';
+//import CardDeColaboradores from '../../components/CardDeColaboradores/CardDeColaboradores';
 import './ListarColaboradores.css';
+
+import CardColaborador from "../../components/CardListaColaboradores/CardListaColaborador";
 
 import { InputText } from "primereact/inputtext";
 import { BreadCrumb } from 'primereact/breadcrumb';
 
 import { Button } from 'primereact/button';
+
+import ColaboradorService from "../../services/ColaboradorService";
 
 export default class ListarColaboradores extends React.Component{
     state = {
@@ -13,9 +17,64 @@ export default class ListarColaboradores extends React.Component{
 
         home: {icon: 'pi pi-home ', url: '/' },
 
-        colaboradores :[
-            {nome_colaborador:"Tarcizo Leite",tipo_colaborador:"10", status:"ATIVO", email:"email@gmail.com"}
+        colaboradores2:[
+            {
+                id:'',
+                nome:'',
+                email:'',
+                cargaHorariaSemanal:'',
+                tipo:'',
+                status:'SEM COLABORADOR CADASTRADO',
+                linkCurriculo:''
+                
+            }
         ]
+    }
+
+    constructor(){
+        super();
+        this.service = new ColaboradorService();
+    }
+
+    
+
+    componentDidMount(){
+        this.findAll();
+        console.log(this.findAll());
+    }
+
+    findAll = () => {
+        
+        this.service.get('/all')
+            .then(response => {
+                const colaboradores2 = response.data;
+                
+                this.setState({colaboradores2})
+
+                console.log(this.state.colaboradores2);
+            }
+            ).catch(error => {
+                console.log(error.response);
+            }
+            );
+    }
+
+
+    delete = (colaboradorId) =>{
+        this.service.delete(colaboradorId)
+            .then(response =>{
+               alert("colaborador excluido")
+               window.location.reload();
+            }).catch(error =>{
+                console.log(
+                    alert("Erro ao Excluir")
+                )
+            })
+    }
+
+    editar = (colaboradorId) => {
+        window.location.href = `/editarColaborador/${colaboradorId}`;    
+        
     }
 
     render(){
@@ -42,11 +101,10 @@ export default class ListarColaboradores extends React.Component{
                 </div>
 
                 <div className="colaboradores">
-                    <ListagemDeColaboradores 
-                    nome_colaborador={this.state.colaboradores[0].nome_colaborador} 
-                    tipo_colaborador={this.state.colaboradores[0].tipo_colaborador}
-                    status={this.state.colaboradores[0].status}
-                    email={this.state.colaboradores[0].email}
+                    <CardColaborador 
+                        colaboradores ={this.state.colaboradores2}
+                        delete = {this.delete}
+                        editar = {this.editar}
                     />
                     
                 </div>
