@@ -35,7 +35,7 @@ export default class CriarColaborador extends React.Component{
             cidade:'',
             
             matricula:'',
-            dataNascimento:'',
+            dataDeNascimento:'',
             linkCurriculo:''
         
     }
@@ -50,13 +50,13 @@ export default class CriarColaborador extends React.Component{
         this.service.creat(
              {
             nome:this.state.nome,
-            endereco:this.state.endereco.nome,
+            endereco:this.state.endereco,
             email:this.state.email,
             cidade: this.state.cidade,
             estado:this.state.estado.nome,
             matricula: this.state.matricula,
             tipo: this.state.tipo.tipo,
-            dataDeNascimento: this.state.dataNascimento,
+            dataDeNascimento: this.state.dataDeNascimento,
             linkCurriculo: this.state.linkCurriculo
             // nome: ' tarcizo 2',
             // endereco : "tj",
@@ -70,7 +70,8 @@ export default class CriarColaborador extends React.Component{
         }
         ).then(response =>{
             console.log(this.state.colaborador)
-            console.log(response)
+            alert("Colaborador Salvo")
+            window.location.href = `/colaboradores`;
         }).catch(error =>{
             console.log(error.response)
         })
@@ -78,6 +79,7 @@ export default class CriarColaborador extends React.Component{
 
     teste = () =>{
         console.log(this.state.nome);
+        console.log(this.state.endereco)
         console.log(this.state.estado.nome)
     }
 
@@ -100,21 +102,25 @@ export default class CriarColaborador extends React.Component{
                         onChange={(e) => { this.setState({nome: e.target.value }) }}/>
                     </div>
                     <div className="input-dois">
-                        <InputText className="borderColorEdit" type="text" placeholder="Endereço" />
+                        <InputText className="borderColorEdit" type="text" placeholder="Endereço" 
+                        onChange={(e) => { this.setState({endereco: e.target.value }) }}/>
                     </div>
                 </div>
 
                 <div className="input-texts">
                     <div className="input-um">
-                        <InputText className="borderColorEdit" type="text" placeholder="Email" />
+                        <InputText className="borderColorEdit" type="text" placeholder="Email" 
+                        onChange={(e) => { this.setState({email: e.target.value }) }}/>
                     </div>
                     <div className="input-dois">
-                        <InputText className="borderColorEdit input-cidade" type="text" placeholder="Cidade" />
+                        <InputText className="borderColorEdit input-cidade" type="text" placeholder="Cidade" 
+                        onChange={(e) => { this.setState({cidade: e.target.value }) }}/>
                     </div>
 
                     <div className="input-dois">
                         <Dropdown id="seletor" 
-                        value={this.state.estado} onChange={(e) => this.setState({estado: this.estado = e.value})} 
+                        value={this.state.estado} 
+                        onChange={(e) => this.setState({estado: this.estado = e.value})} 
                         options={this.state.estados} 
                         optionLabel="nome" 
                         placeholder="Estado" />
@@ -124,11 +130,13 @@ export default class CriarColaborador extends React.Component{
 
                 <div className="input-texts">
                     <div className="input-um">
-                        <InputText className="borderColorEdit input-cidade" type="text" placeholder="Matricula" />
+                        <InputText className="borderColorEdit input-cidade" type="text" placeholder="Matricula" 
+                        onChange={(e) => { this.setState({matricula: e.target.value }) }}/>
                     </div>
 
                     <div className="input-dois">
-                        <InputText className="borderColorEdit input-cidade" type="date" placeholder="Data Aniversario" />
+                        <InputText className="borderColorEdit input-cidade" type="date" placeholder="Data Nascimento" 
+                        onChange={(e) => { this.setState({dataDeNascimento: e.target.value }) }}/>
                     </div>
 
 
@@ -159,7 +167,8 @@ export default class CriarColaborador extends React.Component{
 
                 <div className="input-texts">
                     <div className="input-um">
-                        <InputText className="borderColorEdit" type="text" placeholder="Link do Curriculo Lattes" />
+                        <InputText className="borderColorEdit" type="text" placeholder="Link do Curriculo Lattes" 
+                        onChange={(e) => { this.setState({linkCurriculo: e.target.value }) }}/>
                     </div>
                     
                 </div>

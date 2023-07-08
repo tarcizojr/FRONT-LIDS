@@ -7,6 +7,15 @@ import './CardListaColaboradores.css'
 // eslint-disable-next-line import/no-anonymous-default-export
 export default props =>{
     const rows = props.colaboradores.map(colaborador =>{
+        if(colaborador.id === ''){
+            <Card>
+                <div id="status" className="center">
+                        <p>
+                            SEM INFORMAÇÃO
+                        </p>
+                    </div>
+            </Card>
+        }
         return(
             <div className="card">                
                 <Card>
