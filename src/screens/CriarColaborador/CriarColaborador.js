@@ -1,4 +1,5 @@
 import React from "react";
+import { Toast } from 'primereact/toast';
 
 
 import { Dropdown } from 'primereact/dropdown';
@@ -36,7 +37,8 @@ export default class CriarColaborador extends React.Component{
             
             matricula:'',
             dataDeNascimento:'',
-            linkCurriculo:''
+            linkCurriculo:'',
+            toast:''
         
     }
 
@@ -69,24 +71,33 @@ export default class CriarColaborador extends React.Component{
         
         }
         ).then(response =>{
-            console.log(this.state.colaborador)
-            alert("Colaborador Salvo")
+
+            this.state.toast.show({ severity: 'success', summary: 'Sucesso', detail: 'Colaborador Criado Com Sucesso' });
+
             window.location.href = `/colaboradores`;
         }).catch(error =>{
+            this.state.toast.show({ severity: 'error', summary: 'Erro', detail: 'Erro ao Criado Criar Colaborador' });
             console.log(error.response)
         })
     }
 
-    teste = () =>{
-        console.log(this.state.nome);
-        console.log(this.state.endereco)
-        console.log(this.state.estado.nome)
+    teste = () =>{       
+      
+        
+        this.state.toast.show({ severity: 'success', summary: 'Sucesso', detail: 'Operação realizada com sucesso!' });
+        
     }
 
     render(){
         return(
             <div className="container">
                 <div className="header">
+
+                    <Toast ref={(el) => (this.state.toast = el)} />
+
+                    
+                    
+
                     <div className="header-criar-projeto">
                         <BreadCrumb model={this.state.items} home={this.state.home}></BreadCrumb>
                     </div>

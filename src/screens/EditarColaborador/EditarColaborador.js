@@ -1,4 +1,5 @@
 import React from "react";
+import { Toast } from 'primereact/toast';
 
 import { Dropdown } from 'primereact/dropdown';
 
@@ -34,7 +35,8 @@ export default class EditarColaborador extends React.Component{
         tipo:'',
         dataDeNascimento:'',
         linkCurriculo:'',
-        status:''
+        status:'',
+        toast:''
     }
 
     componentDidMount(){
@@ -49,6 +51,10 @@ export default class EditarColaborador extends React.Component{
         console.log(this.state.colaborador)
     }
 
+    delay = (ms) => {
+        return new Promise(resolve => setTimeout(resolve, ms));
+      };
+
    editar  = async () =>{
     await this.service.update(this.state.id,{
         nome:this.state.nome,
@@ -60,11 +66,17 @@ export default class EditarColaborador extends React.Component{
         dataDeNascimento: this.state.dataDeNascimento,
         linkCurriculo: this.state.linkCurriculo,
         status:this.state.status
-    }).then(response =>{
-        alert("Colaborador Atualizado")
-            window.location.href = `/colaboradores`;
+    }).then(async (response) =>{
+        this.state.toast.show({ severity: 'success', summary: 'Sucesso', detail: 'Colaborador Editado Com Sucesso' });
+        
+      //  this.props.history.push('/colaboradores');
+        await this.delay(2000);
+        window.location.href = `/colaboradores`;
     })
         .catch(error =>{
+
+            this.state.toast.show({ severity: 'error', summary: 'Erro', detail: 'Erro ao Editar Colaborador' });
+
             console.log(error)
         })
     }
@@ -103,6 +115,9 @@ export default class EditarColaborador extends React.Component{
         return(
             <div className="container">
                 <div className="header">
+
+                <Toast ref={(el) => (this.state.toast = el)} />
+
                     <div>
                         <BreadCrumb model={this.state.items} home={this.state.home}></BreadCrumb>
                     </div>
