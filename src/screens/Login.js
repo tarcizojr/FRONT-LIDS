@@ -2,11 +2,13 @@
 import React from "react";
 import { InputText } from "primereact/inputtext";
 import { Button } from 'primereact/button';
+import { AiOutlineGoogle } from "react-icons/ai";
 
 import SVGLids from "../img/SVGLids";
 import './Login.css'
 
 export default function Login() {
+
 
     return (
         <div className="container-login">
@@ -20,10 +22,19 @@ export default function Login() {
             <div className="hight-login">
                 <div className="card-login">
                     
-                    <InputText className="input" type="text" placeholder="e-mail" />
+                    {/* <InputText className="input" type="text" placeholder="e-mail" />
                     <InputText type="text" placeholder="senha" />
                     
-                    <Button label="Login" />
+                    <Button label="Login" /> */}
+
+
+                    <a href="http://localhost:8080/api/entrar">
+                        
+                        <Button severity="warning"  label="Login Google">
+                            {/* <AiOutlineGoogle></AiOutlineGoogle> */}
+                        </Button>
+                        
+                    </a>
                    
                 </div>
             </div>

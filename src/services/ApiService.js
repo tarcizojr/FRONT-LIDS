@@ -29,6 +29,11 @@ export default class ApiService {
         return httpCliente.get(url);
     }
 
+    getToken(){
+        let url = 'http://localhost:8080/api/token';
+         return httpCliente.get(url);
+     }
+
     buildUrl(url){
         return `${this.endpoint}${url}`;
     }

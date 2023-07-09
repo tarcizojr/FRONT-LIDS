@@ -5,6 +5,10 @@
     padding: 0;
 }
 
+.menu.sumir{
+    display: none;
+}
+
 .menu{
     width: 30vw;
     height: 100vh;

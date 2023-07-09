@@ -10,6 +10,7 @@ export default class ColaboradorService extends ApiService{
     }
 
     update(id,obj){
+        
         return this.put(`/${id}`, obj);
     }
 

@@ -6,10 +6,16 @@ import { Button } from 'primereact/button';
 import MenuItem from './MenuItem';
 export default function Menu(){
 
-    
+    const url = window.location.href;
+    const telaAtual = url.substring(url.lastIndexOf('/') + 1);
+    let novaClasse = ''
+    if(telaAtual === 'login'){
+        novaClasse = 'sumir';
+    }
     
     return(
-        <div className="menu">
+        <div className= {`menu ${novaClasse}`}>
+            
            <div className="logo">
                 <a href='/'>
                     <SVGLids></SVGLids>

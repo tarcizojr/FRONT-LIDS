@@ -47,6 +47,10 @@ export default class CriarColaborador extends React.Component{
         this.service = new ColaboradorService();
     }
 
+    delay = (ms) => {
+        return new Promise(resolve => setTimeout(resolve, ms));
+      };
+
 
     salvar = () =>{
         this.service.creat(
@@ -70,10 +74,10 @@ export default class CriarColaborador extends React.Component{
             // linkCurriculo:"link"
         
         }
-        ).then(response =>{
-
+        ).then (async (response) =>{
+            
             this.state.toast.show({ severity: 'success', summary: 'Sucesso', detail: 'Colaborador Criado Com Sucesso' });
-
+            await this.delay(2000);
             window.location.href = `/colaboradores`;
         }).catch(error =>{
             this.state.toast.show({ severity: 'error', summary: 'Erro', detail: 'Erro ao Criado Criar Colaborador' });
@@ -164,18 +168,7 @@ export default class CriarColaborador extends React.Component{
 
 
 
-                <div className="input-texts">
-                    <div className="input-dois">
-                        <InputText className="borderColorEdit input-cidade" type="text" placeholder="Senha" />
-                    </div>
-
-                    <div className="input-dois">
-                        <InputText className="borderColorEdit input-cidade" type="text" placeholder="Confirmar Senha" />
-                    </div>
-                    
-                </div>
-
-
+                
                 <div className="input-texts">
                     <div className="input-um">
                         <InputText className="borderColorEdit" type="text" placeholder="Link do Curriculo Lattes" 

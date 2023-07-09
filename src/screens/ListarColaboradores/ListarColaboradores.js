@@ -1,4 +1,6 @@
 import React from "react";
+import { Toast } from 'primereact/toast';
+
 //import CardDeColaboradores from '../../components/CardDeColaboradores/CardDeColaboradores';
 import './ListarColaboradores.css';
 
@@ -28,7 +30,9 @@ export default class ListarColaboradores extends React.Component{
                 linkCurriculo:''
                 
             }
-        ]
+        ],
+        token:"",
+        toast:''
     }
 
     constructor(){
@@ -39,13 +43,34 @@ export default class ListarColaboradores extends React.Component{
     
 
     componentDidMount(){
+      //  this.token();             
         this.findAll();
-        console.log(this.findAll());
     }
 
-    findAll = () => {
-        
-        this.service.get('/all')
+    token = async () => {
+        await this.service.getToken('')
+            .then(response => {
+               const token = response.data
+               this.setState({token:token})
+               
+                console.log("token",response.data);
+
+                this.findAll(token); 
+            }
+            ).catch(error => {
+                console.log("erro ao pegar o token",error);
+            }
+            );
+    }
+
+    delay = (ms) => {
+        return new Promise(resolve => setTimeout(resolve, ms));
+      };
+
+    findAll = (token) => {
+        const headers = { 'Authorization':` Bearer ${token}` };
+        console.log("bbbbbbbbbb",headers)
+        this.service.get('/all', {headers})
             .then(response => {
                 const colaboradores2 = response.data;
                 
@@ -62,13 +87,12 @@ export default class ListarColaboradores extends React.Component{
 
     delete = (colaboradorId) =>{
         this.service.delete(colaboradorId)
-            .then(response =>{
-               alert("colaborador excluido")
+            .then(async (response) =>{
+                this.state.toast.show({ severity: 'success', summary: 'Sucesso', detail: 'Colaborador Excluido Com Sucesso' });
+                await this.delay(2000);
                window.location.reload();
             }).catch(error =>{
-                console.log(
-                    alert("Erro ao Excluir")
-                )
+                this.state.toast.show({ severity: 'error', summary: 'Erro', detail: 'Erro ao Excluir o Colaborador' });
             })
     }
 
@@ -81,6 +105,7 @@ export default class ListarColaboradores extends React.Component{
         return(
 
             <div className="container">
+                 <Toast ref={(el) => (this.state.toast = el)} />
                 <div className="header">
                     <div>
                         <BreadCrumb model={this.state.items} home={this.state.home} />
