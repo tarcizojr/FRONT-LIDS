@@ -154,7 +154,7 @@ export default class CriarColaborador extends React.Component{
 
                 <div className="input-texts">
                     <div className="input-dois">
-                        <label  htmlFor="matricula">Matricula</label>
+                        <label  htmlFor="matricula">Matrícula</label>
 
                         <InputText id="matricula" className="borderColorEdit input-cidade" type="text" value= {this.state.matricula} />
                     </div>

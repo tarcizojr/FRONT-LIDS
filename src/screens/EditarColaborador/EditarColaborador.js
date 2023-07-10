@@ -160,19 +160,19 @@ export default class EditarColaborador extends React.Component{
                     </div>
 
                     <div className="input-dois">
-                    <Dropdown id="seletor" 
-                        value={this.state.estado} 
-                        onChange={(e) => this.setState({estado: this.estado = e.value})} 
-                        options={this.state.estados} 
-                        optionLabel="nome" 
-                        placeholder="Estado" />
+                        <Dropdown id="seletor" 
+                            value={this.state.estado} 
+                            onChange={(e) => this.setState({estado: this.estado = e.value})} 
+                            options={this.state.estados} 
+                            optionLabel="nome" 
+                            placeholder="Estado" />
                     </div>
                 </div>
 
 
                 <div className="input-texts">
                     <div className="input-dois">
-                        <label  htmlFor="matricula">Matricula</label>
+                        <label  htmlFor="matricula">Matrícula</label>
 
                         <InputText id="matricula" className="borderColorEdit input-cidade" type="text" value= {this.state.matricula} />
                     </div>
