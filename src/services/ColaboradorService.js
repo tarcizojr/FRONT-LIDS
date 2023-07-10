@@ -11,7 +11,7 @@ export default class ColaboradorService extends ApiService{
 
     update(id,obj){
         
-        return this.put(`/${id}`, obj);
+        return this.patch(`/${id}`, obj);
     }
 
     delete(id){

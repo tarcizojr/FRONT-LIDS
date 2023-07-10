@@ -14,9 +14,9 @@ export default class ApiService {
         return httpCliente.post(url, params);
     }
 
-    put(url, params){
+    patch(url, params){
         url = this.buildUrl(url);
-        return httpCliente.put(url, params);
+        return httpCliente.patch(url, params);
     }
 
     delete(url){

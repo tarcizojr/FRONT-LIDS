@@ -112,7 +112,7 @@ export default class ListarColaboradores extends React.Component{
                     
                         <span className="p-input-icon-left">
                             <i  className="pi pi-search " />
-                            <InputText placeholder="Pocurar" />
+                            <InputText placeholder="Procurar" />
                         </span>
                     </div>
     
