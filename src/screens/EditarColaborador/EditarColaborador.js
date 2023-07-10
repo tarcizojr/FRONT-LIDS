@@ -131,12 +131,14 @@ export default class EditarColaborador extends React.Component{
                 
                 <div className="input-texts">
                     <div className="input-um">
-                        <InputText className="borderColorEdit" type="text"
+                        <label htmlFor="nome">Nome</label>
+                        <InputText id="nome" className="borderColorEdit" type="text"
                          value={this.state.nome}
                         onChange={(e) => { this.setState({nome: e.target.value }) }} />
                     </div>
                     <div className="input-dois">
-                        <InputText className="borderColorEdit" type="text" 
+                        <label id="endereco-label" htmlFor="endereco">Endereço</label>
+                        <InputText id="endereco" className="borderColorEdit" type="text" 
                         value= {this.state.endereco} 
                         onChange={(e) => { this.setState({endereco: e.target.endereco }) }}/>
                     </div>
@@ -144,12 +146,15 @@ export default class EditarColaborador extends React.Component{
 
                 <div className="input-texts">
                     <div className="input-um">
-                        <InputText className="borderColorEdit" type="text" value= 
+                        <label htmlFor="email">E-mail</label>
+
+                        <InputText id="email" className="borderColorEdit" type="text" value= 
                         {this.state.email} 
                         onChange={(e) => { this.setState({email: e.target.email }) }}/>
                     </div>
                     <div className="input-dois">
-                        <InputText className="borderColorEdit input-cidade" type="text" value= 
+                        <label htmlFor="cidade">Cidade</label>
+                        <InputText id="cidade" className="borderColorEdit input-cidade" type="text" value= 
                         {this.state.cidade} 
                         onChange={(e) => { this.setState({cidade: e.target.cidade }) }}/>
                     </div>
@@ -167,11 +172,15 @@ export default class EditarColaborador extends React.Component{
 
                 <div className="input-texts">
                     <div className="input-dois">
-                        <InputText className="borderColorEdit input-cidade" type="text" value= {this.state.matricula} />
+                        <label  htmlFor="matricula">Matricula</label>
+
+                        <InputText id="matricula" className="borderColorEdit input-cidade" type="text" value= {this.state.matricula} />
                     </div>
 
                     <div className="input-dois">
-                        <InputText className="borderColorEdit input-cidade" type="date" placeholder="Data Nascimento" 
+                        <label  htmlFor="dataNascimento">Data de Nascimento</label>
+
+                        <InputText id="dataNascimento" className="borderColorEdit input-cidade" type="date" placeholder="Data Nascimento" 
                         value= {this.state.dataDeNascimento}
                         onChange={(e) => { this.setState({dataDeNascimento: e.target.value }) }}/>
                     </div>
@@ -187,21 +196,14 @@ export default class EditarColaborador extends React.Component{
 
 
 
-                <div className="input-texts">
-                    <div className="input-dois">
-                        <InputText className="borderColorEdit input-cidade" type="text" placeholder="Senha" />
-                    </div>
-
-                    <div className="input-dois">
-                        <InputText className="borderColorEdit input-cidade" type="text" placeholder="Confirmar Senha" />
-                    </div>
-                    
-                </div>
+                
 
 
                 <div className="input-texts">
                     <div className="input-um">
-                        <InputText className="borderColorEdit" type="text" 
+                        <label  htmlFor="linkCurriculo">Link do Curriculo</label>
+
+                        <InputText id="linkCurriculo" className="borderColorEdit" type="text" 
                         value= {this.state.linkCurriculo} 
                         onChange={(e) => { this.setState({linkCurriculo: e.target.value }) }}/>
                     </div>

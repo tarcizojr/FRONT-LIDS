@@ -3,13 +3,20 @@
 }
 .input-texts input{
     
-    margin-top: 2vw;
     width: 25vw;
     height: 6vh;
 }
 
+.input-texts #seletor{
+    margin-top: 5vh;
+}
+
+
 .input-texts .input-um{
-    margin-right: 2vw;
+    margin-top: 5vh;
+    display: grid;
+
+
 }
 
 .input-texts .input-cidade{
@@ -17,6 +24,7 @@
 }
 
 .input-texts .input-dois{
+    margin-top: 5vh;
     width: 15vw;
     margin-right: 2vw;
 }

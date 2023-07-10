@@ -39,12 +39,12 @@ export default props =>{
                     </div>
 
                     <div className="card-butons">
-                        <Button onClick={e => props.editar(colaborador.id)} title="Editar Projet" severity="warning" aria-label="Editar Projet">
+                        <Button onClick={e => props.editar(colaborador.id)} title="Editar Colaborador" severity="warning" aria-label="Editar Colaborador">
                             <AiFillEdit></AiFillEdit>
                         </Button>
                         
                         
-                        <Button onClick={e => props.delete(colaborador.id)} title="Deletar Projeto" severity="warning" aria-label="Deletar Projeto">
+                        <Button onClick={e => props.delete(colaborador.id)} title="Deletar Colaborador" severity="warning" aria-label="Deletar Colaborador">
                             <AiFillDelete></AiFillDelete>
                         </Button>
                     </div>
