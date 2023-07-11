@@ -1,5 +1,8 @@
 import React from "react";
+import { ConfirmPopup, confirmPopup } from 'primereact/confirmpopup';
 import { Toast } from 'primereact/toast';
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
+
 
 //import CardDeColaboradores from '../../components/CardDeColaboradores/CardDeColaboradores';
 import './ListarColaboradores.css';
@@ -33,6 +36,7 @@ export default class ListarColaboradores extends React.Component{
         ],
         token:"",
         toast:''
+        
     }
 
     constructor(){
@@ -85,6 +89,7 @@ export default class ListarColaboradores extends React.Component{
     }
 
 
+
     delete = (colaboradorId) =>{
         this.service.delete(colaboradorId)
             .then(async (response) =>{
@@ -101,11 +106,39 @@ export default class ListarColaboradores extends React.Component{
         
     }
 
+    accept = () => {
+        this.state.toast.show({ severity: 'info', summary: 'Confirmado', detail: 'Você Aceitou', life: 3000 });
+    };
+
+    reject = () => {
+        this.state.toast.show({ severity: 'warn', summary: 'Regeitado', detail: 'Usuario Não Deletado', life: 3000 });
+    };
+
+    confirm2 = (event) => {
+        const a = document.getElementsByClassName('p-button p-component p-confirm-dialog-reject p-button-text')
+        confirmDialog({
+            target: event.currentTarget,
+            message: 'Você Realmente quer Deletar esse Colaborador?',
+            icon: 'pi pi-info-circle',
+            acceptClassName: 'p-button-danger',
+            
+            accept:this.accept,
+            reject:this.reject,
+            
+        });
+        console.log(a);
+    };
+
     render(){
         return(
 
             <div className="container">
                  <Toast ref={(el) => (this.state.toast = el)} />
+                 <ConfirmDialog 
+                  acceptClassName="p-button-success"
+                  rejectClassName="p-button-danger"
+                 acceptLabel="Sim"
+                 rejectLabel="Não"/>
                 <div className="header">
                     <div>
                         <BreadCrumb model={this.state.items} home={this.state.home} />
@@ -127,8 +160,9 @@ export default class ListarColaboradores extends React.Component{
                 <div className="colaboradores">
                     <CardColaborador 
                         colaboradores ={this.state.colaboradores2}
-                        delete = {this.delete}
+                        delete = {this.confirm2}
                         editar = {this.editar}
+                        aviso = {this.state.toast}
                     />
                     
                 </div>

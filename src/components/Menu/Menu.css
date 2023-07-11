@@ -10,7 +10,7 @@
 }
 
 .menu{
-    width: 30vw;
+    width: 20em;
     height: 100vh;
     background-color: #F59E0B;
     position: fixed;
@@ -19,7 +19,7 @@
 }
 
 .logo{
-    width: 30vw;
+    width: 20em;
     height: 20vh;    
     margin: auto;
    
@@ -29,9 +29,9 @@
 
 .butoes #bt{       
     color: black;
-    width: 30vw;
+    width: 20em;
     text-align: left;
-    padding-left: 5vw;
+    padding-left: 3em;
 }
 
 .butoes #bt:focus,.butoes #bt:hover { 

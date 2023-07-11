@@ -77,7 +77,7 @@ export default class CriarColaborador extends React.Component{
         ).then (async (response) =>{
             
             this.state.toast.show({ severity: 'success', summary: 'Sucesso', detail: 'Colaborador Criado Com Sucesso' });
-            await this.delay(2000);
+           await this.delay(2000);
             window.location.href = `/colaboradores`;
         }).catch(error =>{
             this.state.toast.show({ severity: 'error', summary: 'Erro', detail: 'Erro ao Criado Criar Colaborador' });
@@ -122,7 +122,7 @@ export default class CriarColaborador extends React.Component{
                         <label id="endereco-label" htmlFor="endereco">Endereço</label>
                         <InputText id="endereco" className="borderColorEdit" type="text" 
                         value= {this.state.endereco} 
-                        onChange={(e) => { this.setState({endereco: e.target.endereco }) }}/>
+                        onChange={(e) => { this.setState({endereco: e.target.value }) }}/>
                     </div>
                 </div>
 
@@ -132,13 +132,13 @@ export default class CriarColaborador extends React.Component{
 
                         <InputText id="email" className="borderColorEdit" type="text" value= 
                         {this.state.email} 
-                        onChange={(e) => { this.setState({email: e.target.email }) }}/>
+                        onChange={(e) => { this.setState({email: e.target.value }) }}/>
                     </div>
                     <div className="input-dois">
                         <label htmlFor="cidade">Cidade</label>
                         <InputText id="cidade" className="borderColorEdit input-cidade" type="text" value= 
                         {this.state.cidade} 
-                        onChange={(e) => { this.setState({cidade: e.target.cidade }) }}/>
+                        onChange={(e) => { this.setState({cidade: e.target.value }) }}/>
                     </div>
 
                     <div className="input-dois">
@@ -156,7 +156,9 @@ export default class CriarColaborador extends React.Component{
                     <div className="input-dois">
                         <label  htmlFor="matricula">Matrícula</label>
 
-                        <InputText id="matricula" className="borderColorEdit input-cidade" type="text" value= {this.state.matricula} />
+                        <InputText id="matricula" className="borderColorEdit input-cidade" type="text" 
+                        value= {this.state.matricula}
+                        onChange={(e) => { this.setState({matricula: e.target.value }) }} />
                     </div>
 
                     <div className="input-dois">
