@@ -22,7 +22,8 @@ export default class ListarColaboradores extends React.Component{
 
         home: {icon: 'pi pi-home ', url: '/' },
 
-        colaboradores2:[
+        colaboradorId:'',
+        colaboradores:[
             {
                 id:'',
                 nome:'',
@@ -35,7 +36,22 @@ export default class ListarColaboradores extends React.Component{
             }
         ],
         token:"",
-        toast:''
+        toast:'',
+        nomeParaFiltro:'',
+
+
+        colaboradoresFiltro:[
+            {
+                id:'',
+                nome:'',
+                email:'',
+                cargaHorariaSemanal:'',
+                tipo:'',
+                status:'SEM COLABORADOR CADASTRADO',
+                linkCurriculo:''
+                
+            }
+        ]
         
     }
 
@@ -48,6 +64,26 @@ export default class ListarColaboradores extends React.Component{
 
     componentDidMount(){
       //  this.token();             
+        this.findAll();
+    }
+
+
+    filtro = () =>{
+        let lista = []
+        this.state.colaboradores.forEach(element => {
+            if(element.nome === this.state.nomeParaFiltro){
+                lista.push(element);
+            }
+           
+        });
+
+        this.setState({colaboradores:lista})
+        console.log("teste",this.state.colaboradores)
+    }
+
+
+    limparFiltro = () =>{
+        this.setState({nomeParaFiltro:''})
         this.findAll();
     }
 
@@ -76,11 +112,11 @@ export default class ListarColaboradores extends React.Component{
         console.log("bbbbbbbbbb",headers)
         this.service.get('/all', {headers})
             .then(response => {
-                const colaboradores2 = response.data;
+                const colaboradores = response.data;
                 
-                this.setState({colaboradores2})
+                this.setState({colaboradores})
 
-                console.log(this.state.colaboradores2);
+                console.log(this.state.colaboradores);
             }
             ).catch(error => {
                 console.log(error.response);
@@ -107,17 +143,19 @@ export default class ListarColaboradores extends React.Component{
     }
 
     accept = () => {
-        this.state.toast.show({ severity: 'info', summary: 'Confirmado', detail: 'Você Aceitou', life: 3000 });
+        this.state.toast.show({ severity: 'info', summary: 'Confirmado', detail: 'Deletar Colaborador Confirmado', life: 3000 });
+        this.delete(this.state.colaboradorId);
     };
 
     reject = () => {
-        this.state.toast.show({ severity: 'warn', summary: 'Regeitado', detail: 'Usuario Não Deletado', life: 3000 });
+        this.state.toast.show({ severity: 'warn', summary: 'Regeitado', detail: 'Colaborador Não Deletado', life: 3000 });
     };
 
-    confirm2 = (event) => {
+    confirm = (colaboradorId) => {
+        this.setState({colaboradorId: colaboradorId})
         const a = document.getElementsByClassName('p-button p-component p-confirm-dialog-reject p-button-text')
         confirmDialog({
-            target: event.currentTarget,
+          
             message: 'Você Realmente quer Deletar esse Colaborador?',
             icon: 'pi pi-info-circle',
             acceptClassName: 'p-button-danger',
@@ -126,7 +164,7 @@ export default class ListarColaboradores extends React.Component{
             reject:this.reject,
             
         });
-        console.log(a);
+       
     };
 
     render(){
@@ -139,14 +177,26 @@ export default class ListarColaboradores extends React.Component{
                   rejectClassName="p-button-danger"
                  acceptLabel="Sim"
                  rejectLabel="Não"/>
+
                 <div className="header">
                     <div>
                         <BreadCrumb model={this.state.items} home={this.state.home} />
                     
                         <span className="p-input-icon-left">
                             <i  className="pi pi-search " />
-                            <InputText placeholder="Procurar" />
+                            <InputText placeholder="Procurar"
+                            value= {this.state.nomeParaFiltro} 
+                            onChange={(e) => { this.setState({nomeParaFiltro: e.target.value }) }} />
                         </span>
+
+                        <Button label="Filtrar" 
+                        onClick={this.filtro}
+                        title="Filtrar Colaboradores" severity="warning" raised />
+
+                        <Button label="Limpar Filtro" 
+                        onClick={this.limparFiltro}
+                        title="Listar Todos Colaboradores" severity="warning" raised />
+                       
                     </div>
     
                     <div className="bt-add">
@@ -159,10 +209,10 @@ export default class ListarColaboradores extends React.Component{
 
                 <div className="colaboradores">
                     <CardColaborador 
-                        colaboradores ={this.state.colaboradores2}
-                        delete = {this.confirm2}
+                        colaboradores ={this.state.colaboradores}
+                        delete = {this.confirm}
                         editar = {this.editar}
-                        aviso = {this.state.toast}
+                       
                     />
                     
                 </div>
