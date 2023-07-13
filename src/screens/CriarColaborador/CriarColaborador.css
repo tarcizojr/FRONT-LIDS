@@ -26,3 +26,17 @@
     margin-right: 2vw;
 }
 
+
+.p-button.p-button-text{
+    color: #F59E0B;
+}
+
+.p-button.p-button-danger{
+    background: #F59E0B;
+    border: #F59E0B;
+}
+
+.p-button.p-button-danger:hover{
+    background: #efaa33;
+    border: #F59E0B;
+}

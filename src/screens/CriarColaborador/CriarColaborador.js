@@ -42,7 +42,8 @@ export default class CriarColaborador extends React.Component{
         toast:'',
 
         msgDeErro:'',
-        error:''
+        error:'',
+        errorEmail:''
 
         
     }
@@ -59,7 +60,9 @@ export default class CriarColaborador extends React.Component{
     
     validar = () =>{
         let msgError= { severity: 'error', summary: 'Corrija os Erros a Baixo', detail: 'Campos não podem ser nulos' };
+
         let disparo = 0;
+        
         if(this.state.nome === ''){
             disparo ++;
             let a = document.getElementById('nome'); 
@@ -77,10 +80,16 @@ export default class CriarColaborador extends React.Component{
             a.classList.add('p-invalid')
         }
         if(this.state.email === ''){
+            
             disparo ++;
+            
             let a = document.getElementById('email') 
             a.classList.add('p-invalid')
         }
+        const regex = /@/;
+        if (!regex.test(this.state.email)) {
+            this.setState({errorEmail:'Esse Campo precisa ser um e-mail'})
+          }
         if(this.state.cidade === ''){
             disparo ++;
             let a = document.getElementById('cidade') 
@@ -96,12 +105,8 @@ export default class CriarColaborador extends React.Component{
             let a = document.getElementById('dataNascimento') 
             a.classList.add('p-invalid')
         }
-        if(this.state.linkCurriculo === ''){
-            disparo ++;
-            let a = document.getElementById('linkCurriculo') 
-            a.classList.add('p-invalid')
-
-        }
+        
+        
         if(this.state.estado.nome === ''){
             disparo ++;
             let a = document.getElementById('seletor-estado') 
@@ -124,7 +129,7 @@ export default class CriarColaborador extends React.Component{
         
     }
 
-    confirm = () => {
+    confirm = async () => {
         const a = document.getElementsByClassName('p-button p-component p-confirm-dialog-reject p-button-text')
         confirmDialog({
           
@@ -136,6 +141,9 @@ export default class CriarColaborador extends React.Component{
             reject:this.reject,
             
         });
+        await this.delay(10);
+        document.getElementsByClassName('p-button-label')[9].textContent = "Sim"
+        document.getElementsByClassName('p-button-label')[8].textContent = "Não"
        
     };
 
@@ -243,6 +251,7 @@ export default class CriarColaborador extends React.Component{
                         <InputText id="email" className="borderColorEdit" type="text" value= 
                         {this.state.email} 
                         onChange={(e) => { this.setState({email: e.target.value }) }}/>
+                        {this.state.errorEmail && <span style={{ color: 'red' }}>{this.state.errorEmail}</span>}
                     </div>
                     <div className="input-dois">
                         <label htmlFor="cidade">Cidade</label>

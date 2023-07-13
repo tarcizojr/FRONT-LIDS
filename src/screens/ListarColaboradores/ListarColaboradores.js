@@ -78,7 +78,6 @@ export default class ListarColaboradores extends React.Component{
         });
 
         this.setState({colaboradores:lista})
-        console.log("teste",this.state.colaboradores)
     }
 
 
@@ -151,7 +150,9 @@ export default class ListarColaboradores extends React.Component{
         this.state.toast.show({ severity: 'warn', summary: 'Regeitado', detail: 'Colaborador Não Deletado', life: 3000 });
     };
 
-    confirm = (colaboradorId) => {
+
+    
+    confirm = async (colaboradorId) => {
         this.setState({colaboradorId: colaboradorId})
         const a = document.getElementsByClassName('p-button p-component p-confirm-dialog-reject p-button-text')
         confirmDialog({
@@ -164,7 +165,9 @@ export default class ListarColaboradores extends React.Component{
             reject:this.reject,
             
         });
-       
+        await this.delay(10);
+        document.getElementsByClassName('p-button-label')[9].textContent = "Sim"
+        document.getElementsByClassName('p-button-label')[8].textContent = "Não"
     };
 
     render(){
@@ -182,20 +185,22 @@ export default class ListarColaboradores extends React.Component{
                     <div>
                         <BreadCrumb model={this.state.items} home={this.state.home} />
                     
-                        <span className="p-input-icon-left">
-                            <i  className="pi pi-search " />
-                            <InputText placeholder="Procurar"
-                            value= {this.state.nomeParaFiltro} 
-                            onChange={(e) => { this.setState({nomeParaFiltro: e.target.value }) }} />
-                        </span>
+                        <div className="filtragem">
+                            <span className="p-input-icon-left">
+                                <i  className="pi pi-search " />
+                                <InputText placeholder="Procurar"
+                                value= {this.state.nomeParaFiltro} 
+                                onChange={(e) => { this.setState({nomeParaFiltro: e.target.value }) }} />
+                            </span>
 
-                        <Button label="Filtrar" 
-                        onClick={this.filtro}
-                        title="Filtrar Colaboradores" severity="warning" raised />
+                            <Button className="bt-filtro" label="Filtrar" 
+                            onClick={this.filtro}
+                            title="Filtrar Colaboradores" severity="warning" raised />
 
-                        <Button label="Limpar Filtro" 
-                        onClick={this.limparFiltro}
-                        title="Listar Todos Colaboradores" severity="warning" raised />
+                            <Button className="bt-filtro" label="Limpar Filtro" 
+                            onClick={this.limparFiltro}
+                            title="Listar Todos Colaboradores" severity="warning" raised />
+                        </div>
                        
                     </div>
     

@@ -2,3 +2,27 @@
     margin-top: 7vh;
     border-color: #F59E0B;
 }
+
+.bt-filtro{
+    height: 2.5em;
+    margin-left: 1em;
+}
+.filtragem{
+    margin-top: 1em;
+    display: flex;
+    align-items: center;
+}
+
+.p-button.p-button-text{
+    color: #F59E0B;
+}
+
+.p-button.p-button-danger{
+    background: #F59E0B;
+    border: #F59E0B;
+}
+
+.p-button.p-button-danger:hover{
+    background: #efaa33;
+    border: #F59E0B;
+}
