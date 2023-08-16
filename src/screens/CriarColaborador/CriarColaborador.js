@@ -62,7 +62,7 @@ export default class CriarColaborador extends React.Component{
         let msgError= { severity: 'error', summary: 'Corrija os Erros a Baixo', detail: 'Campos não podem ser nulos' };
 
         let disparo = 0;
-        
+
         if(this.state.nome === ''){
             disparo ++;
             let a = document.getElementById('nome'); 
@@ -142,8 +142,8 @@ export default class CriarColaborador extends React.Component{
             
         });
         await this.delay(10);
-        document.getElementsByClassName('p-button-label')[9].textContent = "Sim"
-        document.getElementsByClassName('p-button-label')[8].textContent = "Não"
+        document.getElementsByClassName('p-button-label')[7].textContent = "Sim"
+        document.getElementsByClassName('p-button-label')[6].textContent = "Não"
        
     };
 
