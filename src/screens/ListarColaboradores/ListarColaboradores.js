@@ -206,7 +206,7 @@ export default class ListarColaboradores extends React.Component{
     
                     <div className="bt-add">
                         <a href="/criarColaboradores">
-                            <Button label="+" title="Adicionar Colaborador"  raised />
+                            <Button severity="warning" label="+" title="Adicionar Colaborador"  raised />
                         </a>
     
                     </div>
