@@ -19,27 +19,32 @@ export default class EditarColaborador extends React.Component{
         home: {icon: 'pi pi-home ', url: '/' },
 
         estados: [
-            {nome:'Paraiba'}
+            {nome:'Paraiba'},
+            {nome:'Pernanbuco'}
         ],
         tipos: [
-            {tipo:'DISCENTE'}
+            {tipo:'DISCENTE'},
+            {tipo:'DOSCENTE'}
         ],
-        estado:{nome:''},
+        
+        
 
-      id:'',
-       nome:'',
-       endereco:'',
+        id:'',
+        nome:'',
+        endereco:'',
         email:'',
         cidade:'',
-        estadoDoColaborador:'',
         matricula:'',
+        estado:{nome: ''},
         tipo:{tipo:''},
         dataDeNascimento:'',
         linkCurriculo:'',
         status:'',
+
         toast:'',
+
         msgDeErro:'',
-        error:'',
+        errorNome:'',
         errorEmail:''
     }
 
@@ -69,7 +74,8 @@ export default class EditarColaborador extends React.Component{
         matricula: this.state.matricula,
         dataDeNascimento: this.state.dataDeNascimento,
         linkCurriculo: this.state.linkCurriculo,
-        status:this.state.status
+        status:this.state.status,
+        tipo:this.state.tipo.tipo
     }).then(async (response) =>{
         this.state.toast.show({ severity: 'success', summary: 'Sucesso', detail: 'Colaborador Editado Com Sucesso' });
         
@@ -85,6 +91,7 @@ export default class EditarColaborador extends React.Component{
         })
     }
 
+   //Po up de confirmação de edição
     accept = () => {
         this.state.toast.show({ severity: 'info', summary: 'Confirmado', detail: 'Deletar Colaborador Confirmado', life: 3000 });
         this.editar();
@@ -94,6 +101,7 @@ export default class EditarColaborador extends React.Component{
         this.state.toast.show({ severity: 'warn', summary: 'Regeitado', detail: 'Colaborador Não Deletado', life: 3000 });
     };
 
+     // Po up para velidar se realmente deseja criar o colaborador
     confirm = async (colaboradorId) => {
         this.setState({colaboradorId: colaboradorId})
         const a = document.getElementsByClassName('p-button p-component p-confirm-dialog-reject p-button-text')
@@ -113,64 +121,80 @@ export default class EditarColaborador extends React.Component{
     };
 
 
+    // Validar se os campos estão preenchidos corretamente
     validar = () =>{
         let msgError= { severity: 'error', summary: 'Corrija os Erros a Baixo', detail: 'Campos não podem ser nulos' };
+
         let disparo = 0;
+        //Pre Validação de Nome
         if(this.state.nome === ''){
             disparo ++;
-            let a = document.getElementById('nome'); 
+            let a = document.getElementById('nome');
             a.classList.add('p-invalid');
-            this.setState({error:'Esse Campo é Obrigatorio'})
+            this.setState({errorNome:'Esse Campo é Obrigatorio'})
+            
         }
+
+        //Pre Validação de Endereço
         if(this.state.endereco === ''){
             disparo ++;
-            let a = document.getElementById('endereco') 
-            a.classList.add('p-invalid')
-        }
-        if(this.state.nome === ''){
-            disparo ++;
-            let a = document.getElementById('nome') 
-            a.classList.add('p-invalid')
-        }
-        if(this.state.email === ''){
-            
-            disparo ++;
-            
-            let a = document.getElementById('email') 
-            a.classList.add('p-invalid')
-        }
-        const regex = /@/;
-        if (!regex.test(this.state.email)) {
-            this.setState({errorEmail:'Esse Campo precisa ser um e-mail'})
-          }
-        if(this.state.cidade === ''){
-            disparo ++;
-            let a = document.getElementById('cidade') 
-            a.classList.add('p-invalid')
-        }
-        if(this.state.matricula === ''){
-            disparo ++;
-            let a = document.getElementById('matricula') 
-            a.classList.add('p-invalid')
-        }
-        if(this.state.dataDeNascimento === ''){
-            disparo ++;
-            let a = document.getElementById('dataNascimento') 
-            a.classList.add('p-invalid')
-        }
-        
-        
-        if(this.state.estado.nome === ''){
-            disparo ++;
-            let a = document.getElementById('seletor-estado') 
-            a.classList.add('p-invalid')
-        }
-        if(this.state.tipo.tipo === ''){
-            disparo ++;
-            let a = document.getElementById('seletor-tipo') 
+            let a = document.getElementById('endereco')
             a.classList.add('p-invalid')
         }
 
+        //Pre Validação de email
+        const regex = /@/;
+        if (!regex.test(this.state.email)) {
+            disparo ++;
+            let a = document.getElementById('email')
+            a.classList.add('p-invalid')
+            //this.setState({ error: { email: 'Esse Campo precisa ser um e-mail' } })
+            this.setState({errorEmail:'Esse Campo precisa ser um e-mail'})
+
+        }
+
+        if(this.state.email === ''){
+            disparo ++;
+            let a = document.getElementById('email')
+            a.classList.add('p-invalid')
+            this.setState({errorEmail:'Esse Campo é Obrigatorio'})
+          
+        }
+
+        //Pre Validação de Cidade
+        if(this.state.cidade === ''){
+            disparo ++;
+            let a = document.getElementById('cidade')
+            a.classList.add('p-invalid')
+        }
+
+        //Pre Validação de Matricula
+        if(this.state.matricula === ''){
+            disparo ++;
+            let a = document.getElementById('matricula')
+            a.classList.add('p-invalid')
+        }
+
+        //Pre Validação de Data de Nascimento
+        if(this.state.dataDeNascimento === ''){
+            disparo ++;
+            let a = document.getElementById('dataNascimento')
+            a.classList.add('p-invalid')
+        }
+
+        //Pre Validação de Estado
+        if(this.state.estado.nome === ''){
+            disparo ++;
+            let a = document.getElementById('seletor-estado')
+            a.classList.add('p-invalid')
+        }
+
+        //Pre Validação de Tipo
+        if(this.state.tipo.tipo === ''){
+            disparo ++;
+            let a = document.getElementById('seletor-tipo')
+            a.classList.add('p-invalid')
+        }
 
         if(disparo !== 0){
             this.state.toast.show(msgError);
@@ -179,7 +203,7 @@ export default class EditarColaborador extends React.Component{
             this.confirm();
         }
 
-        
+
     }
 
     findByid = (id) =>{
@@ -192,17 +216,21 @@ export default class EditarColaborador extends React.Component{
                 const endereco = colaborador.endereco
                 const email = colaborador.email
                 const cidade = colaborador.cidade
-                const estadoDoColaborador = colaborador.endereco
+                const estadoDoColaborador = colaborador.estado
                 const matricula = colaborador.matricula
                 const tipo = colaborador.tipo
                 const dataDeNascimento = colaborador.dataDeNascimento
                 const linkCurriculo = colaborador.linkCurriculo
                 const status = colaborador.status
 
-                this.setState({id:id,nome:nome,endereco:endereco, email:email, cidade:cidade, estadoDoColaborador:estadoDoColaborador,matricula:matricula, tipo:tipo, dataDeNascimento:dataDeNascimento, linkCurriculo:linkCurriculo, status:status})
+                this.setState({id:id,nome:nome,endereco:endereco, email:email, cidade:cidade, matricula:matricula,  dataDeNascimento:dataDeNascimento, linkCurriculo:linkCurriculo, status:status})
+
+                this.setState({estado:{nome: estadoDoColaborador}})
+
+                this.setState({tipo:{tipo: tipo}})
                
 
-                console.log(this.state.colaborador, 'aaa')
+                console.log(estadoDoColaborador, 'aaa')
             })
             .catch(error =>{
                 console.log(error)
@@ -217,15 +245,22 @@ export default class EditarColaborador extends React.Component{
             <div className="container">
                 <div className="header">
 
+                {/* Toast: Usado para mostrar mensagem de alerta  */}
                 <Toast ref={(el) => (this.state.toast = el)} />
+
+                {/* Campo de dialogo que aparece para confirmar se deseja salvar  */}
+                {/* Ele chama a função de validar, caso a validação der ok,apresenta o campo para confirmação e caso confirmado, chama a função de salva */}
                 <ConfirmDialog 
                   acceptClassName="p-button-success"
                   rejectClassName="p-button-danger"
                  acceptLabel="Sim"
                  rejectLabel="Não"/>
+                 
                     <div>
+                        {/* BreadCrumb: Usado para o menu de navegaçao que fica ao lado do bt de salvar */}
                         <BreadCrumb model={this.state.items} home={this.state.home}></BreadCrumb>
                     </div>
+
                     <div className="bt-salvar">
                         <Button label="Salvar" severity="warning" raised onClick={this.validar} />
         
@@ -233,15 +268,16 @@ export default class EditarColaborador extends React.Component{
                 </div>
 
                 <div >                
-                
+                {/* Começas os Campos  */}
                 <div className="input-texts">
                     <div className="input-um">
                         <label htmlFor="nome">Nome</label>
                         <InputText id="nome" className="borderColorEdit" type="text"
                          value={this.state.nome}
                         onChange={(e) => { this.setState({nome: e.target.value }) }} />
-                        {this.state.error && <span style={{ color: 'red' }}>{this.state.error}</span>}
+                        {this.state.errorNome && <span style={{ color: 'red' }}>{this.state.errorNome}</span>}
                     </div>
+                    
                     <div className="input-dois">
                         <label id="endereco-label" htmlFor="endereco">Endereço</label>
                         <InputText id="endereco" className="borderColorEdit" type="text" 
@@ -302,11 +338,6 @@ export default class EditarColaborador extends React.Component{
                         placeholder="Tipo" />
                     </div>
                 </div>
-
-
-
-                
-
 
                 <div className="input-texts">
                     <div className="input-um">

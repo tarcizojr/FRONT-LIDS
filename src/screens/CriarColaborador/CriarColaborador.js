@@ -145,7 +145,7 @@ export default class CriarColaborador extends React.Component{
 
 
     }
-
+    // Po up para velidar se realmente deseja criar o colaborador
     confirm = async () => {
         const a = document.getElementsByClassName('p-button p-component p-confirm-dialog-reject p-button-text')
         confirmDialog({
@@ -163,7 +163,7 @@ export default class CriarColaborador extends React.Component{
         document.getElementsByClassName('p-button-label')[6].textContent = "Não"
 
     };
-
+//Po up de confirmação de cadastro
     accept = () => {
         this.state.toast.show({ severity: 'info', summary: 'Confirmado', detail: 'Criar Colaborador Confirmado', life: 3000 });
         this.salvar();
@@ -230,6 +230,7 @@ export default class CriarColaborador extends React.Component{
                 <div className="header">
                     {/* Toast: Usado para mostrar mensagem de alerta  */}
                     <Toast ref={(el) => (this.state.toast = el)} />
+
                     {/* BreadCrumb: Usado para o menu de navegaçao que fica ao lado do bt de salvar */}
                     <div className="header-criar-projeto">
                         <BreadCrumb model={this.state.items} home={this.state.home}></BreadCrumb>
@@ -248,17 +249,18 @@ export default class CriarColaborador extends React.Component{
 
                     </div>
                 </div>
-
+                {/* Começas os Campos  */}
                 <div className="input-texts">
                     <div className="input-um">
                         <label htmlFor="nome">Nome</label>
                         <InputText id="nome" className="borderColorEdit" type="text"
                          value={this.state.nome}
                         onChange={(e) => { this.setState({nome: e.target.value }) }} />
+
                     {/* usado para mostrar a msg de erro, caso tenha */}
                     {this.state.errorNome && <span style={{ color: 'red' }}>{this.state.errorNome}</span>}
-
                     </div>
+
                     <div className="input-dois">
                         <label id="endereco-label" htmlFor="endereco">Endereço</label>
                         <InputText id="endereco" className="borderColorEdit" type="text"
@@ -278,6 +280,7 @@ export default class CriarColaborador extends React.Component{
                         {/* usado para mostrar a msg de erro, caso tenha */}
                         {this.state.errorEmail && <span style={{ color: 'red' }}>{this.state.errorEmail}</span>}
                     </div>
+
                     <div className="input-dois">
                         <label htmlFor="cidade">Cidade</label>
                         <InputText id="cidade" className="borderColorEdit input-cidade" type="text" value=
