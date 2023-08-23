@@ -1,5 +1,4 @@
 import React from "react";
-import { ConfirmPopup, confirmPopup } from 'primereact/confirmpopup';
 import { Toast } from 'primereact/toast';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 
@@ -15,7 +14,6 @@ import { Button } from 'primereact/button';
 
 import ColaboradorService from "../../services/ColaboradorService";
 
-import ListaAuxiliar from "./ListaAuxiliar";
 
 
 
@@ -111,7 +109,7 @@ export default class ListarColaboradores extends React.Component{
                 
                 this.setState({colaboradores})
                 this.setState({colaboradoresAuxiliar:colaboradores})
-                ListaAuxiliar.colaboradores = colaboradores
+                
             }
             ).catch(error => {
               //  console.log(error.response);
@@ -150,7 +148,7 @@ export default class ListarColaboradores extends React.Component{
     
     confirm = async (colaboradorId) => {
         this.setState({colaboradorId: colaboradorId})
-        const a = document.getElementsByClassName('p-button p-component p-confirm-dialog-reject p-button-text')
+        //const a = document.getElementsByClassName('p-button p-component p-confirm-dialog-reject p-button-text')
         confirmDialog({
           
             message: 'Você Realmente quer Deletar esse Colaborador?',
