@@ -3,7 +3,6 @@ import { ConfirmPopup, confirmPopup } from 'primereact/confirmpopup';
 import { Toast } from 'primereact/toast';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 
-
 //import CardDeColaboradores from '../../components/CardDeColaboradores/CardDeColaboradores';
 import './ListarColaboradores.css';
 
@@ -15,6 +14,10 @@ import { BreadCrumb } from 'primereact/breadcrumb';
 import { Button } from 'primereact/button';
 
 import ColaboradorService from "../../services/ColaboradorService";
+
+import ListaAuxiliar from "./ListaAuxiliar";
+
+
 
 export default class ListarColaboradores extends React.Component{
     state = {
@@ -30,28 +33,19 @@ export default class ListarColaboradores extends React.Component{
                 email:'',
                 cargaHorariaSemanal:'',
                 tipo:'',
-                status:'SEM COLABORADOR CADASTRADO',
+                status:'',
                 linkCurriculo:''
                 
             }
         ],
         token:"",
         toast:'',
+
         nomeParaFiltro:'',
 
+       
+        colaboradoresAuxiliar:[{}]
 
-        colaboradoresFiltro:[
-            {
-                id:'',
-                nome:'',
-                email:'',
-                cargaHorariaSemanal:'',
-                tipo:'',
-                status:'SEM COLABORADOR CADASTRADO',
-                linkCurriculo:''
-                
-            }
-        ]
         
     }
 
@@ -60,30 +54,33 @@ export default class ListarColaboradores extends React.Component{
         this.service = new ColaboradorService();
     }
 
-    
-
     componentDidMount(){
       //  this.token();             
         this.findAll();
     }
 
 
-    filtro = () =>{
+    filtro = async () =>{
+        
+        await this.setState({colaboradores:this.state.colaboradoresAuxiliar})
+        console.log(this.state.colaboradores)
         let lista = []
+        
         this.state.colaboradores.forEach(element => {
-            if(element.nome === this.state.nomeParaFiltro){
+            console.log(this.state.nomeParaFiltro)
+            if(element.nome.toUpperCase().includes(this.state.nomeParaFiltro.toUpperCase())){
                 lista.push(element);
             }
            
         });
-
         this.setState({colaboradores:lista})
     }
 
 
     limparFiltro = () =>{
         this.setState({nomeParaFiltro:''})
-        this.findAll();
+        this.setState({colaboradores:this.state.colaboradoresAuxiliar})
+
     }
 
     token = async () => {
@@ -92,12 +89,12 @@ export default class ListarColaboradores extends React.Component{
                const token = response.data
                this.setState({token:token})
                
-                console.log("token",response.data);
+                //console.log("token",response.data);
 
                 this.findAll(token); 
             }
             ).catch(error => {
-                console.log("erro ao pegar o token",error);
+                //console.log("erro ao pegar o token",error);
             }
             );
     }
@@ -108,17 +105,16 @@ export default class ListarColaboradores extends React.Component{
 
     findAll = (token) => {
         const headers = { 'Authorization':` Bearer ${token}` };
-        console.log("bbbbbbbbbb",headers)
         this.service.get('/all', {headers})
             .then(response => {
                 const colaboradores = response.data;
                 
                 this.setState({colaboradores})
-
-                console.log(this.state.colaboradores);
+                this.setState({colaboradoresAuxiliar:colaboradores})
+                ListaAuxiliar.colaboradores = colaboradores
             }
             ).catch(error => {
-                console.log(error.response);
+              //  console.log(error.response);
             }
             );
     }
