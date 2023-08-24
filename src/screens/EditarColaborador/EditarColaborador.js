@@ -65,6 +65,16 @@ export default class EditarColaborador extends React.Component{
       };
 
    editar  = async () =>{
+    const dataOriginal = this.state.dataDeNascimento;
+        const data = new Date(dataOriginal);
+
+        const dia = data.getDate();
+        const mes = data.getMonth() + 1;
+        const ano = data.getFullYear();
+
+        //Formata o mes antes de mandar para o back
+        console.log("tamanho do mes", mes.size )
+        const dataFormatada = `${dia.toString().padStart(2, '0')}/${mes.toString().padStart(2, '0')}/${ano.toString().padStart(2, '0')}`
     await this.service.update(this.state.id,{
         nome:this.state.nome,
         endereco:this.state.endereco,
@@ -72,7 +82,7 @@ export default class EditarColaborador extends React.Component{
         cidade: this.state.cidade,
         estado:this.state.estado.nome,
         matricula: this.state.matricula,
-        dataDeNascimento: this.state.dataDeNascimento,
+        dataDeNascimento: dataFormatada,
         linkCurriculo: this.state.linkCurriculo,
         status:this.state.status,
         tipo:this.state.tipo.tipo
@@ -115,7 +125,7 @@ export default class EditarColaborador extends React.Component{
             reject:this.reject,
             
         });
-        await this.delay(10);
+        await this.delay(15);
         document.getElementsByClassName('p-button-label')[7].textContent = "Sim"
         document.getElementsByClassName('p-button-label')[6].textContent = "Não"
     };
@@ -223,14 +233,18 @@ export default class EditarColaborador extends React.Component{
                 const linkCurriculo = colaborador.linkCurriculo
                 const status = colaborador.status
 
-                this.setState({id:id,nome:nome,endereco:endereco, email:email, cidade:cidade, matricula:matricula,  dataDeNascimento:dataDeNascimento, linkCurriculo:linkCurriculo, status:status})
+                this.setState({id:id,nome:nome,endereco:endereco, email:email, cidade:cidade, matricula:matricula, linkCurriculo:linkCurriculo, status:status})
+
+                const partesDaData = dataDeNascimento.split('/');
+                const dataNoNovoFormato = `${partesDaData[2]}-${partesDaData[1]}-${partesDaData[0]}`
+                this.setState({dataDeNascimento: dataNoNovoFormato})
+                
 
                 this.setState({estado:{nome: estadoDoColaborador}})
-
                 this.setState({tipo:{tipo: tipo}})
                
 
-                console.log(estadoDoColaborador, 'aaa')
+                console.log(dataDeNascimento, 'aaa')
             })
             .catch(error =>{
                 console.log(error)

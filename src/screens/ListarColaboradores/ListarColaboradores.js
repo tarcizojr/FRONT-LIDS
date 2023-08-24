@@ -182,7 +182,7 @@ export default class ListarColaboradores extends React.Component{
                         <div className="filtragem">
                             <span className="p-input-icon-left">
                                 <i  className="pi pi-search " />
-                                <InputText placeholder="Procurar"
+                                <InputText placeholder="Buscar"
                                 value= {this.state.nomeParaFiltro} 
                                 onChange={(e) => { this.setState({nomeParaFiltro: e.target.value }) }} />
                             </span>

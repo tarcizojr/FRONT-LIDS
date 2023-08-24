@@ -90,6 +90,20 @@ export default class CriarColaborador extends React.Component{
             this.setState({errorNome: frasePadrao})
             
         }
+        if(this.state.nome.length < 5){
+            disparo ++;
+            let a = document.getElementById('nome');
+            a.classList.add('p-invalid');
+            this.setState({errorNome: 'Nome Deve ser Maior'})
+            
+        }
+        if(!this.state.nome.includes(' ')){
+            disparo ++;
+            let a = document.getElementById('nome');
+            a.classList.add('p-invalid');
+            this.setState({errorNome: 'Deve Conter Nome e Sobrenome'})
+            
+        }
 
         //Pre Validação de Endereço
         if(this.state.endereco === ''){
@@ -98,9 +112,15 @@ export default class CriarColaborador extends React.Component{
             a.classList.add('p-invalid')
             this.setState({errorEndereco: frasePadrao})
         }
+        if(this.state.endereco.length < 5){
+            disparo ++;
+            let a = document.getElementById('endereco')
+            a.classList.add('p-invalid')
+            this.setState({errorEndereco: 'Endereco deve ser Maior'})
+        }
 
         //Pre Validação de email
-        const regex = /@/;
+        const regex = /@gmail/;
         if (!regex.test(this.state.email)) {
             disparo ++;
             let a = document.getElementById('email')
@@ -109,7 +129,6 @@ export default class CriarColaborador extends React.Component{
             this.setState({errorEmail:'Esse Campo precisa ser um e-mail'})
 
         }
-
         if(this.state.email === ''){
             disparo ++;
             let a = document.getElementById('email')
@@ -117,6 +136,13 @@ export default class CriarColaborador extends React.Component{
             this.setState({errorEmail:frasePadrao})
           
         }
+        if(this.state.email.length < 5){
+            disparo ++;
+            let a = document.getElementById('email')
+            a.classList.add('p-invalid')
+            this.setState({errorEndereco: 'E-mail Deve ser Maior'})
+        }
+        
 
         //Pre Validação de Cidade
         if(this.state.cidade === ''){
@@ -124,6 +150,12 @@ export default class CriarColaborador extends React.Component{
             let a = document.getElementById('cidade')
             a.classList.add('p-invalid')
             this.setState({errorCidade: frasePadrao})
+        }
+        if(this.state.cidade.length < 5){
+            disparo ++;
+            let a = document.getElementById('cidade')
+            a.classList.add('p-invalid')
+            this.setState({errorCidade: 'Nome da Cidade deve ser Maior'})
         }
 
         //Pre Validação de Matricula
@@ -133,6 +165,12 @@ export default class CriarColaborador extends React.Component{
             a.classList.add('p-invalid')
             this.setState({errorMatricula: frasePadrao})
         }
+        if(this.state.matricula.length !== 12){
+            disparo ++;
+            let a = document.getElementById('matricula')
+            a.classList.add('p-invalid')
+            this.setState({errorMatricula: 'Matricula deve Conter 12 Caracteres'})
+        }
 
         //Pre Validação de Data de Nascimento
         if(this.state.dataDeNascimento === ''){
@@ -140,6 +178,16 @@ export default class CriarColaborador extends React.Component{
             let a = document.getElementById('dataNascimento')
             a.classList.add('p-invalid')
             this.setState({errorData: frasePadrao})
+        }
+        const data = new Date(this.state.dataDeNascimento);
+        const dataAtual = new Date();
+        const diferensaEmMS = dataAtual - data;
+        const anos = diferensaEmMS / (1000 * 60 * 60 * 24 * 365.25); 
+        if(anos < 15){
+            disparo ++;
+            let a = document.getElementById('dataNascimento')
+            a.classList.add('p-invalid')
+            this.setState({errorData: 'O colaborador deve ter pelomenos 15 anos'})
         }
 
         //Pre Validação de Estado
