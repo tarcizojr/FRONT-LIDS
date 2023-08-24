@@ -93,12 +93,12 @@ export default class EditarColaborador extends React.Component{
 
    //Po up de confirmação de edição
     accept = () => {
-        this.state.toast.show({ severity: 'info', summary: 'Confirmado', detail: 'Deletar Colaborador Confirmado', life: 3000 });
+        this.state.toast.show({ severity: 'info', summary: 'Confirmado', detail: 'Editar Colaborador Confirmado', life: 3000 });
         this.editar();
     };
 
     reject = () => {
-        this.state.toast.show({ severity: 'warn', summary: 'Regeitado', detail: 'Colaborador Não Deletado', life: 3000 });
+        this.state.toast.show({ severity: 'warn', summary: 'Regeitado', detail: 'Colaborador Não Editado', life: 3000 });
     };
 
      // Po up para velidar se realmente deseja criar o colaborador
