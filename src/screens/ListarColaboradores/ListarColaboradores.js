@@ -117,28 +117,15 @@ export default class ListarColaboradores extends React.Component{
             );
     }
 
-
-
     delete = (colaboradorId) =>{
         this.service.delete(colaboradorId)
             .then(async (response) =>{
                 this.state.toast.show({ severity: 'success', summary: 'Sucesso', detail: 'Colaborador Excluido Com Sucesso' });
-              //  await this.delay(2000);
-                this.tirarDaLista(colaboradorId)
-              // window.location.reload();
+                await this.delay(2000);
+               window.location.reload();
             }).catch(error =>{
                 this.state.toast.show({ severity: 'error', summary: 'Erro', detail: 'Erro ao Excluir o Colaborador' });
             })
-    }
-
-    tirarDaLista = (colaboradorId) =>{
-        let c = []
-        this.state.colaboradores.forEach(element => {            
-            if(element.id !== colaboradorId){
-                c.push(element)
-            }            
-        });
-        this.setState({colaboradores:c})
     }
 
     editar = (colaboradorId) => {
@@ -170,7 +157,7 @@ export default class ListarColaboradores extends React.Component{
             reject:this.reject,
             
         });
-        await this.delay(20);
+        await this.delay(10);
         document.getElementsByClassName('p-button-label')[9].textContent = "Sim"
         document.getElementsByClassName('p-button-label')[8].textContent = "Não"
     };
@@ -193,7 +180,7 @@ export default class ListarColaboradores extends React.Component{
                         <div className="filtragem">
                             <span className="p-input-icon-left">
                                 <i  className="pi pi-search " />
-                                <InputText placeholder="Buscar"
+                                <InputText placeholder="Procurar"
                                 value= {this.state.nomeParaFiltro} 
                                 onChange={(e) => { this.setState({nomeParaFiltro: e.target.value }) }} />
                             </span>
