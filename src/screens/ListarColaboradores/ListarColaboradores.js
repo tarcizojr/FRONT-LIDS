@@ -117,8 +117,6 @@ export default class ListarColaboradores extends React.Component{
             );
     }
 
-
-
     delete = (colaboradorId) =>{
         this.service.delete(colaboradorId)
             .then(async (response) =>{
