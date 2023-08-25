@@ -68,13 +68,14 @@ export default class EditarColaborador extends React.Component{
     const dataOriginal = this.state.dataDeNascimento;
         const data = new Date(dataOriginal);
 
-        const dia = data.getDate();
+        const dia = data.getDate() + 1;
         const mes = data.getMonth() + 1;
         const ano = data.getFullYear();
 
         //Formata o mes antes de mandar para o back
-        console.log("tamanho do mes", mes.size )
+       
         const dataFormatada = `${dia.toString().padStart(2, '0')}/${mes.toString().padStart(2, '0')}/${ano.toString().padStart(2, '0')}`
+        console.log("data", dataFormatada )
     await this.service.update(this.state.id,{
         nome:this.state.nome,
         endereco:this.state.endereco,

@@ -109,7 +109,7 @@ export default class ListarColaboradores extends React.Component{
                 
                 this.setState({colaboradores})
                 this.setState({colaboradoresAuxiliar:colaboradores})
-                
+                console.log(colaboradores)
             }
             ).catch(error => {
               //  console.log(error.response);
@@ -126,6 +126,16 @@ export default class ListarColaboradores extends React.Component{
             }).catch(error =>{
                 this.state.toast.show({ severity: 'error', summary: 'Erro', detail: 'Erro ao Excluir o Colaborador' });
             })
+    }
+
+    excluirColaborador = (colaboradorId) => {
+        let lista = [];
+        this.state.colaboradores.forEach(element => {
+            if(element.id !== colaboradorId){
+                lista.push(element)
+            }
+        });
+        this.setState.colaboradores(lista)
     }
 
     editar = (colaboradorId) => {
@@ -180,7 +190,7 @@ export default class ListarColaboradores extends React.Component{
                         <div className="filtragem">
                             <span className="p-input-icon-left">
                                 <i  className="pi pi-search " />
-                                <InputText placeholder="Procurar"
+                                <InputText placeholder="Buscar"
                                 value= {this.state.nomeParaFiltro} 
                                 onChange={(e) => { this.setState({nomeParaFiltro: e.target.value }) }} />
                             </span>
