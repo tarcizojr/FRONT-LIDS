@@ -70,6 +70,7 @@ export default class CriarColaborador extends React.Component{
     // Validar se os campos estão preenchidos corretamente
     validar = () =>{
         let msgError= { severity: 'error', summary: 'Corrija os Erros a Baixo', detail: 'Campos não podem ser nulos' };
+        
         let frasePadrao = 'Esse Campo é Obrigatorio';
         let disparo = 0;
 
