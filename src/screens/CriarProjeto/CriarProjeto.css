@@ -1,0 +1,12 @@
+.input-texts{
+    display: flex;
+}
+.textArea {    
+    margin-top: 2vh;
+    width: 25vw;
+    height: 6vh;
+}
+
+.input-texts .input-dois #seletor-tipo{
+    margin-top: 5vh;
+}

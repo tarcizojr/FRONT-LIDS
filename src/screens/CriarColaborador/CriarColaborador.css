@@ -40,3 +40,11 @@
     background: #efaa33;
     border: #F59E0B;
 }
+
+.input-texts .input-dois #seletor-estado{
+    margin-top: 5vh;
+}
+
+#seletor-estado, #seletor-tipo{
+    margin-right: 30vh;
+}

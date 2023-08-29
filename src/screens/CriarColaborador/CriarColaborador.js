@@ -29,7 +29,7 @@ export default class CriarColaborador extends React.Component{
         ],
         tipos: [
             {tipo:'DISCENTE'},
-            {tipo:'DOSCENTE'}
+            {tipo:'DOCENTE'}
         ],
 
         estado:{nome:''},
@@ -83,6 +83,15 @@ export default class CriarColaborador extends React.Component{
         this.setState({errorMatricula: ''})
         this.setState({errorCidade: ''})
 
+        document.getElementById('nome').classList.remove('p-invalid')
+        document.getElementById('endereco').classList.remove('p-invalid')
+        document.getElementById('email').classList.remove('p-invalid')
+        document.getElementById('cidade').classList.remove('p-invalid')
+        document.getElementById('matricula').classList.remove('p-invalid')
+        document.getElementById('dataNascimento').classList.remove('p-invalid')
+        document.getElementById('seletor-tipo').classList.remove('p-invalid')
+        document.getElementById('seletor-estado').classList.remove('p-invalid')
+
         //Pre Validação de Nome
         if(this.state.nome === ''){
             disparo ++;
@@ -91,14 +100,14 @@ export default class CriarColaborador extends React.Component{
             this.setState({errorNome: frasePadrao})
             
         }
-        if(this.state.nome.length < 5){
+        else if(this.state.nome.length < 5){
             disparo ++;
             let a = document.getElementById('nome');
             a.classList.add('p-invalid');
             this.setState({errorNome: 'Nome Deve ser Maior'})
             
         }
-        if(!this.state.nome.includes(' ')){
+        else if(!this.state.nome.includes(' ')){
             disparo ++;
             let a = document.getElementById('nome');
             a.classList.add('p-invalid');
@@ -113,7 +122,7 @@ export default class CriarColaborador extends React.Component{
             a.classList.add('p-invalid')
             this.setState({errorEndereco: frasePadrao})
         }
-        if(this.state.endereco.length < 5){
+        else if(this.state.endereco.length < 5){
             disparo ++;
             let a = document.getElementById('endereco')
             a.classList.add('p-invalid')
@@ -130,14 +139,14 @@ export default class CriarColaborador extends React.Component{
             this.setState({errorEmail:'Esse Campo precisa ser um e-mail'})
 
         }
-        if(this.state.email === ''){
+        else if(this.state.email === ''){
             disparo ++;
             let a = document.getElementById('email')
             a.classList.add('p-invalid')
             this.setState({errorEmail:frasePadrao})
           
         }
-        if(this.state.email.length < 5){
+        else if(this.state.email.length < 5){
             disparo ++;
             let a = document.getElementById('email')
             a.classList.add('p-invalid')
@@ -152,7 +161,7 @@ export default class CriarColaborador extends React.Component{
             a.classList.add('p-invalid')
             this.setState({errorCidade: frasePadrao})
         }
-        if(this.state.cidade.length < 5){
+        else if(this.state.cidade.length < 5){
             disparo ++;
             let a = document.getElementById('cidade')
             a.classList.add('p-invalid')
@@ -166,7 +175,7 @@ export default class CriarColaborador extends React.Component{
             a.classList.add('p-invalid')
             this.setState({errorMatricula: frasePadrao})
         }
-        if(this.state.matricula.length !== 12){
+        else if(this.state.matricula.length !== 12){
             disparo ++;
             let a = document.getElementById('matricula')
             a.classList.add('p-invalid')
@@ -252,13 +261,13 @@ export default class CriarColaborador extends React.Component{
         const dataOriginal = this.state.dataDeNascimento;
         const data = new Date(dataOriginal);
 
-        const dia = data.getDate();
+        const dia = data.getDate() + 1;
         const mes = data.getMonth() + 1;
         const ano = data.getFullYear();
 
         //Formata o mes antes de mandar para o back
-        console.log("tamanho do mes", mes.size )
-        const dataFormatada = `${dia.toString().padStart(2, '0')}/${mes.toString().padStart(2, '0')}/${ano.toString().padStart(2, '0')}`;
+        
+        const dataFormatada = `${dia.toString().padStart(2, '0')}-${mes.toString().padStart(2, '0')}-${ano.toString().padStart(2, '0')}`;
         this.service.creat(
              {
             nome:this.state.nome,
@@ -288,7 +297,7 @@ export default class CriarColaborador extends React.Component{
         }).catch(error =>{
             this.state.toast.show({ severity: 'error', summary: 'Erro', detail: 'Erro ao Criado Criar Colaborador' });
             this.state.toast.show({ severity: 'error', summary: 'Erro', detail: error.response.data });
-            console.log(error.response.data)
+            console.log(error.response)
         })
     }
 
@@ -308,7 +317,7 @@ export default class CriarColaborador extends React.Component{
                     <Toast ref={(el) => (this.state.toast = el)} />
 
                     {/* BreadCrumb: Usado para o menu de navegaçao que fica ao lado do bt de salvar */}
-                    <div className="header-criar-projeto">
+                    <div className="header-criar-colaborador">
                         <BreadCrumb model={this.state.items} home={this.state.home}></BreadCrumb>
                     </div>
 
@@ -325,6 +334,7 @@ export default class CriarColaborador extends React.Component{
 
                     </div>
                 </div>
+
                 {/* Começas os Campos  */}
                 <div className="input-texts">
                     <div className="input-um">
@@ -369,7 +379,7 @@ export default class CriarColaborador extends React.Component{
                         {this.state.errorCidade && <span style={{ color: 'red' }}>{this.state.errorCidade}</span>}
                     </div>
 
-                    <div className="input-dois">
+                    <div className="input-dois seletor">
                     <Dropdown id="seletor-estado"
                         value={this.state.estado}
                         onChange={(e) => this.setState({estado: this.estado = e.value})}
@@ -404,7 +414,7 @@ export default class CriarColaborador extends React.Component{
                     {this.state.errorData && <span style={{ color: 'red' }}>{this.state.errorData}</span>}
                     </div>
 
-                    <div className="input-dois">
+                    <div className="input-dois seletor">
                         <Dropdown id="seletor-tipo"
                         value={this.state.tipo} onChange={(e) => this.setState({tipo: this.tipo = e.value})}
                         options={this.state.tipos}

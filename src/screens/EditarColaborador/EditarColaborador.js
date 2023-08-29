@@ -140,7 +140,7 @@ export default class EditarColaborador extends React.Component{
 
     // Validar se os campos estão preenchidos corretamente
     validar = () =>{
-        let msgError= { severity: 'error', summary: 'Corrija os Erros a Baixo', detail: 'Verifique se os Campus' };
+        let msgError= { severity: 'error', summary: 'Corrija os Erros a Baixo', detail: 'Campos não podem ser nulos' };
         
         let frasePadrao = 'Esse Campo é Obrigatorio';
         let disparo = 0;
@@ -154,6 +154,16 @@ export default class EditarColaborador extends React.Component{
         this.setState({errorMatricula: ''})
         this.setState({errorCidade: ''})
 
+
+        document.getElementById('nome').classList.remove('p-invalid')
+        document.getElementById('endereco').classList.remove('p-invalid')
+        document.getElementById('email').classList.remove('p-invalid')
+        document.getElementById('cidade').classList.remove('p-invalid')
+        document.getElementById('matricula').classList.remove('p-invalid')
+        document.getElementById('dataNascimento').classList.remove('p-invalid')
+        document.getElementById('seletor-tipo').classList.remove('p-invalid')
+        document.getElementById('seletor-estado').classList.remove('p-invalid')
+
         //Pre Validação de Nome
         if(this.state.nome === ''){
             disparo ++;
@@ -162,14 +172,14 @@ export default class EditarColaborador extends React.Component{
             this.setState({errorNome: frasePadrao})
             
         }
-        if(this.state.nome.length < 5){
+        else if(this.state.nome.length < 5){
             disparo ++;
             let a = document.getElementById('nome');
             a.classList.add('p-invalid');
             this.setState({errorNome: 'Nome Deve ser Maior'})
             
         }
-        if(!this.state.nome.includes(' ')){
+        else if(!this.state.nome.includes(' ')){
             disparo ++;
             let a = document.getElementById('nome');
             a.classList.add('p-invalid');
@@ -184,7 +194,7 @@ export default class EditarColaborador extends React.Component{
             a.classList.add('p-invalid')
             this.setState({errorEndereco: frasePadrao})
         }
-        if(this.state.endereco.length < 5){
+        else if(this.state.endereco.length < 5){
             disparo ++;
             let a = document.getElementById('endereco')
             a.classList.add('p-invalid')
@@ -201,14 +211,14 @@ export default class EditarColaborador extends React.Component{
             this.setState({errorEmail:'Esse Campo precisa ser um e-mail'})
 
         }
-        if(this.state.email === ''){
+        else if(this.state.email === ''){
             disparo ++;
             let a = document.getElementById('email')
             a.classList.add('p-invalid')
             this.setState({errorEmail:frasePadrao})
           
         }
-        if(this.state.email.length < 5){
+        else if(this.state.email.length < 5){
             disparo ++;
             let a = document.getElementById('email')
             a.classList.add('p-invalid')
@@ -223,7 +233,7 @@ export default class EditarColaborador extends React.Component{
             a.classList.add('p-invalid')
             this.setState({errorCidade: frasePadrao})
         }
-        if(this.state.cidade.length < 5){
+        else if(this.state.cidade.length < 5){
             disparo ++;
             let a = document.getElementById('cidade')
             a.classList.add('p-invalid')
@@ -237,7 +247,7 @@ export default class EditarColaborador extends React.Component{
             a.classList.add('p-invalid')
             this.setState({errorMatricula: frasePadrao})
         }
-        if(this.state.matricula.length !== 12){
+        else if(this.state.matricula.length !== 12){
             disparo ++;
             let a = document.getElementById('matricula')
             a.classList.add('p-invalid')
