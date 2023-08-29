@@ -21,7 +21,7 @@ export default class CriarProjeto extends React.Component{
         tipos: [
             {tipo:'INOVAÇÃO'},
             {tipo:'PESQUISA'},
-            {tipo:'EXTENÇÃO'},
+            {tipo:'EXTENSÃO'},
             {tipo:'ENSINO'}
         ],
         tipo:{tipo:''},
@@ -67,9 +67,10 @@ export default class CriarProjeto extends React.Component{
         const anoF = dataF.getFullYear();
         const dataFimFormatada = `${diaF.toString().padStart(2, '0')}-${mesF.toString().padStart(2, '0')}-${anoF.toString().padStart(2, '0')}`;
 
+        const sem = this.state.tipo.tipo.normalize('NFD').replace(/[\u0300-\u036f]/g, "")
         this.service.creat({
             "titulo": this.state.nomeDoProjeto,
-            "tipo" : this.state.tipo.tipo,
+            "tipo" : sem,
             "descricao" : this.state.objetivo,
             "dataInicio":dataInicioFormatada,
             "dataTermino":dataFimFormatada
@@ -79,7 +80,7 @@ export default class CriarProjeto extends React.Component{
             console.log(dataInicioFormatada,'data inicio passada')
 
            await this.delay(2000);
-           // window.location.href = `/projetos`;
+            window.location.href = `/projetos`;
         }).catch(error =>{
             this.state.toast.show({ severity: 'error', summary: 'Erro', detail: 'Erro ao Criado Criar Projeto' });
             this.state.toast.show({ severity: 'error', summary: 'Erro', detail: error.response.data });
