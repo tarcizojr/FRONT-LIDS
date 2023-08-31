@@ -95,7 +95,7 @@ export default class CriarProjeto extends React.Component{
     validar = () =>{
         console.log(this.state.dataInicio,"nome no validar")
 
-        let msgError= { severity: 'error', summary: 'Corrija os Erros a Baixo', detail: 'Campos não podem ser nulos' };
+        let msgError= { severity: 'error', summary: 'Corrija os Erros a Baixo', detail: 'Verifique os Erros a Baixo' };
         
         let frasePadrao = 'Esse Campo é Obrigatorio';
         let disparo = 0;
@@ -114,11 +114,17 @@ export default class CriarProjeto extends React.Component{
             this.setState({errorNomeDoProjeto: frasePadrao})
             
         }
-        else if(this.state.nomeDoProjeto.length < 5){
+        else if(this.state.nomeDoProjeto.length < 15){
             disparo ++;
             let a = document.getElementById('nomeDoProjeto');
             a.classList.add('p-invalid');
             this.setState({errorNomeDoProjeto: 'Nome Deve ser Maior'})
+            
+        }else if(this.state.nomeDoProjeto.length > 256){
+            disparo ++;
+            let a = document.getElementById('nomeDoProjeto');
+            a.classList.add('p-invalid');
+            this.setState({errorNomeDoProjeto: 'Nome Deve ser Menor'})
             
         }
 
@@ -135,16 +141,28 @@ export default class CriarProjeto extends React.Component{
         //Pre Validação de Objetivo do Projeto
         if(this.state.objetivo === ''){
             disparo ++;
-            let a = document.getElementById('nomeDoProjeto');
+            let a = document.getElementById('objetivo');
             a.classList.add('p-invalid');
             this.setState({errorObjetivo: frasePadrao})
+            
+        }else if(this.state.objetivo.length < 30){
+            disparo ++;
+            let a = document.getElementById('objetivo');
+            a.classList.add('p-invalid');
+            this.setState({errorObjetivo: "Objetivo deve Ser Maior"})
+            
+        }else if(this.state.objetivo.length > 256){
+            disparo ++;
+            let a = document.getElementById('objetivo');
+            a.classList.add('p-invalid');
+            this.setState({errorObjetivo: "Objetivo deve Ser Menor"})
             
         }
 
         //Pre Validação de Data Inicio
         if(this.state.dataInicio === ''){
             disparo ++;
-            let a = document.getElementById('nomeDoProjeto');
+            let a = document.getElementById('dataInicio');
             a.classList.add('p-invalid');
             this.setState({errorDataInicio: frasePadrao})
             
@@ -153,9 +171,15 @@ export default class CriarProjeto extends React.Component{
         //Pre Validação de Data Fim
         if(this.state.dataFim === ''){
             disparo ++;
-            let a = document.getElementById('nomeDoProjeto');
+            let a = document.getElementById('dataFim');
             a.classList.add('p-invalid');
             this.setState({errorDataFim: frasePadrao})
+            
+        }else if(this.state.dataFim < this.state.dataInicio){
+            disparo ++;
+            let a = document.getElementById('dataFim');
+            a.classList.add('p-invalid');
+            this.setState({errorDataFim: "Data de Termino tem que ser maior que a de Inicio "})
             
         }
 
