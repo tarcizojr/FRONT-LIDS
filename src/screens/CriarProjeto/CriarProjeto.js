@@ -60,12 +60,14 @@ export default class CriarProjeto extends React.Component{
         const dataInicioFormatada = `${diaI.toString().padStart(2, '0')}-${mesI.toString().padStart(2, '0')}-${anoI.toString().padStart(2, '0')}`;
 
 
-        const dataOriginalFim = this.state.dataInicio;
+        const dataOriginalFim = this.state.dataFim;
         const dataF = new Date(dataOriginalFim);
         const diaF = dataF.getDate() + 1;
         const mesF = dataF.getMonth() + 1;
         const anoF = dataF.getFullYear();
         const dataFimFormatada = `${diaF.toString().padStart(2, '0')}-${mesF.toString().padStart(2, '0')}-${anoF.toString().padStart(2, '0')}`;
+
+        console.log(`dataI ${dataInicioFormatada} dataF ${dataFimFormatada}`)
 
         const sem = this.state.tipo.tipo.normalize('NFD').replace(/[\u0300-\u036f]/g, "")
         this.service.creat({
@@ -80,7 +82,7 @@ export default class CriarProjeto extends React.Component{
             console.log(dataInicioFormatada,'data inicio passada')
 
            await this.delay(2000);
-            window.location.href = `/projetos`;
+           window.location.href = `/projetos`;
         }).catch(error =>{
             this.state.toast.show({ severity: 'error', summary: 'Erro', detail: 'Erro ao Criado Criar Projeto' });
             this.state.toast.show({ severity: 'error', summary: 'Erro', detail: error.response.data });

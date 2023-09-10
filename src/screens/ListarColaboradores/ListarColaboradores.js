@@ -101,9 +101,8 @@ export default class ListarColaboradores extends React.Component{
         return new Promise(resolve => setTimeout(resolve, ms));
       };
 
-    findAll = (token) => {
-        const headers = { 'Authorization':` Bearer ${token}` };
-        this.service.get('/all', {headers})
+    findAll = () => {        
+        this.service.get('/all')
             .then(response => {
                 const colaboradores = response.data;
                 

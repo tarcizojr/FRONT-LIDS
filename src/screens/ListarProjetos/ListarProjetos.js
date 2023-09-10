@@ -7,7 +7,7 @@ import { Button } from 'primereact/button';
 import CardDeProjetos from "../../components/CardDeProjetos/CardDeProjetos";
 import './ListarProjetos.css'
 import 'primeicons/primeicons.css';
-
+import ProjetoService from "../../services/ProjetoService"
 export default class ListarProjetos extends React.Component{
     state = {
         items:[{ label: 'Projetos', url:"/projetos" }],
@@ -15,12 +15,40 @@ export default class ListarProjetos extends React.Component{
         home: {icon: 'pi pi-home ', url: '/' },
 
         projetos :[
-            {nome_projeto:"PROJETO GEMINI",dias_restantes:"10", status:"CONCLUÍDO"}
-        ]
+           
+        ],
+        projetosAuxiliar:[{}]
     }
     
+    constructor(){
+        super();
+        this.service = new ProjetoService();
+    }
+
+
+    componentDidMount(){
+        //  this.token();             
+          this.findAll();
+      }
     
-    
+      findAll = () => {        
+        this.service.get('/all')
+            .then(response => {
+                const projetos = response.data;
+                
+                this.setState({projetos})
+                this.setState({projetosAuxiliar:projetos})
+                console.log(projetos)
+            }
+            ).catch(error => {
+              //  console.log(error.response);
+            }
+            );
+    }
+
+    find = () =>{
+        window.location.href = `/colaboradoresProjeto/${1}`;
+    }
 
 
     render(){
@@ -50,9 +78,9 @@ export default class ListarProjetos extends React.Component{
                 
                 <div className="projetos">
                     <CardDeProjetos 
-                    title={this.state.projetos[0].nome_projeto} 
-                    dias_restantes={this.state.projetos[0].dias_restantes}
-                    status={this.state.projetos[0].status}/>
+                        projetos = {this.state.projetos}
+                        listarColaboradores = {this.find}
+                    />
                     
                 </div>
                 

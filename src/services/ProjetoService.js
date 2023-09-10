@@ -19,10 +19,12 @@ export default class ColaboradorService extends ApiService{
     }
     
     find(params){
-        return this.get(`${params}`);
+        return this.get(`/${1}`);
     }
     
     findAll(){
         return this.getAll('/all');
     }
+
+
 }
