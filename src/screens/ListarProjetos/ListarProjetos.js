@@ -17,7 +17,9 @@ export default class ListarProjetos extends React.Component{
         projetos :[
            
         ],
-        projetosAuxiliar:[{}]
+        projetosAuxiliar:[{}],
+
+        nomeParaFiltro:''
     }
     
     constructor(){
@@ -38,7 +40,7 @@ export default class ListarProjetos extends React.Component{
                 
                 this.setState({projetos})
                 this.setState({projetosAuxiliar:projetos})
-                console.log(projetos)
+                
             }
             ).catch(error => {
               //  console.log(error.response);
@@ -46,8 +48,25 @@ export default class ListarProjetos extends React.Component{
             );
     }
 
-    find = () =>{
-        window.location.href = `/colaboradoresProjeto/${1}`;
+    find = (id) =>{
+        window.location.href = `/colaboradoresProjeto/${id}`;
+    }
+
+
+    filtro = async () =>{
+        
+        await this.setState({projetos:this.state.projetosAuxiliar})
+        console.log(this.state.projetos)
+        let lista = []
+        
+        this.state.projetos.forEach(element => {
+            console.log(this.state.projetos)
+            if(element.titulo.toUpperCase().includes(this.state.nomeParaFiltro.toUpperCase())){
+                lista.push(element);
+            }
+           
+        });
+        this.setState({projetos:lista})
     }
 
 
@@ -59,10 +78,22 @@ export default class ListarProjetos extends React.Component{
                     <div>
                         <BreadCrumb model={this.state.items} home={this.state.home} />
                     
-                        <span className="p-input-icon-left">
-                            <i  className="pi pi-search " />
-                            <InputText placeholder="Pocurar" />
-                        </span>
+                        <div className="filtragem">
+                            <span className="p-input-icon-left">
+                                <i  className="pi pi-search " />
+                                <InputText placeholder="Buscar"
+                                value= {this.state.nomeParaFiltro} 
+                                onChange={(e) => { this.setState({nomeParaFiltro: e.target.value }) }} />
+                            </span>
+
+                            <Button className="bt-filtro" label="Filtrar" 
+                            onClick={this.filtro}
+                            title="Filtrar Projetos" severity="warning" raised />
+
+                            <Button className="bt-filtro" label="Limpar Filtro" 
+                            onClick={this.limparFiltro}
+                            title="Listar Todos Projetos" severity="warning" raised />
+                        </div>
                     </div>
     
                     <div className="bt-add">

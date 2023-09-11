@@ -18,8 +18,8 @@ export default class ColaboradorService extends ApiService{
         return super.delete(`/${id}`)
     }
     
-    find(params){
-        return this.get(`/${1}`);
+    find(id){
+        return this.get(`/${id}`);
     }
     
     findAll(){

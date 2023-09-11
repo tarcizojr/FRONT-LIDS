@@ -22,18 +22,20 @@ export default class ListarColaboradoresDoProjeto extends React.Component{
 
 
     componentDidMount(){
-        //  this.token();             
-        this.find();
+        const url = window.location.href;
+        const id = url.substring(url.lastIndexOf('/') + 1);    
+                 
+        this.find(id);
     }
 
-    find = () => {        
-        this.service.find('/1')
+    find = (id) => {        
+        this.service.find(`${id}`)
             .then(response => {
                 const colaboradores = response.data.colaboradores;
                 
                 this.setState({colaboradores})
                 this.setState({colaboradoresAuxiliar:colaboradores})
-                console.log("aaa",colaboradores)
+                
             }
             ).catch(error => {
               //  console.log(error.response);

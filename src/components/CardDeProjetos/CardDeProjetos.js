@@ -35,7 +35,7 @@ export default props =>{
             
             // Converta a diferença para dias
             const diasRestantes = Math.ceil(diferencaEmMilissegundos / (1000 * 60 * 60 * 24));
-            console.log(`dataI ${dataInicioString} dataF ${dataFimString} dias ${diasRestantes}`)
+           
           card = (
             <div className="card">
             <Card>
