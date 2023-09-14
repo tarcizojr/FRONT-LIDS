@@ -197,7 +197,7 @@ export default class CriarProjeto extends React.Component{
         const a = document.getElementsByClassName('p-button p-component p-confirm-dialog-reject p-button-text')
         confirmDialog({
 
-            message: 'Você Realmente quer Criar esse Colaborador?',
+            message: 'Você Realmente quer Criar esse Projeto?',
             icon: 'pi pi-info-circle',
             acceptClassName: 'p-button-danger',
 
