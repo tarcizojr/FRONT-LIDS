@@ -235,7 +235,7 @@ export default class CriarProjeto extends React.Component{
 
                     
                     <div className="header-criar-projeto">
-                        <BreadCrumb model={this.state.items} home={this.state.home}></BreadCrumb>
+                        <BreadCrumb id="breadCrumb" model={this.state.items} home={this.state.home}></BreadCrumb>
                     </div>
                     <div className="bt-salvar">
                         <ConfirmDialog

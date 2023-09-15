@@ -318,7 +318,7 @@ export default class CriarColaborador extends React.Component{
 
                     {/* BreadCrumb: Usado para o menu de navegaçao que fica ao lado do bt de salvar */}
                     <div className="header-criar-colaborador">
-                        <BreadCrumb model={this.state.items} home={this.state.home}></BreadCrumb>
+                        <BreadCrumb id="breadCrumb" model={this.state.items} home={this.state.home}></BreadCrumb>
                     </div>
 
                     <div className="bt-salvar">

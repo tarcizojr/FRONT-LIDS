@@ -184,7 +184,7 @@ export default class ListarColaboradores extends React.Component{
 
                 <div className="header">
                     <div>
-                        <BreadCrumb model={this.state.items} home={this.state.home} />
+                        <BreadCrumb id="breadCrumb" model={this.state.items} home={this.state.home} />
                     
                         <div className="filtragem">
                             <span className="p-input-icon-left">
