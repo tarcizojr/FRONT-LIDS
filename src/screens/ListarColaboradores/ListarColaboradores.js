@@ -36,7 +36,7 @@ export default class ListarColaboradores extends React.Component{
                 
             }
         ],
-        token:"",
+      
         toast:'',
 
         nomeParaFiltro:'',
@@ -53,7 +53,7 @@ export default class ListarColaboradores extends React.Component{
     }
 
     componentDidMount(){
-      //  this.token();             
+           
         this.findAll();
     }
 
@@ -81,21 +81,6 @@ export default class ListarColaboradores extends React.Component{
 
     }
 
-    token = async () => {
-        await this.service.getToken('')
-            .then(response => {
-               const token = response.data
-               this.setState({token:token})
-               
-                //console.log("token",response.data);
-
-                this.findAll(token); 
-            }
-            ).catch(error => {
-                //console.log("erro ao pegar o token",error);
-            }
-            );
-    }
 
     delay = (ms) => {
         return new Promise(resolve => setTimeout(resolve, ms));

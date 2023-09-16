@@ -1,12 +1,27 @@
 import './Home.css';
 import React, { useState, useEffect } from 'react';
 import { Chart } from 'primereact/chart';
+import ApiService from "../services/ApiService";
 
-export default function Home() {
-    const [chartData, setChartData] = useState({});
-    const [chartOptions, setChartOptions] = useState({});
+import axios from "axios";
+const httpCliente = axios.create({
+    baseURL:'http://localhost:8080/api'
+});
 
-    useEffect(() => {
+export default class Home extends React.Component {
+
+    state = {
+        chartData:[{}],
+        chartOptions:[{}]
+    }
+ 
+
+    componentDidMount(){
+           
+        this.useEffect();
+    }
+    
+    useEffect = () => {
         const documentStyle = getComputedStyle(document.documentElement);
         const data = {
             labels: ['Cadastrados', 'Ativos', 'Concluidos', 'Cancelados'],
@@ -37,21 +52,21 @@ export default function Home() {
                 }
             }
         };
-
+        this.setState({chartData:data});
+        this.setState({chartOptions:options});
         
-
-        setChartData(data);
-        setChartOptions(options);
-    }, []);
+    }
 
     
 
-    return (
-        <div className='container'>
-            <div className='mostragem1'>
-                <h2>Projetos</h2>
-                <Chart id='grafico1' type="pie" data={chartData} options={chartOptions} className="w-full md:w-30rem" />
+    render(){
+        return (
+            <div className='container'>
+                <div className='mostragem1'>
+                    <h2>Projetos</h2>
+                    <Chart id='grafico1' type="pie" data={this.state.chartData} options={this.state.chartOptions} className="w-full md:w-30rem" />
+                </div>
             </div>
-        </div>
-    )
+        )
+    }
 }

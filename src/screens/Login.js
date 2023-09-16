@@ -6,6 +6,8 @@ import { AiOutlineGoogle } from "react-icons/ai";
 
 import SVGLids from "../img/SVGLids";
 import './Login.css'
+import ApiService from "../services/ApiService";
+
 
 export default function Login() {
 
@@ -30,7 +32,7 @@ export default function Login() {
 
                     <a href="http://localhost:8080/api/entrar">
                         
-                        <Button severity="warning"  label="Login Google">
+                        <Button severity="warning"  label="Login Google" >
                             {/* <AiOutlineGoogle></AiOutlineGoogle> */}
                         </Button>
                         
