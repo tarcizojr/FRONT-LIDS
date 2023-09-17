@@ -3,23 +3,24 @@ import React, { useState, useEffect } from 'react';
 import { Chart } from 'primereact/chart';
 import ApiService from "../services/ApiService";
 
-import axios from "axios";
-const httpCliente = axios.create({
-    baseURL:'http://localhost:8080/api'
-});
+
 
 export default class Home extends React.Component {
 
     state = {
         chartData:[{}],
-        chartOptions:[{}]
+        chartOptions:[{}],
+        
     }
  
 
-    componentDidMount(){
-           
+    componentDidMount(){           
         this.useEffect();
+        this.service = new ApiService();
+        this.service.autenticado();
     }
+
+   
     
     useEffect = () => {
         const documentStyle = getComputedStyle(document.documentElement);
@@ -60,13 +61,16 @@ export default class Home extends React.Component {
     
 
     render(){
-        return (
-            <div className='container'>
-                <div className='mostragem1'>
-                    <h2>Projetos</h2>
-                    <Chart id='grafico1' type="pie" data={this.state.chartData} options={this.state.chartOptions} className="w-full md:w-30rem" />
+       
+            return (
+                <div className='container'>
+                    <div className='mostragem1'>
+                        <h2>Projetos</h2>
+                        <Chart id='grafico1' type="pie" data={this.state.chartData} options={this.state.chartOptions} className="w-full md:w-30rem" />
+                    </div>
                 </div>
-            </div>
-        )
+            )
+        
+       
     }
 }

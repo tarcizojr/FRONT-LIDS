@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import { InputText } from "primereact/inputtext";
 import { BreadCrumb } from 'primereact/breadcrumb';
+import { Dropdown } from 'primereact/dropdown';
 
 import { Button } from 'primereact/button';
 
@@ -22,24 +23,34 @@ export default class ListarProjetos extends React.Component{
         projetosAuxiliar:[{}],
 
         nomeParaFiltro:'',
-
+        renderizar:false,
+        
+        filtrosProjeto: [
+            {filtro:'TODOS'},
+            {filtro:'EM_ANDAMENTO'},
+            {filtro:'CONCLUIDO'},
+            {filtro:'CANCELADO'}
+        ],
+        filtroProjeto:{filtro:''}
        
     }
     
     constructor(){
         super();
         this.service = new ProjetoService();
+        this.service.getToken();
+        this.service.autenticado();
     }
 
 
     componentDidMount(){
         //  this.token();             
           this.findAll();
-          axios.defaults.headers.common['Authorization'] = `Bearer
-          ${this.state.token}     
-          `;
-
+          
       }
+
+   
+    
     
       findAll = () => {        
         this.service.get('/all')
@@ -63,22 +74,38 @@ export default class ListarProjetos extends React.Component{
 
     filtro = async () =>{
         
-        await this.setState({projetos:this.state.projetosAuxiliar})
-        console.log(this.state.projetos)
-        let lista = []
-        
-        this.state.projetos.forEach(element => {
-            console.log(this.state.projetos)
-            if(element.titulo.toUpperCase().includes(this.state.nomeParaFiltro.toUpperCase())){
-                lista.push(element);
-            }
-           
-        });
-        this.setState({projetos:lista})
+        const { nomeParaFiltro, filtroProjeto, projetosAuxiliar } = this.state;
+        let projetosFiltrados = [...projetosAuxiliar];
+    
+        // Filtrar por nome
+        if (nomeParaFiltro) {
+            const nomeFiltrado = nomeParaFiltro.toUpperCase();
+            projetosFiltrados = projetosFiltrados.filter(element =>
+                element.titulo.toUpperCase().includes(nomeFiltrado)
+            );
+        }
+    
+        // Filtrar por status (se o filtroProjeto.filtro não estiver vazio)
+        if (filtroProjeto.filtro) {
+            projetosFiltrados = projetosFiltrados.filter(element =>
+                element.status.includes(filtroProjeto.filtro)
+            );
+        }
+    
+        // Atualizar o estado com os projetos filtrados
+        this.setState({ projetos: projetosFiltrados });
+    
+
     }
 
+    limparFiltro = () =>{
+        this.setState({nomeParaFiltro:''})
+        this.setState({ filtroProjeto: { filtro: '' } });
+        this.setState({projetos:this.state.projetosAuxiliar})
 
+    }
     render(){
+
         return(
         
             <div className="container">
@@ -93,7 +120,17 @@ export default class ListarProjetos extends React.Component{
                                 value= {this.state.nomeParaFiltro} 
                                 onChange={(e) => { this.setState({nomeParaFiltro: e.target.value }) }} />
                             </span>
+                            
+                            <div className="">
+                                <Dropdown id=""
+                                    value={this.state.filtroProjeto} onChange={(e) => this.setState({filtroProjeto: this.filtroProjeto = e.value})}
+                                    options={this.state.filtrosProjeto}
+                                    optionLabel="filtro"
+                                    placeholder="Filtrar Por Status" />
 
+                                    {/* usado para mostrar a msg de erro, caso tenha
+                                {this.state.errorTipo && <span style={{ color: 'red' }}>{this.state.errorTipo}</span>} */}
+                             </div>
                             <Button className="bt-filtro" label="Filtrar" 
                             onClick={this.filtro}
                             title="Filtrar Projetos" severity="warning" raised />

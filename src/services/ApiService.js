@@ -12,13 +12,11 @@ export default class ApiService {
     
     constructor(endpoint){
         this.endpoint = endpoint;    
-        this.getToken();    
+      //  this.getToken();    
      //   this.registerToken(token);
       
     }
     
-
-
 
     registerToken(token){
         if(token){
@@ -52,7 +50,7 @@ export default class ApiService {
         try {
             const response = await httpCliente.get(url);
             token = response.data;
-            console.log(token, 'token')
+           console.log(token, 'token')
 
             this.registerToken(token);
             return response.data;
@@ -60,6 +58,16 @@ export default class ApiService {
             console.error('Erro ao obter o token:', error);
             throw error; 
         }
+    }
+    
+    async autenticado(){
+        let url = 'http://localhost:8080/api/altenticado';
+        const response = await httpCliente.get(url);
+        console.log(response.data, 'Autenticado')
+        if(response.data === false){
+            window.location.href = `/login`;
+        }
+        return response.data;
     }
 
     buildUrl(url){

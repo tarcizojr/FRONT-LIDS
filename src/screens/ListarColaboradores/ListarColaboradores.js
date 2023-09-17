@@ -42,7 +42,8 @@ export default class ListarColaboradores extends React.Component{
         nomeParaFiltro:'',
 
        
-        colaboradoresAuxiliar:[{}]
+        colaboradoresAuxiliar:[{}],
+        renderizar:false
 
         
     }
@@ -50,12 +51,18 @@ export default class ListarColaboradores extends React.Component{
     constructor(){
         super();
         this.service = new ColaboradorService();
+        this.service.getToken();
+        this.service.autenticado();
+      
     }
 
-    componentDidMount(){
-           
+    componentDidMount(){           
         this.findAll();
+       
     }
+
+   
+    
 
 
     filtro = async () =>{
@@ -157,6 +164,7 @@ export default class ListarColaboradores extends React.Component{
     };
 
     render(){
+
         return(
 
             <div className="container">
