@@ -83,10 +83,11 @@ export default class CriarProjeto extends React.Component{
 
            await this.delay(2000);
            window.location.href = `/projetos`;
-        }).catch(error =>{
+        }).catch(async error =>{
+            await console.log(error, 'erro')
+
             this.state.toast.show({ severity: 'error', summary: 'Erro', detail: 'Erro ao Criado Criar Projeto' });
             this.state.toast.show({ severity: 'error', summary: 'Erro', detail: error.response.data });
-            console.log(error.response.data)
         })
     }
 

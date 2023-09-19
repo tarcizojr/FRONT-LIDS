@@ -86,7 +86,10 @@ export default class ListarProjetos extends React.Component{
         }
     
         // Filtrar por status (se o filtroProjeto.filtro não estiver vazio)
-        if (filtroProjeto.filtro) {
+        if(filtroProjeto.filtro === 'TODOS'){
+            this.limparFiltro();
+        }
+        else if (filtroProjeto.filtro) {
             projetosFiltrados = projetosFiltrados.filter(element =>
                 element.status.includes(filtroProjeto.filtro)
             );

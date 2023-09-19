@@ -12,7 +12,7 @@ export default class ApiService {
     
     constructor(endpoint){
         this.endpoint = endpoint;    
-      //  this.getToken();    
+        this.getToken();    
      //   this.registerToken(token);
       
     }

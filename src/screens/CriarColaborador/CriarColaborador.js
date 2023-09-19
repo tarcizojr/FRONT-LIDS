@@ -257,7 +257,7 @@ export default class CriarColaborador extends React.Component{
         this.state.toast.show({ severity: 'warn', summary: 'Regeitado', detail: 'Colaborador Não Criado', life: 3000 });
     };
 
-    salvar = () =>{
+    salvar = async () =>{
         const dataOriginal = this.state.dataDeNascimento;
         const data = new Date(dataOriginal);
 
@@ -268,7 +268,7 @@ export default class CriarColaborador extends React.Component{
         //Formata o mes antes de mandar para o back
         
         const dataFormatada = `${dia.toString().padStart(2, '0')}-${mes.toString().padStart(2, '0')}-${ano.toString().padStart(2, '0')}`;
-        this.service.creat(
+        await this.service.creat(
              {
             nome:this.state.nome,
             endereco:this.state.endereco,
@@ -295,9 +295,10 @@ export default class CriarColaborador extends React.Component{
            await this.delay(2000);
             window.location.href = `/colaboradores`;
         }).catch(error =>{
+            console.log(error.response,'erro')
+
             this.state.toast.show({ severity: 'error', summary: 'Erro', detail: 'Erro ao Criado Criar Colaborador' });
             this.state.toast.show({ severity: 'error', summary: 'Erro', detail: error.response.data });
-            console.log(error.response)
         })
     }
 
