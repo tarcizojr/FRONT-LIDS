@@ -213,12 +213,12 @@ export default class CriarProjeto extends React.Component{
     };
 
     accept = () => {
-        this.state.toast.show({ severity: 'info', summary: 'Confirmado', detail: 'Criar Colaborador Confirmado', life: 3000 });
+        this.state.toast.show({ severity: 'info', summary: 'Confirmado', detail: 'Criar Projeto Confirmado', life: 3000 });
         this.salvarProjeto();
     };
 
     reject = () => {
-        this.state.toast.show({ severity: 'warn', summary: 'Regeitado', detail: 'Colaborador Não Criado', life: 3000 });
+        this.state.toast.show({ severity: 'warn', summary: 'Regeitado', detail: 'Projeto Não Criado', life: 3000 });
     };
     
     render(){

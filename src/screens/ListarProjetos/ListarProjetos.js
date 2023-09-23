@@ -1,5 +1,8 @@
 import React from "react";
+import { Toast } from 'primereact/toast';
+
 import axios from 'axios';
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 
 import { InputText } from "primereact/inputtext";
 import { BreadCrumb } from 'primereact/breadcrumb';
@@ -31,7 +34,8 @@ export default class ListarProjetos extends React.Component{
             {filtro:'CONCLUIDO'},
             {filtro:'CANCELADO'}
         ],
-        filtroProjeto:{filtro:''}
+        filtroProjeto:{filtro:''},
+        projetoId:''
        
     }
     
@@ -107,11 +111,73 @@ export default class ListarProjetos extends React.Component{
         this.setState({projetos:this.state.projetosAuxiliar})
 
     }
+
+    delete = (projetoId) =>{
+        this.service.delete(projetoId)
+            .then(async (response) =>{
+                this.state.toast.show({ severity: 'success', summary: 'Sucesso', detail: 'Projeto Excluido Com Sucesso' });
+                await this.delay(2000);
+               window.location.reload();
+            }).catch(error =>{
+                this.state.toast.show({ severity: 'error', summary: 'Erro', detail: 'Erro ao Excluir o Projeto' });
+            })
+    }
+
+    delay = (ms) => {
+        return new Promise(resolve => setTimeout(resolve, ms));
+      };
+
+    accept = () => {
+        this.state.toast.show({ severity: 'info', summary: 'Confirmado', detail: 'Deletar Projeto Confirmado', life: 3000 });
+        this.delete(this.state.projetoId);
+    };
+
+    reject = () => {
+        this.state.toast.show({ severity: 'warn', summary: 'Regeitado', detail: 'Projeto Não Deletado', life: 3000 });
+    };
+
+    confirm = async (projetoId) => {
+        this.setState({projetoId: projetoId})
+        //const a = document.getElementsByClassName('p-button p-component p-confirm-dialog-reject p-button-text')
+        let msg = '';
+        this.state.projetos.forEach(element => {
+            if(element.id === projetoId){
+                if(element.status !== 'CANCELADO'){
+                    msg = 'Esse projeto sera Cancelado, para Excluir precione o  Botão Novamente'
+                }else{
+                    msg = 'Você realmente deseja Deletar esse Projeto?'
+                }
+            }
+        });
+        
+        confirmDialog({
+            
+            message: msg,
+            icon: 'pi pi-info-circle',
+            acceptClassName: 'p-button-danger',
+            
+            accept:this.accept,
+            reject:this.reject,
+            
+        });
+        await this.delay(10);
+        document.getElementsByClassName('p-button-label')[9].textContent = "Sim"
+        document.getElementsByClassName('p-button-label')[8].textContent = "Não"
+    };
+    
     render(){
 
         return(
         
             <div className="container">
+                <Toast ref={(el) => (this.state.toast = el)} />
+
+                <ConfirmDialog 
+                  acceptClassName="p-button-success"
+                  rejectClassName="p-button-danger"
+                 acceptLabel="Sim"
+                 rejectLabel="Não"/>
+
                 <div className="header">
                     <div>
                         <BreadCrumb id="breadCrumb" model={this.state.items} home={this.state.home} />
@@ -159,6 +225,8 @@ export default class ListarProjetos extends React.Component{
                     <CardDeProjetos 
                         projetos = {this.state.projetos}
                         listarColaboradores = {this.find}
+                        delete = {this.confirm}
+
                     />
                     
                 </div>

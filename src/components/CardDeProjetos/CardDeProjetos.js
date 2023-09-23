@@ -68,7 +68,9 @@ export default props =>{
                         <BiSolidUserDetail></BiSolidUserDetail>
                     </Button>
 
-                    <Button title="Deletar Projeto" severity="warning" aria-label="Deletar Projeto">
+                    <Button 
+                    onClick={(e) => props.delete(projeto.id)}
+                    title="Deletar Projeto" severity="warning" aria-label="Deletar Projeto">
                         <AiFillDelete></AiFillDelete>
                     </Button>
                 </div>
