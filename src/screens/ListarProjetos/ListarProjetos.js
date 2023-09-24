@@ -73,6 +73,12 @@ export default class ListarProjetos extends React.Component{
 
     find = (id) =>{
         window.location.href = `/colaboradoresProjeto/${id}`;
+        this.state.projetosAuxiliar.forEach(element => {
+            if(element.id === id){
+                console.log(element.colaboradores, 'coalboradores do projeto')
+                localStorage.setItem("colaboradoresDoProjeto", JSON.stringify(element.colaboradores));
+            }
+        });
     }
 
 
