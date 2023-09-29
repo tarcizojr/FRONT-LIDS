@@ -58,7 +58,8 @@ export default props =>{
                 </div>
 
                 <div className="card-butons">
-                    <Button title="Editar Projet" severity="warning" aria-label="Editar Projet">
+                    <Button title="Editar Projet" severity="warning" aria-label="Editar Projet"
+                    onClick={(e) => props.editar(projeto.id)}>
                         <AiFillEdit></AiFillEdit>
                     </Button>
 

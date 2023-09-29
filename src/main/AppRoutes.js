@@ -8,6 +8,7 @@ import Login from "../screens/Login";
 import ListaProjetos from "../screens/ListarProjetos/ListarProjetos";
 import CriarProjeto from "../screens/CriarProjeto/CriarProjeto";
 import ListarColaboradoresDoProjeto from "../screens/ListarColaboradoresDoProjeto/ListarColaboradoresDoProjeto"
+import EditarProjeto from "../screens/EditarProjeto/EditarProjeto";
 
 import ListarColaboradores from "../screens/ListarColaboradores/ListarColaboradores";
 import CriarColaborador from "../screens/CriarColaborador/CriarColaborador";
@@ -24,6 +25,7 @@ function AppRouts(){
                 <Route element={<ListaProjetos/>} path="/projetos"></Route>
                 <Route element={<CriarProjeto/>} path="/criarProjeto"></Route>
                 <Route element={<ListarColaboradoresDoProjeto/>} path="/colaboradoresProjeto/:id"></Route>
+                <Route element={<EditarProjeto/>} path="/editarProjeto/:id"></Route>
 
 
 

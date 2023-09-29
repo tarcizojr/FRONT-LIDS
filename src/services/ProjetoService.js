@@ -25,7 +25,7 @@ export default class ColaboradorService extends ApiService{
     }
     
     find(id){
-        return this.get(`/${id}`);
+        return this.get(`${id}`);
     }
     
     findAll(){

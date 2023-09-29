@@ -73,6 +73,7 @@ export default class ListarProjetos extends React.Component{
 
     find = (id) =>{
         window.location.href = `/colaboradoresProjeto/${id}`;
+        localStorage.setItem("idDoPorjeto", id)
         this.state.projetosAuxiliar.forEach(element => {
             if(element.id === id){
                 console.log(element.colaboradores, 'coalboradores do projeto')
@@ -170,6 +171,11 @@ export default class ListarProjetos extends React.Component{
         document.getElementsByClassName('p-button-label')[9].textContent = "Sim"
         document.getElementsByClassName('p-button-label')[8].textContent = "Não"
     };
+
+    editar = (projetoId) => {
+        window.location.href = `/editarProjeto/${projetoId}`;    
+        
+    }
     
     render(){
 
@@ -232,7 +238,7 @@ export default class ListarProjetos extends React.Component{
                         projetos = {this.state.projetos}
                         listarColaboradores = {this.find}
                         delete = {this.confirm}
-
+                        editar = {this.editar}
                     />
                     
                 </div>

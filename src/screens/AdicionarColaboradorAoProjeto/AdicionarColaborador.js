@@ -19,7 +19,7 @@ import ApiService from "../../services/ApiService";
 export default class AdicionarColaborador extends React.Component{
     state = {
         items:[{ label: 'Projetos', url:"/projetos" },
-        { label: 'Colaboradores'}, { label: 'Adicionar Colaborador'}],
+        { label: 'Colaboradores', url:`/colaboradoresProjeto/${localStorage.getItem("idDoPorjeto")}`}, { label: 'Adicionar Colaborador'}],
 
         home: {icon: 'pi pi-home ', url: '/' },
 

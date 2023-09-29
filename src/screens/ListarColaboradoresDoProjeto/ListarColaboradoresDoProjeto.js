@@ -8,7 +8,7 @@ export default class ListarColaboradoresDoProjeto extends React.Component{
     
     state = {
         items:[{ label: 'Projetos', url:"/projetos" },
-        { label: 'Colaboradores', url: `colaboradoresProjeto/`}],
+        { label: 'Colaboradores'}],
 
         home: {icon: 'pi pi-home ', url: '/' },
         colaboradores:[{}],
@@ -30,37 +30,19 @@ export default class ListarColaboradoresDoProjeto extends React.Component{
         const id = url.substring(url.lastIndexOf('/') + 1);    
         this.setState({id})
         //this.find(id);
-        this.teste()
+        this.listarColaboradores()
     }
     delay = (ms) => {
         return new Promise(resolve => setTimeout(resolve, ms));
       };
 
-      teste = () =>{
+      listarColaboradores = () =>{
         let colaboradores = localStorage.getItem("colaboradoresDoProjeto")
         console.log(JSON.parse(colaboradores), 'local ')
         this.setState({colaboradores:JSON.parse(colaboradores)})
         this.setState({colaboradoresAuxiliar:JSON.parse(colaboradores)})
       }
-    find = async (id) => {      
-       // localStorage.setItem("teste", "funcionou");  
-       console.log(id, 'id')
-        this.service.find(`${2}`)
-            .then(response => {
-                const colaboradores = response.data.colaboradores;
-                let a = localStorage.getItem("colaboradoresDoProjeto")
-                console.log(JSON.parse(a), 'local ')
-                this.setState({colaboradores})
-                this.setState({colaboradoresAuxiliar:colaboradores})
-                
-            }
-            ).catch(error => {
-              //  console.log(error.response);
-            }
-            );
-        await this.delay(2000);
-        this.adicionarAoLocal()
-    }
+
 
 
 
