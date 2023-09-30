@@ -21,20 +21,17 @@ export default props =>{
           );
         } 
         else {
-            const dataInicioString = projeto.dataInicio;
             const dataFimString = projeto.dataTermino;
             
-            // Divida as datas em partes usando "-" como separador e inverta a ordem para "yyyy-mm-dd"
-            const partesDataInicio = dataInicioString.split('-');
-            const partesDataFim = dataFimString.split('-');
-            const dataInicio = new Date(partesDataInicio[2], partesDataInicio[1] - 1, partesDataInicio[0]); // Subtrai 1 do mês porque os meses em JavaScript são baseados em zero
-            const dataFim = new Date(partesDataFim[2], partesDataFim[1] - 1, partesDataFim[0]);
-            
+                        
+//---------------
+            let dataFim = new Date(dataFimString);
+            let dataAtual = new Date();
             // Calcule a diferença em milissegundos
-            const diferencaEmMilissegundos = dataFim - dataInicio;
-            
+            const diferencaEmMilissegundos = dataFim - dataAtual;
             // Converta a diferença para dias
             const diasRestantes = Math.ceil(diferencaEmMilissegundos / (1000 * 60 * 60 * 24));
+
            
           card = (
             <div className="card">

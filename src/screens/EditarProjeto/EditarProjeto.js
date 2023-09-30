@@ -29,6 +29,7 @@ export default class EditarProjeto extends React.Component{
         objetivo:'',
         dataInicio:'',
         dataFim:'',
+        status:'',
 
         toast:'',
 
@@ -37,13 +38,15 @@ export default class EditarProjeto extends React.Component{
         errorObjetivo:'',
         errorDataInicio:'',
         errorDataFim:'',
-        errorTipo:''
+        errorTipo:'',
+        id:''
     }
 
     componentDidMount(){
         const url = window.location.href;
         const id = url.substring(url.lastIndexOf('/') + 1);
         this.findByid(id)
+        this.setState({id})
     }
 
     constructor(){
@@ -51,25 +54,72 @@ export default class EditarProjeto extends React.Component{
         this.service = new ProjetoService();
     }
 
-    findByid = (id) =>{
-        this.service.find(`/${id}`)
-            .then(response =>{
+    findByid = async (id) =>{
+        let projeto1 = await  localStorage.getItem("projetoParaEditar");
+        
+        let projeto = JSON.parse(projeto1)
+        console.log(projeto,'projeto')
+        this.setState({nomeDoProjeto:projeto.titulo})
+        this.setState({objetivo:projeto.descricao})
+        this.setState({tipo:{tipo:projeto.tipo}})
+        this.setState({status:projeto.status})
 
-                console.log(response.data.descricao.length, 'editar projeto')
-               this.setState({nomeDoProjeto:response.data.titulo})
-               this.setState({objetivo:response.data.descricao})
-               this.setState({tipo:{tipo:response.data.tipo}})
+        
+        const partesDaData = projeto.dataInicio.split('-');
+        const dataInicioFormatada = `${partesDaData[2]}-${partesDaData[1]}-${partesDaData[0]}`
+        this.setState({dataInicio:dataInicioFormatada})
 
+        const partesDaDataFIM = projeto.dataTermino.split('-');
+        const dataFimFormatada = `${partesDaDataFIM[2]}-${partesDaDataFIM[1]}-${partesDaDataFIM[0]}`
+        this.setState({dataFim:dataFimFormatada})
+        
+        // this.service.find(`/${id}`)
+        //     .then(response =>{
+        //         console.log(response.data)
+        //        this.setState({nomeDoProjeto:response.data.titulo})
+        //        this.setState({objetivo:response.data.descricao})
+        //        this.setState({tipo:{tipo:response.data.tipo}})
+        //         this.setState({status:response.data.status})
+        //        const partesDaData = response.data.dataInicio.split('-');
+        //        const dataInicioFormatada = `${partesDaData[2]}-${partesDaData[1]}-${partesDaData[0]}`
+        //        this.setState({dataInicio:dataInicioFormatada})
 
-            })
-            .catch(error =>{
-                console.log(error)
-            })
+        //        const partesDaDataFIM = response.data.dataTermino.split('-');
+        //        const dataFimFormatada = `${partesDaDataFIM[2]}-${partesDaDataFIM[1]}-${partesDaDataFIM[0]}`
+        //        this.setState({dataFim:dataFimFormatada})
+
+        //     })
+        //     .catch(error =>{
+        //         console.log(error)
+        //     })
     }
 
-    editar  = async () =>{        
+    editar  = async () =>{    
+        const dataOriginalInicio = this.state.dataInicio;
+        const dataI = new Date(dataOriginalInicio);
+        const diaI = dataI.getDate() + 1;
+        const mesI = dataI.getMonth() + 1;
+        const anoI = dataI.getFullYear();
+        const dataInicioFormatada = `${diaI.toString().padStart(2, '0')}-${mesI.toString().padStart(2, '0')}-${anoI.toString().padStart(2, '0')}`;
+
+
+        const dataOriginalFim = this.state.dataFim;
+        const dataF = new Date(dataOriginalFim);
+        const diaF = dataF.getDate() + 1;
+        const mesF = dataF.getMonth() + 1;
+        const anoF = dataF.getFullYear();
+        const dataFimFormatada = `${diaF.toString().padStart(2, '0')}-${mesF.toString().padStart(2, '0')}-${anoF.toString().padStart(2, '0')}`;
+
+        console.log(`dataI ${dataInicioFormatada} dataF ${dataFimFormatada}`)
+
+        const sem = this.state.tipo.tipo.normalize('NFD').replace(/[\u0300-\u036f]/g, "")    
         await this.service.update(this.state.id,{
-            
+            "titulo": this.state.nomeDoProjeto,
+            "tipo" : sem,
+            "descricao" : this.state.objetivo,
+            "status":this.state.status,
+            "dataInicio":dataInicioFormatada,
+            "dataTermino":dataFimFormatada
         }).then(async (response) =>{
             this.state.toast.show({ severity: 'success', summary: 'Sucesso', detail: 'Projeto Editado Com Sucesso' });
             
@@ -84,6 +134,12 @@ export default class EditarProjeto extends React.Component{
                 console.log(error)
             })
         }
+
+        
+    delay = (ms) => {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    };
+
 
         validar = () =>{
             console.log(this.state.dataInicio,"nome no validar")
@@ -204,7 +260,7 @@ export default class EditarProjeto extends React.Component{
     
         accept = () => {
             this.state.toast.show({ severity: 'info', summary: 'Confirmado', detail: 'Criar Projeto Confirmado', life: 3000 });
-            this.salvarProjeto();
+            this.editar();
         };
     
         reject = () => {

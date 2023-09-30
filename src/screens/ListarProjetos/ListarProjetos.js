@@ -173,6 +173,11 @@ export default class ListarProjetos extends React.Component{
     };
 
     editar = (projetoId) => {
+        this.state.projetos.forEach(element => {
+            if(element.id === projetoId){
+                localStorage.setItem("projetoParaEditar", JSON.stringify(element))
+            }
+        });
         window.location.href = `/editarProjeto/${projetoId}`;    
         
     }
