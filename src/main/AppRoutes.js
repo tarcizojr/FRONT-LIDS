@@ -15,6 +15,11 @@ import CriarColaborador from "../screens/CriarColaborador/CriarColaborador";
 import EditarColaborador from "../screens/EditarColaborador/EditarColaborador";
 import AdicionarColaborador from "../screens/AdicionarColaboradorAoProjeto/AdicionarColaborador";
 
+
+import CriarEquipamento from "../screens/CriarEquipamento/CriarEquipamento";
+
+
+
 function AppRouts(){
     return(
         <Router>
@@ -34,6 +39,9 @@ function AppRouts(){
                 <Route element={<EditarColaborador/>} path="/editarColaborador/:id"></Route>
                 
                 <Route element={<AdicionarColaborador/>} path="/adicionarColaboradorAoProjeto/:id"></Route>
+
+
+                <Route element={<CriarEquipamento/>} path="/criarEquipamentos"></Route>
 
            </Routes>
         </Router>

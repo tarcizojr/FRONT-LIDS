@@ -61,7 +61,7 @@ export default class ApiService {
     }
     
     async autenticado(){
-        let url = 'http://localhost:8080/api/altenticado';
+        let url = 'http://localhost:8080/api/autenticado';
         const response = await httpCliente.get(url);
         console.log(response.data, 'Autenticado')
         if(response.data === false){
@@ -72,5 +72,15 @@ export default class ApiService {
 
     buildUrl(url){
         return `${this.endpoint}${url}`;
+    }
+
+    async sair(){
+        let url = 'http://localhost:8080/api/sair';
+        const response = await httpCliente.get(url);
+         console.log(response.data, 'sari')
+        // if(response.data === false){
+        //     window.location.href = `/login`;
+        // }
+        // return response.data;
     }
 }
