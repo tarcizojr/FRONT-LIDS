@@ -17,7 +17,7 @@ import AdicionarColaborador from "../screens/AdicionarColaboradorAoProjeto/Adici
 
 
 import CriarEquipamento from "../screens/CriarEquipamento/CriarEquipamento";
-
+import ListarEquipamentos from "../screens/ListarEquipamento/ListarEquipamentos";
 
 
 function AppRouts(){
@@ -42,6 +42,8 @@ function AppRouts(){
 
 
                 <Route element={<CriarEquipamento/>} path="/criarEquipamentos"></Route>
+                <Route element={<ListarEquipamentos/>} path="/equipamentos"></Route>
+
 
            </Routes>
         </Router>

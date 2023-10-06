@@ -66,7 +66,7 @@ export default class ListarProjetos extends React.Component{
                 
             }
             ).catch(error => {
-              //  console.log(error.response);
+                console.log(error.response);
             }
             );
     }

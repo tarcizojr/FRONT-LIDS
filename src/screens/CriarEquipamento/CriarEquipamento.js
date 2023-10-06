@@ -7,6 +7,9 @@ import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 import { Dropdown } from "primereact/dropdown";
 import "./CriarEquipamento.css";
+import EquipamentoService from "../../services/EquipamentoService";
+import ComputadorService from "../../services/ComputadorService";
+
 export default class CriarEquipamento extends React.Component {
   state = {
     items: [
@@ -39,8 +42,8 @@ export default class CriarEquipamento extends React.Component {
     capacidade: "",
 
     erroNome: "",
-    erroCodigo: "",
-    erroDescricao: "",
+    errorCodigo: "",
+    errorDescricao: "",
     errorTipo: "",
     errorTipoDaMaquina: "",
     errorMarca: "",
@@ -51,6 +54,11 @@ export default class CriarEquipamento extends React.Component {
     errorCapacidade: "",
   };
 
+  constructor(){
+    super()
+    this.service = new EquipamentoService();
+    this.serviceC = new ComputadorService();
+  }
 
 
   selecaoEquipamento = (e) => {
@@ -89,7 +97,106 @@ export default class CriarEquipamento extends React.Component {
     this.setState({ errorCapacidade: "" });
 
 
+    //Pre Validação de Nome
+    if(this.state.nome === ''){
+      disparo ++;
+      let a = document.getElementById('nome');
+      a.classList.add('p-invalid');
+      this.setState({errorNome: frasePadrao})
+      
+    }
 
+  //Pre Validação de Codigo
+  if(this.state.codigo === ''){
+    disparo ++;
+    let a = document.getElementById('codigo');
+    a.classList.add('p-invalid');
+    this.setState({errorCodigo: frasePadrao})
+    
+  }
+
+  //Pre Validação de Codigo
+  if(this.state.descricao === ''){
+    disparo ++;
+    let a = document.getElementById('descricao');
+    a.classList.add('p-invalid');
+    this.setState({errorDescricao: frasePadrao})
+    
+  }
+
+  if(this.state.tipo.tipo === "COMPUTADOR"){
+     //Pre Validação de Tipo da Maquina
+    if(this.state.tipoDaMaquina.tipo === ''){
+      disparo ++;
+      let a = document.getElementsByClassName('seletor-tipo-maquina');
+      a[0].classList.add('p-invalid');
+      this.setState({errorTipoDaMaquina: frasePadrao})
+      
+    }
+
+    //Pre Validação de Marca
+    if(this.state.marca === ''){
+      disparo ++;
+      let a = document.getElementById('marca');
+      a.classList.add('p-invalid');
+      this.setState({errorMarca: frasePadrao})
+      
+    }
+
+    //Pre Validação de Modelo
+    if(this.state.modelo === ''){
+      disparo ++;
+      let a = document.getElementById('modelo');
+      a.classList.add('p-invalid');
+      this.setState({errorModelo: frasePadrao})
+      
+    }
+
+    //Pre Validação de Memoria
+    if(this.state.memoria.tipo === ''){
+      disparo ++;
+      let a = document.getElementsByClassName('seletor-tipo-memoria');
+      a[0].classList.add('p-invalid');
+      this.setState({errorMemoria: frasePadrao})
+      
+    }
+
+    //Pre Validação de Tamanho
+    if(this.state.tamanho === ''){
+      disparo ++;
+      let a = document.getElementById('tamanho');
+      a.classList.add('p-invalid');
+      this.setState({errorTamanho: frasePadrao})
+      
+    }
+
+    //Pre Validação de Processador
+    if(this.state.processador === ''){
+      disparo ++;
+      let a = document.getElementById('processador');
+      a.classList.add('p-invalid');
+      this.setState({errorProcessador: frasePadrao})
+      
+    }
+
+    //Pre Validação de Armazenamento
+    if(this.state.armazenamento.tipo === ''){
+      disparo ++;
+      let a = document.getElementsByClassName('seletor-tipo-armazenamento');
+      a[0].classList.add('p-invalid');
+      this.setState({errorArmazenamento: frasePadrao})
+      
+    }
+
+    //Pre Validação de Capacidade
+    if(this.state.capacidade === ''){
+      disparo ++;
+      let a = document.getElementById('capacidade');
+      a.classList.add('p-invalid');
+      this.setState({errorCapacidade: frasePadrao})
+      
+    }
+  }
 
 
 
@@ -106,17 +213,22 @@ export default class CriarEquipamento extends React.Component {
     const a = document.getElementsByClassName(
       "p-button p-component p-confirm-dialog-reject p-button-text"
     );
+    let n = 'Computador'
+    if(this.state.tipo.tipo === "EQUIPAMENTO"){
+      n = "Equipamento"
+    }
     confirmDialog({
-      message: "Você Realmente quer Criar esse Projeto?",
+      
+      message: `Você Realmente quer Criar esse ${n}?`,
       icon: "pi pi-info-circle",
       acceptClassName: "p-button-danger",
 
       accept: this.accept,
       reject: this.reject,
     });
-    await this.delay(15);
-    document.getElementsByClassName("p-button-label")[7].textContent = "Sim";
-    document.getElementsByClassName("p-button-label")[6].textContent = "Não";
+    await this.delay(20);
+    document.getElementsByClassName("p-button-label")[8].textContent = "Sim";
+    document.getElementsByClassName("p-button-label")[7].textContent = "Não";
   };
 
   accept = () => {
@@ -126,7 +238,12 @@ export default class CriarEquipamento extends React.Component {
       detail: "Criar Equipamento Confirmado",
       life: 3000,
     });
-    this.salvarProjeto();
+    if(this.state.tipo.tipo === "EQUIPAMENTO"){
+      this.salvarEquipamento();
+    }else{
+      this.salvarComputador();
+    }
+  
   };
 
   reject = () => {
@@ -137,13 +254,78 @@ export default class CriarEquipamento extends React.Component {
       life: 3000,
     });
   };
+
+  salvarEquipamento =() =>{
+    this.service.creat({
+      "codigo": this.state.codigo,
+      "nome": this.state.nome,
+      "descricao": this.state.descricao
+    }).then (async (response) =>{
+
+      this.state.toast.show({ severity: 'success', summary: 'Sucesso', detail: 'Equipamento Criado Com Sucesso' });
+
+     await this.delay(2000);
+     window.location.href = `/equipamentos`;
+  }).catch(async error =>{
+      await console.log(error, 'erro')
+
+      this.state.toast.show({ severity: 'error', summary: 'Erro', detail: 'Erro ao Criado Criar Equipamento' });
+      this.state.toast.show({ severity: 'error', summary: 'Erro', detail: error.response.data });
+  })
+  }
+  salvarComputador =() =>{
+    console.log(`
+    "codigo": ${this.state.codigo},
+    "nome": ${this.state.nome},
+    "descricao": ${this.state.descricao},
+    "tipoDaMaquina": ${this.state.tipoDaMaquina.tipo},
+    "modelo": ${this.state.modelo},
+    "marca": ${this.state.marca},
+    "processador": ${this.state.processador},
+    "tipoMemoria": ${this.state.memoria.tipo},
+    "capacidadeMemoria": ${this.state.tamanho},
+    "tipoArmazenamento": ${this.state.armazenamento.tipo},
+    "capacidadeArmazenamento": ${this.state.capacidade},
+    "tipoDeConexao": "USB, HDMI",
+    "quantidadeMonitores": 1
+
+    `)
+    this.serviceC.creat({
+      "codigo": this.state.codigo,
+      "nome": this.state.nome,
+      "descricao": this.state.descricao,
+      "tipoDaMaquina": this.state.tipoDaMaquina.tipo,
+      "modelo": this.state.modelo,
+      "marca": this.state.marca,
+      "processador": this.state.processador,
+      "tipoMemoria": this.state.memoria.tipo,
+      "capacidadeMemoria": this.state.tamanho,
+      "tipoArmazenamento": this.state.armazenamento.tipo,
+      "capacidadeArmazenamento": this.state.capacidade,
+      "tipoDeConexao": "USB, HDMI",
+      "quantidadeMonitores": 1
+
+      
+    }).then (async (response) =>{
+
+      this.state.toast.show({ severity: 'success', summary: 'Sucesso', detail: 'Equipamento Criado Com Sucesso' });
+
+     await this.delay(2000);
+     window.location.href = `/equipamentos`;
+  }).catch(async error =>{
+      await console.log(error, 'erro')
+
+      this.state.toast.show({ severity: 'error', summary: 'Erro', detail: 'Erro ao Criado Criar Equipamento' });
+      this.state.toast.show({ severity: 'error', summary: 'Erro', detail: error.response.data });
+  })
+  }
   render() {
     return (
       <div className="container">
         <div className="header">
           <Toast ref={(el) => (this.state.toast = el)} />
 
-          <div className="header-criar-projeto">
+          <div className="header-criar-equipamento">
             <BreadCrumb
               id="breadCrumb"
               model={this.state.items}
@@ -188,7 +370,7 @@ export default class CriarEquipamento extends React.Component {
 
           <div className="input-dois">
             <label id="codigo-label" htmlFor="codigo">
-              Endereço
+              Codigo
             </label>
             <InputText
               id="codigo"
@@ -250,6 +432,7 @@ export default class CriarEquipamento extends React.Component {
           <div className="input-dois seletor">
             <Dropdown
               disabled={this.state.desativado}
+              className="seletor-tipo-maquina"
               id="seletor-tipo"
               value={this.state.tipoDaMaquina}
               onChange={(e) =>
@@ -313,6 +496,7 @@ export default class CriarEquipamento extends React.Component {
           <div className="input-dois seletor">
             <Dropdown
               disabled={this.state.desativado}
+              className="seletor-tipo-memoria"
               id="seletor-tipo"
               value={this.state.memoria}
               onChange={(e) =>
@@ -376,6 +560,7 @@ export default class CriarEquipamento extends React.Component {
           <div className="input-dois seletor">
             <Dropdown
               disabled={this.state.desativado}
+              className="seletor-tipo-armazenamento"
               id="seletor-tipo"
               value={this.state.armazenamento}
               onChange={(e) =>
