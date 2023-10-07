@@ -1,0 +1,24 @@
+.left-equipamento .nome{
+    color: #F59E0B;
+    font-weight: bold;
+    font-size: 4vh;
+}
+
+.left-equipamento .codigo{
+    color: rgba(0, 0, 0, 0.807);
+    font-weight: bold;
+    font-size: 4vh;
+}
+
+.left-equipamento .nome-codigo{
+    display: flex;
+}
+
+.left-equipamento .modelo-marca{
+    color: rgba(0, 0, 0, 0.807);
+    font-size: 3vh;
+}
+
+#descricao{
+    display: block;
+}

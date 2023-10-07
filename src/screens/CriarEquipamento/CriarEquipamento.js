@@ -28,7 +28,7 @@ export default class CriarEquipamento extends React.Component {
     memorias: [{ tipo: "DDR1" }, { tipo: "DDR2" }],
     memoria: { tipo: "" },
 
-    armazenamentos: [{ tipo: "DDR1" }, { tipo: "DDR2" }],
+    armazenamentos: [{ tipo: "SSD" }, { tipo: "HD" }],
     armazenamento: { tipo: "" },
     desativado: true,
 
@@ -85,9 +85,9 @@ export default class CriarEquipamento extends React.Component {
     let frasePadrao = "Esse Campo é Obrigatorio";
     let disparo = 0;
 
-    this.setState({ erroNome: "" });
-    this.setState({ erroCodigo: "" });
-    this.setState({ erroDescricao: "" });
+    this.setState({ errorNome: "" });
+    this.setState({ errorCodigo: "" });
+    this.setState({ errorDescricao: "" });
     this.setState({ errorTipo: "" });
     this.setState({ errorMarca: "" });
     this.setState({ errorModelo: "" });
@@ -95,6 +95,13 @@ export default class CriarEquipamento extends React.Component {
     this.setState({ errorProcessador: "" });
     this.setState({ errorArmazenamento: "" });
     this.setState({ errorCapacidade: "" });
+    
+    // document.getElementById('nome').classList.remove('p-invalid')
+    // document.getElementById('codigo').classList.remove('p-invalid')
+    // document.getElementById('descricao').classList.remove('p-invalid')
+    // let a = document.getElementsByClassName('seletor-tipo-maquina')
+    // a[0].classList.add('p-invalid');
+    // document.getElementById('capacidade').classList.remove('p-invalid')
 
 
     //Pre Validação de Nome
@@ -105,6 +112,21 @@ export default class CriarEquipamento extends React.Component {
       this.setState({errorNome: frasePadrao})
       
     }
+    else if(this.state.nome.length <=3 ){
+      disparo ++;
+      let a = document.getElementById('nome');
+      a.classList.add('p-invalid');
+      this.setState({errorNome: 'O nome deve ser maior'})
+      
+    }
+    else if(this.state.nome.length >=15 ){
+      disparo ++;
+      let a = document.getElementById('nome');
+      a.classList.add('p-invalid');
+      this.setState({errorNome: 'O nome deve ser menor'})
+      
+    }
+
 
   //Pre Validação de Codigo
   if(this.state.codigo === ''){
@@ -112,6 +134,13 @@ export default class CriarEquipamento extends React.Component {
     let a = document.getElementById('codigo');
     a.classList.add('p-invalid');
     this.setState({errorCodigo: frasePadrao})
+    
+  }
+  else if(this.state.codigo.length > 3 || this.state.codigo.length <3){
+    disparo ++;
+    let a = document.getElementById('codigo');
+    a.classList.add('p-invalid');
+    this.setState({errorCodigo: 'O Codigo deve Conter Exatamente 3 Caracteres'})
     
   }
 
@@ -122,7 +151,20 @@ export default class CriarEquipamento extends React.Component {
     a.classList.add('p-invalid');
     this.setState({errorDescricao: frasePadrao})
     
+  }else if(this.state.descricao.length <=3){
+    disparo ++;
+    let a = document.getElementById('descricao');
+    a.classList.add('p-invalid');
+    this.setState({errorDescricao: 'Descrição deve ser Maior'})
+    
+  }else if(this.state.descricao.length >=21){
+    disparo ++;
+    let a = document.getElementById('descricao');
+    a.classList.add('p-invalid');
+    this.setState({errorDescricao: 'Descrição deve ser Menor'})
+    
   }
+
 
   if(this.state.tipo.tipo === "COMPUTADOR"){
      //Pre Validação de Tipo da Maquina
@@ -141,6 +183,19 @@ export default class CriarEquipamento extends React.Component {
       a.classList.add('p-invalid');
       this.setState({errorMarca: frasePadrao})
       
+    }else if(this.state.marca.length < 2){
+      disparo ++;
+      let a = document.getElementById('marca');
+      a.classList.add('p-invalid');
+      this.setState({errorMarca: "Marca muito Pequena"})
+      
+    }
+    else if(this.state.marca.length >= 10){
+      disparo ++;
+      let a = document.getElementById('marca');
+      a.classList.add('p-invalid');
+      this.setState({errorMarca: "Marca muito Grande"})
+      
     }
 
     //Pre Validação de Modelo
@@ -149,6 +204,19 @@ export default class CriarEquipamento extends React.Component {
       let a = document.getElementById('modelo');
       a.classList.add('p-invalid');
       this.setState({errorModelo: frasePadrao})
+      
+    }else if(this.state.modelo.length <=3){
+      disparo ++;
+      let a = document.getElementById('modelo');
+      a.classList.add('p-invalid');
+      this.setState({errorModelo: "Melo Muito Pequeno"})
+      
+    }
+    else if(this.state.modelo.length >=15){
+      disparo ++;
+      let a = document.getElementById('modelo');
+      a.classList.add('p-invalid');
+      this.setState({errorModelo: "Melo Muito Grande"})
       
     }
 
@@ -177,7 +245,14 @@ export default class CriarEquipamento extends React.Component {
       a.classList.add('p-invalid');
       this.setState({errorProcessador: frasePadrao})
       
+    }else if(this.state.processador <= 3){
+      disparo ++;
+      let a = document.getElementById('processador');
+      a.classList.add('p-invalid');
+      this.setState({errorProcessador: "Modelo do Processador Muito Pequeno"})
+      
     }
+
 
     //Pre Validação de Armazenamento
     if(this.state.armazenamento.tipo === ''){
