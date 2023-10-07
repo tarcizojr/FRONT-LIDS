@@ -8,25 +8,22 @@ import MenuItem from './MenuItem';
 import { AiOutlineLogout } from "react-icons/ai";
 import ApiService from '../../services/ApiService';
 
+
 // eslint-disable-next-line import/no-anonymous-default-export
 export default class  extends React.Component{
     
-     constructor(){
+    constructor() {
         super();
-        this.service = new ApiService();
-        
+        this.service = null; // Inicializa com null
     }
-
     
-    async sair(){
-        if (this.service) {
-            // Certifique-se de que this.service está definido antes de chamá-lo
-            await this.service.sair();
-        } else {
-            console.error('O serviço não foi inicializado corretamente.');
-            // Trate a situação de serviço não inicializado conforme necessário
-        }
-        
+    async componentDidMount() {
+        this.service = new ApiService(); // Inicializa no componentDidMount
+    }
+    
+    async sair() {
+        window.location.href = 'http://localhost:8080/api/sair';
+    
     }
 
     render(){
@@ -53,7 +50,7 @@ export default class  extends React.Component{
                 <Button id='bt' label="PONTOS" severity="secondary" text />
                 <MenuItem href='/equipamentos' label='EQUIPAMENTOS'></MenuItem>
 
-                <Button onClick={this.sair} label='sair'>
+                <Button id='sair' onClick={this.sair} label=''>
                     <AiOutlineLogout></AiOutlineLogout>
                 </Button>
 
