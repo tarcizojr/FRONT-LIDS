@@ -301,7 +301,7 @@ export default class CriarEquipamento extends React.Component {
       accept: this.accept,
       reject: this.reject,
     });
-    await this.delay(20);
+    await this.delay(25);
     document.getElementsByClassName("p-button-label")[8].textContent = "Sim";
     document.getElementsByClassName("p-button-label")[7].textContent = "Não";
   };

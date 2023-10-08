@@ -242,7 +242,7 @@ export default class CriarColaborador extends React.Component{
             reject:this.reject,
 
         });
-        await this.delay(10);
+        await this.delay(25);
         document.getElementsByClassName('p-button-label')[7].textContent = "Sim"
         document.getElementsByClassName('p-button-label')[6].textContent = "Não"
 
