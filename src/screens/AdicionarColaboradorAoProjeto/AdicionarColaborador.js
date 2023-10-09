@@ -209,11 +209,13 @@ export default class AdicionarColaborador extends React.Component{
             
             accept:this.accept,
             reject:this.reject,
+            acceptLabel: "Sim",
+            rejectLabel: "Não",
             
         });
-        await this.delay(10);
-        document.getElementsByClassName('p-button-label')[9].textContent = "Sim"
-        document.getElementsByClassName('p-button-label')[8].textContent = "Não"
+        // await this.delay(10);
+        // document.getElementsByClassName('p-button-label')[9].textContent = "Sim"
+        // document.getElementsByClassName('p-button-label')[8].textContent = "Não"
     };
 
     render(){
