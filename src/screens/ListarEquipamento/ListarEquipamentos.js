@@ -41,6 +41,16 @@ export default class ListarColaboradores extends React.Component{
        
     }
 
+    editar = (equipamentoId) => {
+        this.state.equipamentos.forEach(element => {
+            if(element.id===equipamentoId){
+                localStorage.setItem("equipamentoEditar", JSON.stringify(element))
+            }
+        });
+        window.location.href = `/editarEquipamento/${equipamentoId}`; 
+        
+    }
+
     findAll = () => {        
         this.service.get('/all')
             .then(response => {

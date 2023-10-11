@@ -231,6 +231,7 @@ export default class CriarColaborador extends React.Component{
     }
     // Po up para velidar se realmente deseja criar o colaborador
     confirm = async () => {
+
         const a = document.getElementsByClassName('p-button p-component p-confirm-dialog-reject p-button-text')
         confirmDialog({
 

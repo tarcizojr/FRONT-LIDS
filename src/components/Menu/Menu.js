@@ -47,7 +47,7 @@ export default class  extends React.Component{
                 <MenuItem href='/colaboradores' label='COLABORADORES'></MenuItem>
 
                 <Button id='bt' label="ÁREAS DE TRABALHO" severity="secondary" text />
-                <Button id='bt' label="PONTOS" severity="secondary" text />
+                <MenuItem href='/pontos' label='PONTOS'></MenuItem>
                 <MenuItem href='/equipamentos' label='EQUIPAMENTOS'></MenuItem>
 
                 <Button id='sair' onClick={this.sair} label=''>

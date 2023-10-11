@@ -84,6 +84,11 @@ export default class ListarProjetos extends React.Component{
 
 
     filtro = async () =>{
+        if(navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(function(p){
+                console.log(p,"local")
+            })
+        }
         
         const { nomeParaFiltro, filtroProjeto, projetosAuxiliar } = this.state;
         let projetosFiltrados = [...projetosAuxiliar];
