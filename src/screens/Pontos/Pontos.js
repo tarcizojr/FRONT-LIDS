@@ -1,6 +1,7 @@
 import React from "react";
 import { Toast } from 'primereact/toast';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
+import { AiFillClockCircle, AiFillEnvironment } from "react-icons/ai";
 import { InputText } from "primereact/inputtext";
 import { BreadCrumb } from 'primereact/breadcrumb';
 import { Dropdown } from 'primereact/dropdown';
@@ -12,32 +13,51 @@ export default class ListarProjetos extends React.Component{
     state = {
         
         home: {icon: 'pi pi-home ', url: '/' },
-    
+        hora: new Date(),
+        cidade:''
     
     }
     componentDidMount = async() =>{
         await this.obterNomeCidade();
+        this.intervalId = setInterval(this.atualizarHorario, 60000);
+
     }
+    
+    componentWillUnmount() {
+      clearInterval(this.intervalId);
+    }
+
+    atualizarHorario = () =>{
+      let h = new Date()
+      this.setState({hora:h})
+    }
+  
+
      obterNomeCidade= async () => {
-        // Verifica se o navegador suporta geolocalização
         if ("geolocation" in navigator) {
           navigator.geolocation.getCurrentPosition(async (position) => {
             const { latitude, longitude } = position.coords;
       
-            // Substitua 'SUA_CHAVE_API' pela sua chave de API do OpenCage Geocoding
+           
             const apiKey = '69be4c2c8c0147ec96e877e6e7a7997a';
             const apiUrl = await `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${apiKey}`;
       
             try {
               const response = await fetch(apiUrl);
-              const data = await response.json();
-      
-              // Obtém o nome da cidade a partir dos resultados
-              const cidade = data.results[0].components.city;
+              const data = await response.json();      
+              
               let d =  JSON.stringify(data)
-             let c = JSON.parse(d)
+              
+              const indiceInicio = d.indexOf(`"formatted":"`);
+              const indiceFim = d.indexOf(`","geometry"`);
 
-              console.log(`Cidade Atual: ${c}`);
+              const palavraNoMeio = d.substring(indiceInicio + `"formatted":"`.length, indiceFim).trim();
+             
+              const partes = palavraNoMeio.split(',');
+              const cidade = partes[0]+", "+ partes[2]
+              this.setState({cidade:cidade})
+
+              console.log(`Cidade Atual: ${partes[0]} ${partes[2]}`);
             } catch (error) {
               console.error("Erro ao obter informações de geocodificação:", error);
             }
@@ -69,18 +89,41 @@ export default class ListarProjetos extends React.Component{
                        <h2 className="nome-usuario">Ola, Tarcizo</h2>
                        
                     </div>
-    
-                    <div className="bt-add">
-                        <a href="/criarEquipamentos">
-                            <Button severity="warning" label="+" title="Adicionar Equipamento"  raised />
-                        </a>
-    
-                    </div>
+                        
                 </div>
                 <div>
-                    <Card>
-                        <p>Você está em:</p>
+                    <Card className="card">
+                        
+                        <div>
+                          <p className="titulo">Você está em:</p>
+                          <div className="endereco">
+                            <p>{this.state.cidade}</p>
+                            <p className="endereco-icon"><AiFillEnvironment></AiFillEnvironment></p>
+                          </div>
+                        </div>
+
+                        <div>
+                          <p className="titulo">Último Registro:</p>
+                          <div className="horario">
+                            <p>{this.state.hora.getHours()}:{this.state.hora.getMinutes()}</p>
+                            <p className="hora-icon"><AiFillClockCircle></AiFillClockCircle></p>
+                          </div>
+                        </div>
+                        
+                        
                     </Card>
+                    
+                </div>
+
+                <div>
+                    <Card className="card">
+                      <Button severity="warning" label="Histórico de Pontos" title="Histórico de Pontos"  raised />
+                      <Button severity="warning" label="Ajuste de Pontos" title="Ajuste de Pontos"  raised />
+                      <Button severity="warning" label="Pontos em Atraso" title="Pontos em Atraso"  raised />
+                    </Card>
+                </div>
+                <div className="registrar">
+                  <Button severity="warning" label="Registrar Ponto" title="Registrar Ponto"  raised />
                 </div>
             </div>
         )

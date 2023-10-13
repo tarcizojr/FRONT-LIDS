@@ -2,3 +2,52 @@
     color: #F59E0B;
     font-size: 5vh
 }
+
+.card{
+    margin-top: 3vh;
+}
+
+.hora-icon, .endereco-icon{
+    padding: 1vh;
+    border-radius: 1vh;
+    background-color: #F59E0B;
+    color: black;
+    
+}
+
+.horario{
+    display: flex;
+    align-items: center;
+    color: #F59E0B;
+    font-size: 3vh;
+    font-weight: bold;
+}
+
+
+
+.endereco{
+    display: flex;
+    align-items: center;
+    color: #F59E0B;
+    font-size: 3vh;
+    font-weight: bold;
+    
+}
+
+.titulo{
+    color: black;
+    font-weight: 600;
+}
+
+.horario, .endereco{
+    margin-top: 1vh;
+}
+
+.hora-icon, .endereco-icon{
+    margin-left: 1vh;
+}
+
+.registrar{
+    text-align: center;
+    margin-top: 8vh;
+}
