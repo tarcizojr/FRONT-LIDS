@@ -32,6 +32,7 @@ export default class EditarEquipamento extends React.Component {
     armazenamento: { tipo: "" },
     desativado: true,
 
+    id:"",
     nome: "",
     codigo: "",
     descricao: "",
@@ -65,6 +66,7 @@ export default class EditarEquipamento extends React.Component {
     let e = await localStorage.getItem("equipamentoEditar")
    let equipamento = JSON.parse(e)
    console.log(equipamento)
+   this.setState({id:equipamento.id})
    this.setState({nome:equipamento.nome});
    this.setState({codigo:equipamento.codigo});
    this.setState({descricao:equipamento.descricao});
@@ -339,13 +341,13 @@ export default class EditarEquipamento extends React.Component {
     this.state.toast.show({
       severity: "info",
       summary: "Confirmado",
-      detail: "Criar Equipamento Confirmado",
+      detail: "Editar Equipamento Confirmado",
       life: 3000,
     });
     if(this.state.tipo.tipo === "EQUIPAMENTO"){
-      this.salvarEquipamento();
+      this.editarEquipamento();
     }else{
-      this.salvarComputador();
+      this.editarComputador();
     }
   
   };
@@ -359,43 +361,26 @@ export default class EditarEquipamento extends React.Component {
     });
   };
 
-  salvarEquipamento =() =>{
-    this.service.creat({
-      "codigo": this.state.codigo,
+  editarEquipamento = async () =>{
+    await this.service.update(this.state.id,{
       "nome": this.state.nome,
       "descricao": this.state.descricao
     }).then (async (response) =>{
 
-      this.state.toast.show({ severity: 'success', summary: 'Sucesso', detail: 'Equipamento Criado Com Sucesso' });
+      this.state.toast.show({ severity: 'success', summary: 'Sucesso', detail: 'Equipamento Editado Com Sucesso' });
 
      await this.delay(2000);
      window.location.href = `/equipamentos`;
   }).catch(async error =>{
       await console.log(error, 'erro')
 
-      this.state.toast.show({ severity: 'error', summary: 'Erro', detail: 'Erro ao Criado Criar Equipamento' });
+      this.state.toast.show({ severity: 'error', summary: 'Erro', detail: 'Erro ao Editar Equipamento' });
       this.state.toast.show({ severity: 'error', summary: 'Erro', detail: error.response.data });
   })
   }
-  salvarComputador =() =>{
-    console.log(`
-    "codigo": ${this.state.codigo},
-    "nome": ${this.state.nome},
-    "descricao": ${this.state.descricao},
-    "tipoDaMaquina": ${this.state.tipoDaMaquina.tipo},
-    "modelo": ${this.state.modelo},
-    "marca": ${this.state.marca},
-    "processador": ${this.state.processador},
-    "tipoMemoria": ${this.state.memoria.tipo},
-    "capacidadeMemoria": ${this.state.tamanho},
-    "tipoArmazenamento": ${this.state.armazenamento.tipo},
-    "capacidadeArmazenamento": ${this.state.capacidade},
-    "tipoDeConexao": "USB, HDMI",
-    "quantidadeMonitores": 1
+  editarComputador = async () =>{
 
-    `)
-    this.serviceC.creat({
-      "codigo": this.state.codigo,
+    await this.serviceC.update(this.state.id,{
       "nome": this.state.nome,
       "descricao": this.state.descricao,
       "tipoDaMaquina": this.state.tipoDaMaquina.tipo,
@@ -412,14 +397,14 @@ export default class EditarEquipamento extends React.Component {
       
     }).then (async (response) =>{
 
-      this.state.toast.show({ severity: 'success', summary: 'Sucesso', detail: 'Equipamento Criado Com Sucesso' });
+      this.state.toast.show({ severity: 'success', summary: 'Sucesso', detail: 'Equipamento Editado Com Sucesso' });
 
      await this.delay(2000);
      window.location.href = `/equipamentos`;
   }).catch(async error =>{
       await console.log(error, 'erro')
 
-      this.state.toast.show({ severity: 'error', summary: 'Erro', detail: 'Erro ao Criado Criar Equipamento' });
+      this.state.toast.show({ severity: 'error', summary: 'Erro', detail: 'Erro ao Editar Equipamento' });
       this.state.toast.show({ severity: 'error', summary: 'Erro', detail: error.response.data });
   })
   }
@@ -481,6 +466,7 @@ export default class EditarEquipamento extends React.Component {
               className="borderColorEdit"
               type="text"
               value={this.state.codigo}
+              disabled={true}
               onChange={(e) => {
                 this.setState({ codigo: e.target.value });
               }}
