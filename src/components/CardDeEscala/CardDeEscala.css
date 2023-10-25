@@ -1,0 +1,16 @@
+.escalas{
+    display: contents;
+}
+.escalas .tipo{
+    color: #F59E0B;
+    font-weight: bold;
+    font-size: 4vh;
+}
+
+.escalas .hE{
+    color: rgb(4, 163, 12);
+}
+
+.escalas .hS{
+    color: rgb(179, 7, 7);
+}

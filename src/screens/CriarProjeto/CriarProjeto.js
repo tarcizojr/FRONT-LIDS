@@ -74,8 +74,11 @@ export default class CriarProjeto extends React.Component{
             "titulo": this.state.nomeDoProjeto,
             "tipo" : sem,
             "descricao" : this.state.objetivo,
-            "dataInicio":dataInicioFormatada,
-            "dataTermino":dataFimFormatada
+            "dataInicio":"01-01-2001",
+            "dataTermino":"02-02-2002"
+
+            //"dataInicio":dataInicioFormatada,
+            //"dataTermino":dataFimFormatada
         }).then (async (response) =>{
 
             this.state.toast.show({ severity: 'success', summary: 'Sucesso', detail: 'Projeto Criado Com Sucesso' });

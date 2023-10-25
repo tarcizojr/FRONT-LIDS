@@ -21,6 +21,12 @@ import ListarEquipamentos from "../screens/ListarEquipamento/ListarEquipamentos"
 import EditarEquipamento from "../screens/EditarEquipamento/EditarEquipamento";
 
 import Pontos from "../screens/Pontos/Pontos"
+
+
+import CadastrarDeEscala from "../screens/CadastroDeEscala/CadastroDeEscala";
+import ListarEscalas from "../screens/ListarEscalas/ListarEscalas";
+
+
 function AppRouts(){
     return(
         <Router>
@@ -49,7 +55,8 @@ function AppRouts(){
                <Route element={<Pontos/>} path="/pontos"></Route>
 
 
-
+               <Route element={<CadastrarDeEscala/>} path="/cadastrarEscala"></Route>
+               <Route element={<ListarEscalas/>} path="/escalas"></Route>
            </Routes>
         </Router>
     )
