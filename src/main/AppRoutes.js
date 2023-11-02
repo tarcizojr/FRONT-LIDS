@@ -26,6 +26,10 @@ import Pontos from "../screens/Pontos/Pontos"
 import CadastrarDeEscala from "../screens/CadastroDeEscala/CadastroDeEscala";
 import ListarEscalas from "../screens/ListarEscalas/ListarEscalas";
 
+import ListarAreaDeTrabalho from "../screens/ListarAreaDeTrabalho/ListarAreaDeTrabalho";
+import CriarAreaDeTrabalho from "../screens/CriarAreaDeTrabalho/CriarAreaDeTrabalho";
+import EditarAreaDeTrabalho from "../screens/EditarAreaDeTrabalho/EditarAreaDeTrabalho";
+
 
 function AppRouts(){
     return(
@@ -57,6 +61,12 @@ function AppRouts(){
 
                <Route element={<CadastrarDeEscala/>} path="/cadastrarEscala"></Route>
                <Route element={<ListarEscalas/>} path="/escalas"></Route>
+
+
+               <Route element={<ListarAreaDeTrabalho/>} path="/areasDeTrabalho"></Route>
+               <Route element={<CriarAreaDeTrabalho/>} path="/criarAreaDeTrabalho"></Route>
+               <Route element={<EditarAreaDeTrabalho/>} path="/editarAreaDeTrabalho/:id"></Route>
+
            </Routes>
         </Router>
     )
