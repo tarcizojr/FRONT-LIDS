@@ -11,8 +11,12 @@ export default class AreasService extends ApiService{
         return this.post('', obj)
     }
 
-    addColaborador(obj){
-        return this.post('/addColaborador', obj)
+    addEquipamento(obj){
+        return this.post('/addEquipamento', obj)
+    }
+
+    retirarEquipamento(obj){
+        return this.post('/removerEquipamento', obj)
     }
 
     update(id,obj){
@@ -25,7 +29,7 @@ export default class AreasService extends ApiService{
     }
     
     find(id){
-        return this.get(`${id}`);
+        return this.get(`/${id}`);
     }
     
     findAll(){

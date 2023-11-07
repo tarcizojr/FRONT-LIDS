@@ -7,33 +7,42 @@ import { Dropdown } from 'primereact/dropdown';
 
 
 import { Button } from 'primereact/button';
-import CardAreasDeTrabalho from "../../components/CardAreasDeTrabalho/CardAreasDeTrabalho";
+import CardEquipamentoArea from "../../components/CardEquipamentosArea/CardEquipamentoArea";
 import AreasService from "../../services/AreasService"
-
-export default class ListarAreaDeTrabalho extends React.Component{
+export default class ListarEquipamentosDaArea extends React.Component{
     state = {
-        items:[{ label: 'Areas de Trabalho', url:"/areasDeTrabalho" }],
+        items:[{ label: 'Areas de Trabalho', url:"/areasDeTrabalho" },
+        { label: 'Equipamentos da Area'}],
 
         home: {icon: 'pi pi-home ', url: '/' },
 
-        areas:[],
-        areasAuxiliar:[],
-        areaId:""
+        areas:[],       
+        areaId:"",
+        equipamentos:[],
+        equipamentosArea:[]
 
     }
 
     constructor(){
         super();
         this.service = new AreasService();
-        
+      
+       const url = window.location.href;
+       let id = url.substring(url.lastIndexOf('/') + 1); 
+        console.log(id,"id")
+        this.setState({areaId:id}) 
+
     }
 
     componentDidMount(){
-        //  this.token();             
-          this.findAll();
+        const url = window.location.href;
+        let id = url.substring(url.lastIndexOf('/') + 1); 
+        this.setState({areaId:id})       
+        this.findAll();
           
       }
 
+      
       findAll = () => {        
         this.service.get('/all')
             .then(response => {
@@ -49,66 +58,39 @@ export default class ListarAreaDeTrabalho extends React.Component{
             );
     }
 
-    confirm = async (areaId) => {
-        this.setState({areaId: areaId})
-        //const a = document.getElementsByClassName('p-button p-component p-confirm-dialog-reject p-button-text')
-        confirmDialog({
-          
-            message: 'Você Realmente quer Deletar essa Area de Trabalho?',
-            icon: 'pi pi-info-circle',
-            acceptClassName: 'p-button-danger',
-            
-            accept:this.accept,
-            reject:this.reject,
-            acceptLabel: "Sim",
-            rejectLabel: "Não",
-            
-        });
-        
-    };
+    listagem  = async () =>{
+        const url = window.location.href;
+        let id = url.substring(url.lastIndexOf('/') + 1); 
+      
+        console.log(id, "testeee")
+        window.location.href = `/adicionarEquipamentosArea/${id}`;
+    }
 
-    accept = () => {
-        this.state.toast.show({ severity: 'info', summary: 'Confirmado', detail: 'Deletar Area Confirmado', life: 3000 });
-        this.delete(this.state.areaId);
-    };
+    retirarEquipamento = async (idEquipamento) =>{
+        console.log(idEquipamento, "id")
+        await this.service.retirarEquipamento({
+            "idAreaDeTrabalho":this.state.areaId,
+            "idEquipamento": idEquipamento
+        }).then (async (response) =>{
+            this.state.toast.show({ severity: 'success', summary: 'Sucesso', detail: 'Equipamento Removido Com Sucesso' });
+      
+            await this.delay(2000);
+            const url = window.location.href;
 
-    reject = () => {
-        this.state.toast.show({ severity: 'warn', summary: 'Regeitado', detail: 'Area Não Deletada', life: 3000 });
-    };
+            window.location.href = url;
+
+        }).catch(async error =>{
+            await console.log(error, 'erro')
+      
+            this.state.toast.show({ severity: 'error', summary: 'Erro', detail: 'Erro ao Remover Equipamento' });
+            this.state.toast.show({ severity: 'error', summary: 'Erro', detail: error.response.data });
+        })
+    }
 
     delay = (ms) => {
         return new Promise(resolve => setTimeout(resolve, ms));
     };
-
-    delete = (areaId) =>{
-        this.service.delete(areaId)
-            .then(async (response) =>{
-                this.state.toast.show({ severity: 'success', summary: 'Sucesso', detail: 'Area Excluida Com Sucesso' });
-                await this.delay(2000);
-               window.location.reload();
-            }).catch(error =>{
-                this.state.toast.show({ severity: 'error', summary: 'Erro', detail: 'Erro ao Excluir a Area' });
-            })
-    }
-
-    editar = (areaId) => {
-      
-        
-        window.location.href = `/editarAreaDeTrabalho/${areaId}`; 
-        
-    }
-
-    find = (id) =>{
-        window.location.href = `/equipamentosArea/${id}`;
-        localStorage.setItem("idArea", id)
-        // this.state.areasAuxiliar.forEach(element => {
-        //     if(element.id === id){
-        //         console.log(element.equipamentos, 'equipamentos')
-        //         element.descricao = "Pertence a Area"
-        //         localStorage.setItem("equipamentosArea", JSON.stringify(element.colaboradores));
-        //     }
-        // });
-    }
+    
 
     render(){
 
@@ -156,23 +138,24 @@ export default class ListarAreaDeTrabalho extends React.Component{
                     </div>
     
                     <div className="bt-add">
-                        <a href="/criarAreaDeTrabalho">
+                        <a>
                             <Button label="+" severity="warning" raised 
-                            onClick={this.adicionarProjeto}/>
+                            onClick={this.listagem}
+                           />
                         </a>
     
                     </div>
                 </div>
                 <div className="projetos">
-                    <CardAreasDeTrabalho 
-                        areas = {this.state.areas}
-                        listarEquipamentos = {this.find}
-                        delete = {this.confirm}
-                        editar = {this.editar}
+                    <CardEquipamentoArea 
+                        equipamentos = {this.state.equipamentosArea}
+                       
+                        remover = {this.retirarEquipamento}
+                       // editar = {this.editar}
                     />
                     
                 </div>
             </div>
         )
     }
-}   
+}

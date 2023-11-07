@@ -29,7 +29,8 @@ import ListarEscalas from "../screens/ListarEscalas/ListarEscalas";
 import ListarAreaDeTrabalho from "../screens/ListarAreaDeTrabalho/ListarAreaDeTrabalho";
 import CriarAreaDeTrabalho from "../screens/CriarAreaDeTrabalho/CriarAreaDeTrabalho";
 import EditarAreaDeTrabalho from "../screens/EditarAreaDeTrabalho/EditarAreaDeTrabalho";
-
+import ListarEquipamentosDaArea from "../screens/ListarEquipamentosDaArea/ListarEquipamentosDaArea";
+import AdicionarEquipamentoArea from "../screens/AdicionarEquipamentoArea/AdicionarEquipamentoArea";
 
 function AppRouts(){
     return(
@@ -66,6 +67,8 @@ function AppRouts(){
                <Route element={<ListarAreaDeTrabalho/>} path="/areasDeTrabalho"></Route>
                <Route element={<CriarAreaDeTrabalho/>} path="/criarAreaDeTrabalho"></Route>
                <Route element={<EditarAreaDeTrabalho/>} path="/editarAreaDeTrabalho/:id"></Route>
+               <Route element={<ListarEquipamentosDaArea/>} path="/equipamentosArea/:id"></Route>
+               <Route element={<AdicionarEquipamentoArea/>} path="/adicionarEquipamentosArea/:id"></Route>
 
            </Routes>
         </Router>

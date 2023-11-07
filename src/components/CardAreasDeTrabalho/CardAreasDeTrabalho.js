@@ -4,13 +4,22 @@ import { Button } from 'primereact/button';
 
 import { AiFillDelete, AiFillEdit, AiFillClockCircle } from "react-icons/ai";
 import { BiSolidUserDetail } from "react-icons/bi";
+import { BsFillImageFill } from "react-icons/bs";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default props =>{
 
     let card = '';
+    card = (
+        <div className="card">
+          <div id="status" className="center sem-info">
+            <p>Sem Area Cadatrado</p>
+          </div>
+        </div>
+      );
+      console.log(props, "teste")
     const rows = props.areas.map(area =>{
-       console.log(area)
+       console.log(area, "t4ste")
         if (area.id === "") {
           card = (
             <div className="card">
@@ -26,18 +35,18 @@ export default props =>{
             <div className="card">
             <Card>
                 <div className="left-projeto">
+                    <p >
+                        {area.codigo}
+                    </p>
                     <p className="titulo">
                         {area.nome}
-                    </p>
-                    <p>
-                        {area.codigo}
                     </p>
                    
                 </div>
 
                 <div id="status" className="center">
                     <p>
-                        {area.codigo}
+                        {area.descricao}
                     </p>
                 </div>
 
@@ -48,9 +57,9 @@ export default props =>{
                     </Button>
 
                     <Button
-                    onClick={(e) => props.listarColaboradores(area.id)}
-                    title="Listar Colaboradores" severity="warning" aria-label="Listar Colaboradores">
-                        <BiSolidUserDetail></BiSolidUserDetail>
+                    onClick={(e) => props.listarEquipamentos(area.id)}
+                    title="Listar Equipamentos" severity="warning" aria-label="Listar Equipamentos">
+                        <BsFillImageFill></BsFillImageFill>
                     </Button>
 
                     <Button 

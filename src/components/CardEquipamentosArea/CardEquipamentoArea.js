@@ -1,8 +1,7 @@
 import React from "react";
 import { Card } from 'primereact/card';
-import { AiFillDelete, AiFillEdit, AiFillClockCircle } from "react-icons/ai";
+import { AiFillDelete, AiFillEdit, AiFillMinusSquare } from "react-icons/ai";
 import { Button } from 'primereact/button';
-import './CardEquipamento.css';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default props =>{
@@ -52,7 +51,7 @@ export default props =>{
 
                 <div id="descricao" className="center">
                     <p>
-                        {descricao}
+                        {equipamento.descricao}
                     </p>
                     <p>
                         {equipamento.processador}                        
@@ -66,21 +65,18 @@ export default props =>{
                 </div>
 
                 <div className="card-butons">
-                    <Button title="Editar Projet" severity="warning" aria-label="Editar Projet"
+                    {/* <Button title="Editar Projet" severity="warning" aria-label="Editar Projet"
                     onClick={(e) => props.editar(equipamento.id)}>
                         <AiFillEdit></AiFillEdit>
-                    </Button>
-
-                    {/* <Button
-                    onClick={(e) => props.listarColaboradores(projeto.id)}
-                    title="Listar Colaboradores" severity="warning" aria-label="Listar Colaboradores">
-                        <BiSolidUserDetail></BiSolidUserDetail>
                     </Button> */}
 
+                   
+
                     <Button 
-                    onClick={(e) => props.delete(equipamento.id)}
-                    title="Deletar Projeto" severity="warning" aria-label="Deletar Projeto">
-                        <AiFillDelete></AiFillDelete>
+                    label="-"
+                    onClick={(e) => props.remover(equipamento.id)}
+                    title="Retirar Equiapamento da Area" severity="warning" aria-label="Retirar Equiapamento da Area">
+                        
                     </Button>
                 </div>
             </Card>

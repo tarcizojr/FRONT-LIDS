@@ -11,7 +11,7 @@
 }
 
 .left-equipamento .nome-codigo{
-    display: flex;
+    display: contents;
 }
 
 .left-equipamento .modelo-marca{
