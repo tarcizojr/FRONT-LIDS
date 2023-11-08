@@ -107,13 +107,15 @@ export default class ListarEquipamentosDaArea extends React.Component{
     // }
 
     retirarEquipamento = async (idEquipamento) =>{
+        const url = window.location.href;
+        let id = url.substring(url.lastIndexOf('/') + 1);
         this.service = new AreasService();
         console.log(idEquipamento, "id")
         await this.service.retirarEquipamento({
-            "idAreaDeTrabalho":1,
-            "idEquipamento": 1
+            "idAreaDeTrabalho":id,
+            "idEquipamento": idEquipamento
         }).then (async (response) =>{
-            this.state.toast.show({ severity: 'success', summary: 'Sucesso', detail: 'Equipamento Adicionado Com Sucesso' });
+            this.state.toast.show({ severity: 'success', summary: 'Sucesso', detail: 'Equipamento Removido Com Sucesso' });
       
             await this.delay(2000);
             const url = window.location.href;
@@ -123,7 +125,7 @@ export default class ListarEquipamentosDaArea extends React.Component{
         }).catch(async error =>{
             await console.log(error, 'erro')
       
-            this.state.toast.show({ severity: 'error', summary: 'Erro', detail: 'Erro ao Adicionado Equipamento' });
+            this.state.toast.show({ severity: 'error', summary: 'Erro', detail: 'Erro ao REmover Equipamento' });
             this.state.toast.show({ severity: 'error', summary: 'Erro', detail: error.response.data });
         })
     }

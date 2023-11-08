@@ -134,9 +134,12 @@ export default class AdicionarEquipamentoArea extends React.Component{
       };
 
       retirarEquipamento = async (idEquipamento) =>{
+        const url = window.location.href;
+        let id = url.substring(url.lastIndexOf('/') + 1);
+        this.service = new AreasService();
         console.log(idEquipamento, "id")
         await this.service.retirarEquipamento({
-            "idAreaDeTrabalho":3,
+            "idAreaDeTrabalho":id,
             "idEquipamento": idEquipamento
         }).then (async (response) =>{
             this.state.toast.show({ severity: 'success', summary: 'Sucesso', detail: 'Equipamento Removido Com Sucesso' });
@@ -149,16 +152,19 @@ export default class AdicionarEquipamentoArea extends React.Component{
         }).catch(async error =>{
             await console.log(error, 'erro')
       
-            this.state.toast.show({ severity: 'error', summary: 'Erro', detail: 'Erro ao Remover Equipamento' });
+            this.state.toast.show({ severity: 'error', summary: 'Erro', detail: 'Erro ao REmover Equipamento' });
             this.state.toast.show({ severity: 'error', summary: 'Erro', detail: error.response.data });
         })
     }
 
+
     adicionarEquipamento = async (idEquipamento) =>{
+        const url = window.location.href;
+        let id = url.substring(url.lastIndexOf('/') + 1);
         this.service = new AreasService();
         console.log(idEquipamento, "id")
         await this.service.addEquipamento({
-            "idAreaDeTrabalho":1,
+            "idAreaDeTrabalho":id,
             "idEquipamento": idEquipamento
         }).then (async (response) =>{
             this.state.toast.show({ severity: 'success', summary: 'Sucesso', detail: 'Equipamento Adicionado Com Sucesso' });
@@ -235,7 +241,7 @@ export default class AdicionarEquipamentoArea extends React.Component{
                         equipamentos = {this.state.equipamentos}
                        
                         adicionarEquipamento = {this.adicionarEquipamento}
-                       // remover = {this.retirarEquipamento}
+                        remover = {this.retirarEquipamento}
                     />
                     
                 </div>
