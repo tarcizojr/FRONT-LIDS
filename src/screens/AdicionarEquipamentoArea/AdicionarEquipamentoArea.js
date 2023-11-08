@@ -7,120 +7,133 @@ import { Dropdown } from 'primereact/dropdown';
 
 
 import { Button } from 'primereact/button';
+import EquipamentoService from "../../services/EquipamentoService";
+import ComputadorService from "../../services/ComputadorService";
 import CardAdicionarEquipamentosArea from "../../components/CardAdicionarEquipamentosArea/CardAdicionarEquipamentosArea";
 import AreasService from "../../services/AreasService"
-import EquipamentoService from "../../services/EquipamentoService";
 
 const url = window.location.href;
 let id = url.substring(url.lastIndexOf('/') + 1);
 export default class AdicionarEquipamentoArea extends React.Component{
-    
+
     state = {
         items:[{ label: 'Areas de Trabalho', url:"/areasDeTrabalho" },
         { label: 'Equipamentos da Area',  url: `/equipamentosArea/${id}` },
         { label: 'Adicionar Equipamentos a Area'}],
 
         home: {icon: 'pi pi-home ', url: '/' },
-
-        areas:[],       
-        areaId:"",
         equipamentos:[],
-        equipamentosArea:[]
+        nomeParaFiltro:'',
+        filtroEquipamentos:{filtro:''},
 
+        filtrosEquipamento: [
+            {filtro:'NOME'},
+            {filtro:'CODIGO'},
+            
+        ],
+        filtroEquipamento:{filtro:'NOME'},
+        equipamentosId:[],
+        equipamentosArea:[]
     }
 
     constructor(){
         super();
-        this.service = new AreasService();
-        this.service2 = new EquipamentoService();
-        let id = url.substring(url.lastIndexOf('/') + 1); 
-        console.log(id,"id")
-        this.setState({areaId:id}) 
-        console.log(id, 'id area')
+        this.service = new EquipamentoService();
+        this.service.getToken();
+        this.service.autenticado();
+      
     }
-
-    componentDidMount(){
-        let id = url.substring(url.lastIndexOf('/') + 1); 
-        console.log(id,"id")
-        this.setState({areaId:id}) 
-              
-         this.findAll();
-          
+    componentDidMount() {
+        this.listagem();
       }
+      
+      findAll = async () => {
+        try {
+          const response = await this.service.get('/all');
+          const equipamentos = response.data;
+          this.setState({ equipamentos });
+          this.setState({ equipamentosAuxiliar: equipamentos });
+          console.log(equipamentos);
+        } catch (error) {
+          console.log(error.response);
+        }
+      }
+      
+      equipamentosArea = async () => {
+        try {
+          this.service2 = new AreasService();
+          const response = await this.service2.find(1);
+          const area = response.data;
+          let ids = [];
+          area.equipamentos.forEach(element => {
+            ids.push(element.id);
+          });
+          console.log(ids, 'ids');
+          this.setState({ equipamentosId: ids });
+        } catch (error) {
+          console.log(error.response);
+        }
+      }
+      
+      listagem = async () => {
+        await this.findAll();
+        await this.equipamentosArea();
+      
+        let eqall = this.state.equipamentos;
+        let ids = this.state.equipamentosId;
+        
+         let eq = []
+        eqall.forEach(element => {
+            if(ids.includes(element.id)){
+                element.descricao = "Pertence"
+            }else{
+                element.descricao = "Não Pertence a Área"
+            }
+            eq.push(element)
 
-      findAll = async () => {    
-        let id = url.substring(url.lastIndexOf('/') + 1);     
-        await this.service.find(id)
-            .then(response => {
-                const area = response.data; 
-                console.log(area,'area')
-                // areas.forEach(element => {
-                //     // if(element.id == id){
-                //     //     this.setState({equipamentosArea:areas[0].equipamentos});
-                //     //    // console.log(areas[0].equipamentos, "equipamentos area")
-                //     // }
-                // });          
-                // //console.log(areas.equipamentos, "areas")
-                this.setState({equipamentosArea:area.equipamentos});
-            }
-            ).catch(error => {
-                console.log(error.response);
-            }
+        });
+        this.setState({equipamentos:eq})
+      }
+      
+
+    filtro = async () =>{
+        
+        const { nomeParaFiltro,filtroEquipamentos, equipamentosAuxiliar } = this.state;
+        let equipamentosFiltrados = [...equipamentosAuxiliar];
+        const nomeFiltrado = nomeParaFiltro.toUpperCase();
+        // Filtrar por nome
+        if (this.state.filtroEquipamento.filtro === "NOME") {            
+            const nomeFiltrado = nomeParaFiltro.toUpperCase();
+            equipamentosFiltrados = equipamentosFiltrados.filter(element =>
+                element.nome.toUpperCase().includes(nomeFiltrado)
             );
-
-        this.findEquipamentos();
+                                    
+        } 
+        if (this.state.filtroEquipamento.filtro === "CODIGO") {            
+            const nomeFiltrado = nomeParaFiltro.toString(); // Converter para string
+            equipamentosFiltrados = equipamentosFiltrados.filter(element =>
+                element.codigo.toString().includes(nomeFiltrado)
+            );
+        }    
+            
+       
+        this.setState({ equipamentos: equipamentosFiltrados });
+    
     }
 
-    findEquipamentos = () => {
-        this.service2.get('/all')
-            .then(response => {
-                const areas = response.data;
-    
-                const equipamentosAreaIds = this.state.equipamentosArea.map(equipamento => equipamento.id);
-    
-                const equipamentos = areas.map(element => {
-                    if (equipamentosAreaIds.includes(element.id)) {
-                        return { ...element, descricao: "Pertence a Área" };
-                    }else{
-                        return { ...element, descricao: "Não Pertence a Área" };
-                    }
-                   
-                });
-    
-                this.setState({ equipamentos });
-                console.log(equipamentos, "equipamentos");
-            })
-            .catch(error => {
-                console.log(error.response);
-            });
+    limparFiltro = () =>{
+        this.setState({nomeParaFiltro:''})
+        this.setState({ equipamentosFiltrados: { filtro: '' } });
+        this.setState({equipamentos:this.state.equipamentosAuxiliar})
+
     }
 
+    
     delay = (ms) => {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    };
-    
-    adicionarEquipamento = async (idEquipamento) =>{
-        console.log(idEquipamento, "id")
-        await this.service.addEquipamento({
-            "idAreaDeTrabalho":3,
-            "idEquipamento": idEquipamento
-        }).then (async (response) =>{
-            this.state.toast.show({ severity: 'success', summary: 'Sucesso', detail: 'Equipamento Adicionado Com Sucesso' });
-      
-            await this.delay(2000);
-            const url = window.location.href;
+        return new Promise((resolve) => setTimeout(resolve, ms));
+      };
 
-            window.location.href = url;
-
-        }).catch(async error =>{
-            await console.log(error, 'erro')
-      
-            this.state.toast.show({ severity: 'error', summary: 'Erro', detail: 'Erro ao Adicionado Equipamento' });
-            this.state.toast.show({ severity: 'error', summary: 'Erro', detail: error.response.data });
-        })
-    }
-
-    retirarEquipamento = async (idEquipamento) =>{
+      retirarEquipamento = async (idEquipamento) =>{
         console.log(idEquipamento, "id")
         await this.service.retirarEquipamento({
             "idAreaDeTrabalho":3,
@@ -141,19 +154,39 @@ export default class AdicionarEquipamentoArea extends React.Component{
         })
     }
 
+    adicionarEquipamento = async (idEquipamento) =>{
+        this.service = new AreasService();
+        console.log(idEquipamento, "id")
+        await this.service.addEquipamento({
+            "idAreaDeTrabalho":1,
+            "idEquipamento": idEquipamento
+        }).then (async (response) =>{
+            this.state.toast.show({ severity: 'success', summary: 'Sucesso', detail: 'Equipamento Adicionado Com Sucesso' });
+      
+            await this.delay(2000);
+            const url = window.location.href;
+
+            window.location.href = url;
+
+        }).catch(async error =>{
+            await console.log(error, 'erro')
+      
+            this.state.toast.show({ severity: 'error', summary: 'Erro', detail: 'Erro ao Adicionado Equipamento' });
+            this.state.toast.show({ severity: 'error', summary: 'Erro', detail: error.response.data });
+        })
+    }
+
+
 
     render(){
-
         return(
-
             <div className="container">
                 <Toast ref={(el) => (this.state.toast = el)} />
-
-                <ConfirmDialog 
-                acceptClassName="p-button-success"
-                rejectClassName="p-button-danger"
-                acceptLabel="Sim"
-                rejectLabel="Não"/>
+                 <ConfirmDialog 
+                  acceptClassName="p-button-success"
+                  rejectClassName="p-button-danger"
+                 acceptLabel="Sim"
+                 rejectLabel="Não"/>
 
                 <div className="header">
                     <div>
@@ -166,44 +199,47 @@ export default class AdicionarEquipamentoArea extends React.Component{
                                 value= {this.state.nomeParaFiltro} 
                                 onChange={(e) => { this.setState({nomeParaFiltro: e.target.value }) }} />
                             </span>
-                            
+
                             <div className="">
                                 <Dropdown id=""
-                                    value={this.state.filtroProjeto} onChange={(e) => this.setState({filtroProjeto: this.filtroProjeto = e.value})}
-                                    options={this.state.filtrosProjeto}
+                                    value={this.state.filtroEquipamento} onChange={(e) => this.setState({filtroEquipamento: this.filtroEquipamento = e.value})}
+                                    options={this.state.filtrosEquipamento}
                                     optionLabel="filtro"
-                                    placeholder="Filtrar Por Status" />
+                                    placeholder="" />
 
                                     {/* usado para mostrar a msg de erro, caso tenha
                                 {this.state.errorTipo && <span style={{ color: 'red' }}>{this.state.errorTipo}</span>} */}
                              </div>
+
                             <Button className="bt-filtro" label="Filtrar" 
                             onClick={this.filtro}
-                            title="Filtrar Projetos" severity="warning" raised />
+                            title="Filtrar Equipamento" severity="warning" raised />
 
                             <Button className="bt-filtro" label="Limpar Filtro" 
                             onClick={this.limparFiltro}
-                            title="Listar Todos Projetos" severity="warning" raised />
+                            title="Listar Todos Equipamentos" severity="warning" raised />
                         </div>
+                       
                     </div>
     
-                    {/* <div className="bt-add">
-                        <a href="/criarAreaDeTrabalho">
-                            <Button label="+" severity="warning" raised 
-                            onClick={this.adicionarProjeto}/>
+                    <div className="bt-add">
+                        <a href="/criarEquipamentos">
+                            <Button severity="warning" label="+" title="Adicionar Equipamento"  raised />
                         </a>
     
-                    </div> */}
+                    </div>
                 </div>
-                <div className="projetos">
-                    <CardAdicionarEquipamentosArea 
+
+                <div className="esquipamentos">
+                <CardAdicionarEquipamentosArea 
                         equipamentos = {this.state.equipamentos}
                        
                         adicionarEquipamento = {this.adicionarEquipamento}
-                        remover = {this.retirarEquipamento}
+                       // remover = {this.retirarEquipamento}
                     />
                     
                 </div>
+
             </div>
         )
     }

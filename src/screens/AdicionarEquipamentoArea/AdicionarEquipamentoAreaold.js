@@ -7,12 +7,18 @@ import { Dropdown } from 'primereact/dropdown';
 
 
 import { Button } from 'primereact/button';
-import CardEquipamentoArea from "../../components/CardEquipamentosArea/CardEquipamentoArea";
+import CardAdicionarEquipamentosArea from "../../components/CardAdicionarEquipamentosArea/CardAdicionarEquipamentosArea";
 import AreasService from "../../services/AreasService"
-export default class ListarEquipamentosDaArea extends React.Component{
+import EquipamentoService from "../../services/EquipamentoService";
+
+const url = window.location.href;
+let id = url.substring(url.lastIndexOf('/') + 1);
+export default class AdicionarEquipamentoArea extends React.Component{
+    
     state = {
         items:[{ label: 'Areas de Trabalho', url:"/areasDeTrabalho" },
-        { label: 'Equipamentos da Area'}],
+        { label: 'Equipamentos da Area',  url: `/equipamentosArea/${id}` },
+        { label: 'Adicionar Equipamentos a Area'}],
 
         home: {icon: 'pi pi-home ', url: '/' },
 
@@ -25,34 +31,33 @@ export default class ListarEquipamentosDaArea extends React.Component{
 
     constructor(){
         super();
-        this.service = new AreasService();
-      
-       const url = window.location.href;
-       let id = url.substring(url.lastIndexOf('/') + 1); 
+       // this.service = new AreasService();
+        this.service = new EquipamentoService();
+        this.service.getToken();
+        this.service.autenticado();
+        let id = url.substring(url.lastIndexOf('/') + 1); 
+        console.log(id,"id")
         this.setState({areaId:id}) 
-
-       
+        console.log(id, 'id area')
     }
 
     componentDidMount(){
-        // const url = window.location.href;
-        // let id = url.substring(url.lastIndexOf('/') + 1); 
-        // this.setState({areaId:id})       
+        let id = url.substring(url.lastIndexOf('/') + 1); 
+        console.log(id,"id")
+        this.setState({areaId:id}) 
+              
         this.findAll();
-       //this.findEquipamentos()
-       
-          
+         //this.findEquipamentos();
+
       }
 
-      
       findAll = () => {        
-        this.service.find(1)
+        this.service.get('/all')
             .then(response => {
-                const areas = response.data;
+                const equipamentos = response.data;
                 
-                this.setState({areas})
-                this.setState({equipamentosArea:areas.equipamentos})
-                console.log(areas, 'find')
+                 this.setState({equipamentos})
+                console.log(equipamentos)
             }
             ).catch(error => {
                 console.log(error.response);
@@ -60,58 +65,45 @@ export default class ListarEquipamentosDaArea extends React.Component{
             );
     }
 
-
-    findEquipamentos = async () =>{
-       let a = localStorage.getItem("equipamentosArea");
+    findEquipamentos = () => {
+        let a = localStorage.getItem("equipamentosArea");
+        console.log(a, "eq");
+        this.setState({ equipamentosArea: JSON.parse(a) });
+        this.service2 =  new EquipamentoService();
+        this.service2
+          .get('/all')
+          .then(response => {
+            const allEquipamentos = response.data;
+      
+            let equipamentos = [];
+            let ids = this.state.equipamentosArea.map(element => element[0].id);
+      
+            allEquipamentos.forEach(element => {
+              if (ids.includes(element.id)) {
+                element.descricao = "Pertence"
+                equipamentos.push(element);
+              }else{
+                element.descricao = "Não Pertence a Área"
+              }
+            });
+      
+            this.setState({ equipamentos:allEquipamentos });
+            console.log(equipamentos, "equipamentos");
+          })
+          .catch(error => {
+            console.log(error.response);
+          });
+      };
+      
+    delay = (ms) => {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    };
     
-       await this.setState({equipamentosArea:JSON.parse(a)})
-       console.log(this.state.equipamentosArea, "state")
-    }
-
-    listagem  = async () =>{
-        const url = window.location.href;
-        let id = url.substring(url.lastIndexOf('/') + 1); 
-      
-        console.log(id, "testeee")
-        window.location.href = `/adicionarEquipamentosArea/${id}`;
-    }
-
-    // retirarEquipamento = async (idEquipamento) =>{
-    //     const url = window.location.href;
-    //     let id = url.substring(url.lastIndexOf('/') + 1);
-    //     console.log(idEquipamento, "id")
-    //     await this.service.retirarEquipamento({
-    //         "idAreaDeTrabalho":id,
-    //         "idEquipamento": idEquipamento
-    //     }).then (async (response) =>{
-    //         this.state.toast.show({ severity: 'success', summary: 'Sucesso', detail: 'Equipamento Removido Com Sucesso' });
-    //         // let eq = []
-    //         // this.state.equipamentosArea.forEach(element => {
-    //         //     if(element.id != idEquipamento){
-    //         //         eq.push(element)
-    //         //     }
-    //         // });
-    //         // localStorage.setItem("equipamentosArea", JSON.stringify(eq));
-
-    //         await this.delay(2000);
-    //         const url = window.location.href;
-
-    //         window.location.href = url;
-
-    //     }).catch(async error =>{
-    //         await console.log(error, 'erro')
-      
-    //         this.state.toast.show({ severity: 'error', summary: 'Erro', detail: 'Erro ao Remover Equipamento' });
-    //         this.state.toast.show({ severity: 'error', summary: 'Erro', detail: error.response.data });
-    //     })
-    // }
-
-    retirarEquipamento = async (idEquipamento) =>{
-        this.service = new AreasService();
+    adicionarEquipamento = async (idEquipamento) =>{
         console.log(idEquipamento, "id")
-        await this.service.retirarEquipamento({
+        await this.service.addEquipamento({
             "idAreaDeTrabalho":1,
-            "idEquipamento": 1
+            "idEquipamento": idEquipamento
         }).then (async (response) =>{
             this.state.toast.show({ severity: 'success', summary: 'Sucesso', detail: 'Equipamento Adicionado Com Sucesso' });
       
@@ -128,10 +120,27 @@ export default class ListarEquipamentosDaArea extends React.Component{
         })
     }
 
-    delay = (ms) => {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    };
-    
+    retirarEquipamento = async (idEquipamento) =>{
+        console.log(idEquipamento, "id")
+        await this.service.retirarEquipamento({
+            "idAreaDeTrabalho":3,
+            "idEquipamento": idEquipamento
+        }).then (async (response) =>{
+            this.state.toast.show({ severity: 'success', summary: 'Sucesso', detail: 'Equipamento Removido Com Sucesso' });
+      
+            await this.delay(2000);
+            const url = window.location.href;
+
+            window.location.href = url;
+
+        }).catch(async error =>{
+            await console.log(error, 'erro')
+      
+            this.state.toast.show({ severity: 'error', summary: 'Erro', detail: 'Erro ao Remover Equipamento' });
+            this.state.toast.show({ severity: 'error', summary: 'Erro', detail: error.response.data });
+        })
+    }
+
 
     render(){
 
@@ -178,22 +187,20 @@ export default class ListarEquipamentosDaArea extends React.Component{
                         </div>
                     </div>
     
-                    <div className="bt-add">
-                        <a>
+                    {/* <div className="bt-add">
+                        <a href="/criarAreaDeTrabalho">
                             <Button label="+" severity="warning" raised 
-                            onClick={this.listagem}
-                           />
+                            onClick={this.adicionarProjeto}/>
                         </a>
     
-                    </div>
+                    </div> */}
                 </div>
                 <div className="projetos">
-                    
-                    <CardEquipamentoArea 
-                        equipamentos = {this.state.equipamentosArea}
+                    <CardAdicionarEquipamentosArea 
+                        equipamentos = {this.state.equipamentos}
                        
+                        adicionarEquipamento = {this.adicionarEquipamento}
                         remover = {this.retirarEquipamento}
-                       // editar = {this.editar}
                     />
                     
                 </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { Card } from 'primereact/card';
 import { AiFillDelete, AiFillEdit, AiFillMinusSquare } from "react-icons/ai";
 import { Button } from 'primereact/button';
@@ -30,7 +30,9 @@ export default props =>{
         card = (
             <div className="card">
             <Card>
+                
                 <div className="left-equipamento">
+                
                     <div className="nome-codigo">
                         <p >
                             {equipamento.codigo} 
@@ -42,11 +44,11 @@ export default props =>{
                     </div>
                     
                     
-                    <p className="modelo-marca">
+                    <div className="modelo-marca">
                         <p className="modelo">
                             {equipamento.marca} {a}  {equipamento.modelo}
                         </p>                        
-                    </p>
+                    </div>
                 </div>
 
                 <div id="descricao" className="center">

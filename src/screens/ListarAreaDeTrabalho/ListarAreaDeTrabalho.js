@@ -99,15 +99,18 @@ export default class ListarAreaDeTrabalho extends React.Component{
     }
 
     find = (id) =>{
+        //localStorage.setItem("idArea", id)
+        let eq = []
+        this.state.areasAuxiliar.forEach(element => {
+            if(element.id === id){
+                console.log(element.equipamentos, 'equipamento')
+              //  element.descricao = "Pertence a Area"
+                eq.push(element.equipamentos)
+               // localStorage.setItem("equipamentosArea", JSON.stringify(element.equipamentos));
+            }
+        });
+        localStorage.setItem("equipamentosArea", JSON.stringify(eq));
         window.location.href = `/equipamentosArea/${id}`;
-        localStorage.setItem("idArea", id)
-        // this.state.areasAuxiliar.forEach(element => {
-        //     if(element.id === id){
-        //         console.log(element.equipamentos, 'equipamentos')
-        //         element.descricao = "Pertence a Area"
-        //         localStorage.setItem("equipamentosArea", JSON.stringify(element.colaboradores));
-        //     }
-        // });
     }
 
     render(){
