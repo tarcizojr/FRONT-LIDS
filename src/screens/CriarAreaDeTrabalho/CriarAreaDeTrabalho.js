@@ -49,7 +49,55 @@ export default class CriarAreaDeTrabalho extends React.Component{
         this.setState({ errorCodigo: "" });
         this.setState({ errorDescricao: "" });
            
-    
+        if(this.state.nome === ''){
+          disparo ++;
+          let a = document.getElementById('nome');
+          a.classList.add('p-invalid');
+          this.setState({errorNome: frasePadrao})
+        }
+        else if(this.state.nome.length < 5){
+          disparo ++;
+          let a = document.getElementById('nome');
+          a.classList.add('p-invalid');
+          this.setState({errorNome: 'Nome Deve ser Maior'})          
+      } else if(this.state.nome.length > 12){
+        disparo ++;
+        let a = document.getElementById('nome');
+        a.classList.add('p-invalid');
+        this.setState({errorNome: 'Nome Deve ser MEnor'})
+      }
+
+      if(this.state.codigo === ''){
+        disparo ++;
+        let a = document.getElementById('codigo');
+        a.classList.add('p-invalid');
+        this.setState({errorCodigo: frasePadrao})
+      }
+      else if(this.state.codigo.length !== 3){
+        disparo ++;
+        let a = document.getElementById('codigo');
+        a.classList.add('p-invalid');
+        this.setState({errorCodigo: 'Codigo Deve ter 3 numeros'})          
+      }
+      
+      if(this.state.descricao === ''){
+        disparo ++;
+        let a = document.getElementById('descricao');
+        a.classList.add('p-invalid');
+        this.setState({errorDescricao: frasePadrao})
+      }
+      else if(this.state.descricao.length < 5){
+        disparo ++;
+        let a = document.getElementById('descricao');
+        a.classList.add('p-invalid');
+        this.setState({errorDescricao: "Descrição deve ser Maior"})
+      }
+      else if(this.state.descricao.length > 20){
+        disparo ++;
+        let a = document.getElementById('descricao');
+        a.classList.add('p-invalid');
+        this.setState({errorDescricao: "Descrição deve ser Menor"})
+      }
     
     
         if (disparo !== 0) {
@@ -83,13 +131,17 @@ export default class CriarAreaDeTrabalho extends React.Component{
         this.state.toast.show({
           severity: "info",
           summary: "Confirmado",
-          detail: "Criar Equipamento Confirmado",
+          detail: "Criar Area de Trabalho Confirmada",
           life: 3000,
         });
         
         this.salvarAreaDeTrabalho();
         
     }
+
+    reject = () => {
+      this.state.toast.show({ severity: 'warn', summary: 'Regeitado', detail: 'Area de Trabalho Não Criada', life: 3000 });
+  };
 
     salvarAreaDeTrabalho =() =>{
         this.service.creat({
