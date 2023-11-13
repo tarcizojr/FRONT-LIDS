@@ -32,6 +32,7 @@ import EditarAreaDeTrabalho from "../screens/EditarAreaDeTrabalho/EditarAreaDeTr
 import ListarEquipamentosDaArea from "../screens/ListarEquipamentosDaArea/ListarEquipamentosDaArea";
 import AdicionarEquipamentoArea from "../screens/AdicionarEquipamentoArea/AdicionarEquipamentoArea";
 
+
 function AppRouts(){
     return(
         <Router>
@@ -69,6 +70,9 @@ function AppRouts(){
                <Route element={<EditarAreaDeTrabalho/>} path="/editarAreaDeTrabalho/:id"></Route>
                <Route element={<ListarEquipamentosDaArea/>} path="/equipamentosArea/:id"></Route>
                <Route element={<AdicionarEquipamentoArea/>} path="/adicionarEquipamentosArea/:id"></Route>
+
+
+
 
            </Routes>
         </Router>

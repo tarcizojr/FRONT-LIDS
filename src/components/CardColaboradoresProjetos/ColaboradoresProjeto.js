@@ -32,7 +32,7 @@ export default props =>{
               </div>
 
               <div className="card-butons">
-                <Button
+                {/* <Button
                   onClick={(e) => props.editar(colaborador.id)}
                   title="Editar Colaborador"
                   severity="warning"
@@ -48,7 +48,7 @@ export default props =>{
                   aria-label="Deletar Colaborador"
                 >
                   <AiFillDelete></AiFillDelete>
-                </Button>
+                </Button> */}
               </div>
             </Card>
           </div>

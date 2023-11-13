@@ -35,7 +35,7 @@ export default props =>{
                 <div className="card-butons">
                   
 
-                  <Button
+                  {/* <Button
                     onClick={(e) => props.adicionarColaborador(colaborador.id, colaborador.matricula)}
                     title="Adicionar Colaborador Ao Projeto"
                     severity="warning"
@@ -43,7 +43,24 @@ export default props =>{
                     label="+"
                   >
                     
-                  </Button>
+                  </Button> */}
+                  {colaborador.status === 'NÃO PERTENCE AO PROJETO' ? (
+                    <Button 
+                        label="+"
+                        onClick={(e) => props.adicionarColaborador(colaborador.id)}
+                        title="Adicionar Colaborador ao Projeto"
+                        severity="warning"
+                        aria-label="Adicionar Colaborador ao Projeto"
+                    />
+                ) : (
+                    <Button 
+                        label="-"
+                        onClick={(e) => props.remover(colaborador.id)}
+                        title="Remover Colaborador do Projeto"
+                        severity="warning"
+                        aria-label="Remover Colaborador do Projeto"
+                    />
+                )}
                 </div>
               </Card>
             </div>
