@@ -58,6 +58,8 @@ export default class EditarColaborador extends React.Component{
         const url = window.location.href;
         const id = url.substring(url.lastIndexOf('/') + 1);
         this.findByid(id)
+        let e = document.getElementsByClassName('bt2').bt
+        e.classList.add('selecionar')
     }
 
     constructor(){

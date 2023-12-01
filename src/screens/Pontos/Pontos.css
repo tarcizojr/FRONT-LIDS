@@ -51,3 +51,17 @@
     text-align: center;
     margin-top: 8vh;
 }
+
+#modal .registrar-pontos{
+    display: flex;
+    justify-content: center;
+}
+
+#modal .registrar-pontos.projetos{
+    margin-top: 5%;
+}
+
+#modal .registrar-pontos.butons{
+    margin-top: 5%;
+}
+

@@ -40,7 +40,10 @@ export default class ListarEscalas extends React.Component{
     componentDidMount(){
         //  this.token();             
           this.findAll();
-          
+
+          let e = document.getElementsByClassName('bt6').bt
+          e.classList.add('selecionar')
+
       }
 
       findAll = () => {        

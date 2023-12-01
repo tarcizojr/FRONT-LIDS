@@ -31,6 +31,8 @@ export default class ListarAreaDeTrabalho extends React.Component{
     componentDidMount(){
         //  this.token();             
           this.findAll();
+          let e = document.getElementsByClassName('bt3').bt
+          e.classList.add('selecionar');
           
       }
 

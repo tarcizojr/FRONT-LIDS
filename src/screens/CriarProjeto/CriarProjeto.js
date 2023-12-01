@@ -47,6 +47,12 @@ export default class CriarProjeto extends React.Component{
     constructor(){
         super();
         this.service = new ProjetoService();
+        
+    }
+
+    componentDidMount(){
+        let e = document.getElementsByClassName('bt1').bt
+          e.classList.add('selecionar')
     }
 
     salvarProjeto = () => {
@@ -75,10 +81,10 @@ export default class CriarProjeto extends React.Component{
             "tipo" : sem,
             "descricao" : this.state.objetivo,
             "dataInicio":"01-01-2001",
-            "dataTermino":"02-02-2002"
+           // "dataTermino":"02-02-2002"
 
             //"dataInicio":dataInicioFormatada,
-            //"dataTermino":dataFimFormatada
+            "dataTermino":dataFimFormatada
         }).then (async (response) =>{
 
             this.state.toast.show({ severity: 'success', summary: 'Sucesso', detail: 'Projeto Criado Com Sucesso' });

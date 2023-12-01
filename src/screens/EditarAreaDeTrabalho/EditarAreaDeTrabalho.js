@@ -30,7 +30,10 @@ export default class EditarAreaDeTrabalho extends React.Component {
     componentDidMount(){
         const url = window.location.href;
         const id = url.substring(url.lastIndexOf('/') + 1);
-        this.findByid(id)
+        this.findByid(id);
+
+        let e = document.getElementsByClassName('bt3').bt
+        e.classList.add('selecionar')
     }
 
     constructor(){

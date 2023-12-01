@@ -9,9 +9,10 @@
     display: none;
 }
 
-.menu{
-    width: 20em;
-    height: 100vh;
+.menu{    
+    width: 20%;
+    min-width: 250px;
+    height: 100%;
     background-color: #F59E0B;
     position: fixed;
     top: 0;
@@ -38,6 +39,10 @@
     background-color: white;
     border-radius: 0;
     border-color: none;
+}
+
+#bt.selecionar{
+    background-color: white;
 }
 
 button#sair{

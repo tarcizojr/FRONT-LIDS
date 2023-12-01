@@ -32,7 +32,7 @@ import EditarAreaDeTrabalho from "../screens/EditarAreaDeTrabalho/EditarAreaDeTr
 import ListarEquipamentosDaArea from "../screens/ListarEquipamentosDaArea/ListarEquipamentosDaArea";
 import AdicionarEquipamentoArea from "../screens/AdicionarEquipamentoArea/AdicionarEquipamentoArea";
 
-
+import ListaPontos from "../screens/ListarPontos/ListarPontos";
 function AppRouts(){
     return(
         <Router>
@@ -72,6 +72,7 @@ function AppRouts(){
                <Route element={<AdicionarEquipamentoArea/>} path="/adicionarEquipamentosArea/:id"></Route>
 
 
+               <Route element={<ListaPontos/>} path="/listarPontos"></Route>
 
 
            </Routes>

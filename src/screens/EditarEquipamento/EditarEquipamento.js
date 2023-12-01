@@ -85,7 +85,8 @@ export default class EditarEquipamento extends React.Component {
     this.setState({armazenamento:{tipo:equipamento.tipoArmazenamento}});
     this.setState({capacidade:equipamento.capacidadeArmazenamento});
 
-
+    let e = document.getElementsByClassName('bt5').bt
+    e.classList.add('selecionar')
 
    }
   }

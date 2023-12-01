@@ -30,6 +30,11 @@ export default class CriarAreaDeTrabalho extends React.Component{
         
       }
 
+    componentDidMount(){
+      let e = document.getElementsByClassName('bt3').bt
+      e.classList.add('selecionar')
+    }
+
     delay = (ms) => {
         return new Promise((resolve) => setTimeout(resolve, ms));
     };

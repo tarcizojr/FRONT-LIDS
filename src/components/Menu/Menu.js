@@ -26,6 +26,8 @@ export default class  extends React.Component{
     
     }
 
+
+
     render(){
         const url = window.location.href;
         const telaAtual = url.substring(url.lastIndexOf('/') + 1);
@@ -42,14 +44,14 @@ export default class  extends React.Component{
                 </a>
            </div>
            <div className="butoes">
-                <MenuItem href='/projetos' label='PROJETOS'></MenuItem>
+                <MenuItem className='bt1' href='/projetos' label='PROJETOS'></MenuItem>
                 
-                <MenuItem href='/colaboradores' label='COLABORADORES'></MenuItem>
+                <MenuItem  className='bt2' href='/colaboradores' label='COLABORADORES'></MenuItem>
 
-                <MenuItem href='/areasDeTrabalho' label='AREAS DE TRABALHO'></MenuItem>
-                <MenuItem href='/pontos' label='PONTOS'></MenuItem>
-                <MenuItem href='/equipamentos' label='EQUIPAMENTOS'></MenuItem>
-                <MenuItem href='/escalas' label='ESCALAS'></MenuItem>
+                <MenuItem  className='bt3' href='/areasDeTrabalho' label='AREAS DE TRABALHO'></MenuItem>
+                <MenuItem  className='bt4' href='/pontos' label='PONTOS'></MenuItem>
+                <MenuItem  className='bt5' href='/equipamentos' label='EQUIPAMENTOS'></MenuItem>
+                <MenuItem  className='bt6' href='/escalas' label='ESCALAS'></MenuItem>
 
                 <Button id='sair' onClick={this.sair} label=''>
                     <AiOutlineLogout></AiOutlineLogout>

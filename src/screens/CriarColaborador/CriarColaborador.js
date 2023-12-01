@@ -63,6 +63,11 @@ export default class CriarColaborador extends React.Component{
         this.service = new ColaboradorService();
     }
 
+    componentDidMount(){
+        let e = document.getElementsByClassName('bt2').bt
+        e.classList.add('selecionar')
+    }
+
     delay = (ms) => {
         return new Promise(resolve => setTimeout(resolve, ms));
     };

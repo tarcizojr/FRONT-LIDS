@@ -60,6 +60,11 @@ export default class CriarEquipamento extends React.Component {
     this.serviceC = new ComputadorService();
   }
 
+  componentDidMount(){
+    let e = document.getElementsByClassName('bt5').bt
+    e.classList.add('selecionar')
+  }
+
 
   selecaoEquipamento = (e) => {
     this.setState({ tipo: (this.tipo = e.value) });

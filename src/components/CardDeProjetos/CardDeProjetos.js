@@ -21,10 +21,12 @@ export default props =>{
           );
         } 
         else {
-            const dataFimString = projeto.dataTermino;
+           
             
                         
 //---------------
+            const dataFimString = projeto.dataTermino;
+
             let dataFim = new Date(dataFimString);
             let dataAtual = new Date();
             // Calcule a diferença em milissegundos
@@ -32,6 +34,7 @@ export default props =>{
             // Converta a diferença para dias
             const diasRestantes = Math.ceil(diferencaEmMilissegundos / (1000 * 60 * 60 * 24));
 
+            console.log(dataFimString, 'datafim', diasRestantes, 'dias restantes')
            
           card = (
             <div className="card">

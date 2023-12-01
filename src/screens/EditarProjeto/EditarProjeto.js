@@ -47,6 +47,8 @@ export default class EditarProjeto extends React.Component{
         const id = url.substring(url.lastIndexOf('/') + 1);
         this.findByid(id)
         this.setState({id})
+        let e = document.getElementsByClassName('bt1').bt
+        e.classList.add('selecionar')
     }
 
     constructor(){

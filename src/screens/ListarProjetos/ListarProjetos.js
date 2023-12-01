@@ -50,7 +50,8 @@ export default class ListarProjetos extends React.Component{
     componentDidMount(){
         //  this.token();             
           this.findAll();
-          
+          let e = document.getElementsByClassName('bt1').bt
+          e.classList.add('selecionar')
       }
 
    

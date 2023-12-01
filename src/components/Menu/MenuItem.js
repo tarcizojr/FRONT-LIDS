@@ -6,7 +6,7 @@ export default function MenuItem(props){
     return(
 
         <a href={props.href}> 
-            <Button id='bt'  label={props.label} severity="secondary" text />
+            <Button className={props.className}  id='bt' label={props.label} severity="secondary" text />
         </a>
 
     )

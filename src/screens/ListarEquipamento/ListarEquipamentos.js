@@ -40,6 +40,9 @@ export default class ListarEquipamentos extends React.Component{
 
     componentDidMount(){           
         this.findAll();
+
+        let e = document.getElementsByClassName('bt5').bt
+        e.classList.add('selecionar')
        
     }
 

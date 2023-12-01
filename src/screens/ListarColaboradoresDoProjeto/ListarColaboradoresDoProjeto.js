@@ -41,6 +41,9 @@ export default class ListarColaboradoresDoProjeto extends React.Component{
         const url = window.location.href;
         let id = url.substring(url.lastIndexOf('/') + 1);
         this.setState({id})
+
+        let e = document.getElementsByClassName('bt1').bt
+          e.classList.add('selecionar')
        
     }
    

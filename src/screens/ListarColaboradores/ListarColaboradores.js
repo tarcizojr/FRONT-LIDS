@@ -58,6 +58,8 @@ export default class ListarColaboradores extends React.Component{
 
     componentDidMount(){           
         this.findAll();
+        let e = document.getElementsByClassName('bt2').bt
+        e.classList.add('selecionar')
        
     }
 

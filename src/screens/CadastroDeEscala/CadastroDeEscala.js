@@ -52,6 +52,11 @@ export default class CadastrarDeEscala extends React.Component{
         this.service = new EscalaService();
     }
 
+    componentDidMount(){
+        let e = document.getElementsByClassName('bt6').bt
+        e.classList.add('selecionar')
+    }
+
     handleMouseOver = () => {
         this.setState({mostrarTexto:true})
     };

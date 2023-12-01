@@ -70,7 +70,10 @@ export default class AdicionarColaborador extends React.Component{
         this.findAll();
         const url = window.location.href;
         const idDoProjeto = url.substring(url.lastIndexOf('/') + 1);    
-        this.setState({idDoProjeto})
+        this.setState({idDoProjeto});
+
+        let e = document.getElementsByClassName('bt1').bt
+        e.classList.add('selecionar')
         
     }
 
@@ -217,13 +220,13 @@ export default class AdicionarColaborador extends React.Component{
             }
             ).then (async (response) =>{
     
-                this.state.toast.show({ severity: 'success', summary: 'Sucesso', detail: 'Colaborador Criado Com Sucesso' });
+                this.state.toast.show({ severity: 'success', summary: 'Sucesso', detail: 'Colaborador Adicionado Com Sucesso' });
                await this.delay(2000);
-                window.location.href = `/colaboradores`;
+                window.location.href = `/colaboradoresProjeto/${idProjeto}`;
             }).catch(error =>{
                 console.log(error.response,'erro')
     
-                this.state.toast.show({ severity: 'error', summary: 'Erro', detail: 'Erro ao Criado Criar Colaborador' });
+                this.state.toast.show({ severity: 'error', summary: 'Erro', detail: 'Erro ao Adicionar o Colaborador' });
                 this.state.toast.show({ severity: 'error', summary: 'Erro', detail: error.response.data });
             })
         
@@ -252,7 +255,7 @@ export default class AdicionarColaborador extends React.Component{
                         // editar = {this.editar}
                     />
 
-                <button onClick={this.closePopup}>Fechar Pop-up</button>
+                <button class="p-button p-component bt-filtro p-button-raised p-button-warning" onClick={this.closePopup}>Fechar</button>
             </Modal>
 
                  <Toast ref={(el) => (this.state.toast = el)} />

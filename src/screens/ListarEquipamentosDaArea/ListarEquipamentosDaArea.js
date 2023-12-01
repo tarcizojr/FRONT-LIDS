@@ -40,6 +40,9 @@ export default class ListarEquipamentosDaArea extends React.Component{
         // this.setState({areaId:id})       
         this.findAll();
        //this.findEquipamentos()
+
+       let e = document.getElementsByClassName('bt3').bt
+       e.classList.add('selecionar')
        
           
       }
