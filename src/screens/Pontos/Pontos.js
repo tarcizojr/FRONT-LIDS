@@ -20,12 +20,15 @@ export default class ListarProjetos extends React.Component {
     projetos: [],
     projetoSelect: [],
 
-    regimes:[],
-    regimeSelect:[],
-    pontos:[],
-    associacoes:[],
+    regimes: [],
+    regimeSelect: [],
+    pontos: [],
+    associacoes: [],
 
     isPopupOpen: false,
+
+    datasParaFiltro: [],
+    dataParaFiltro: "",
   };
   constructor() {
     super();
@@ -37,8 +40,8 @@ export default class ListarProjetos extends React.Component {
     this.findAll();
     this.findAllPontos();
 
-    let e = document.getElementsByClassName('bt4').bt
-    e.classList.add('selecionar')
+    let e = document.getElementsByClassName("bt4").bt;
+    e.classList.add("selecionar");
   };
 
   findAll = () => {
@@ -51,22 +54,22 @@ export default class ListarProjetos extends React.Component {
 
         associacao.forEach((element) => {
           const projetoAtual = element.projeto;
-  
+
           // Verifica se o colaborador pertence ao projeto
           if (element.colaborador.id === 1) {
-            associacoes.push(element)
+            associacoes.push(element);
             // Adiciona o projeto à lista
             projetos.push(projetoAtual);
           }
         });
         this.setState({ projetos });
-        this.setState({associacoes})
+        this.setState({ associacoes });
       })
       .catch((error) => {
         console.log(error.response);
       });
   };
-  
+
   openPopup = () => {
     this.setState({ isPopupOpen: true });
   };
@@ -75,24 +78,22 @@ export default class ListarProjetos extends React.Component {
     this.setState({ isPopupOpen: false });
   };
 
-  
+  findAllPontos = async () => {
+    this.service2 = new PontoService();
+    await this.service2
+      .get("/all")
+      .then((response) => {
+        const pontos = response.data;
 
-  findAllPontos = async () => {   
-    this.service2 = new PontoService();     
-    await this.service2.get('/all')
-        .then(response =>  {
-            const pontos = response.data;
-            
-            this.setState({pontos})
-            //this.setState({escalasAuxiliar:escalas})
-            console.log(pontos, "pontos")
-        }
-        ).catch(error => {
-            console.log(error.response);
-        }
-        );
-    
-}
+        this.setState({ pontos });
+        //this.setState({escalasAuxiliar:escalas})
+        console.log(pontos, "pontos");
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+    await this.datas();
+  };
 
   atualizarHorario = () => {
     let h = new Date();
@@ -147,97 +148,162 @@ export default class ListarProjetos extends React.Component {
     window.location.href = `/listarPontos`;
   };
 
-
-
   delay = (ms) => {
-    return new Promise(resolve => setTimeout(resolve, ms));
-};
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  };
 
-  selecionarProjetoRegime = ()=>{
+  selecionarProjetoRegime = () => {
     this.openPopup();
-  }
+  };
 
-  registrarPonto = async ()=>{
-   
+  registrarPonto = async () => {
     this.service2 = new PontoService();
-    await this.service2.creat(
-      {
-        "idProjeto":this.state.projetoSelect.id,
-        "idColaborador":2
-     
-        }
-        ).then (async (response) =>{
+    await this.service2
+      .creat({
+        idProjeto: this.state.projetoSelect.id,
+        idColaborador: 2,
+      })
+      .then(async (response) => {
+        this.state.toast.show({
+          severity: "success",
+          summary: "Sucesso",
+          detail: "Ponto Registrado Com Sucesso",
+        });
+        await this.delay(2000);
+        window.location.href = `/pontos`;
+      })
+      .catch((error) => {
+        console.log(error.response, "erro");
 
-            this.state.toast.show({ severity: 'success', summary: 'Sucesso', detail: 'Ponto Registrado Com Sucesso' });
-            await this.delay(2000);
-            window.location.href = `/pontos`;
-        }).catch( error =>{
-            console.log(error.response,'erro')
+        this.state.toast.show({
+          severity: "error",
+          summary: "Erro",
+          detail: "Erro ao Registrar Escala",
+        });
+        this.state.toast.show({
+          severity: "error",
+          summary: "Erro",
+          detail: error.response.data,
+        });
+      });
+  };
 
-            this.state.toast.show({ severity: 'error', summary: 'Erro', detail: 'Erro ao Registrar Escala' });
-            this.state.toast.show({ severity: 'error', summary: 'Erro', detail: error.response.data });
-        })
-  }
+  datas = async () => {
+    const datasSet = new Set();
+
+    const formatarData = (data) => {
+      const dia = String(data.getDate() + 1).padStart(2, "0");
+      const mes = String(data.getMonth() + 1).padStart(2, "0");
+      const ano = data.getFullYear();
+      return `${dia}/${mes}/${ano}`;
+    };
+
+    this.state.pontos.forEach((element) => {
+      const dataPonto = new Date(element.data);
+      const dataFormatada = formatarData(dataPonto);
+
+      datasSet.add(dataFormatada);
+    });
+
+    const datas = Array.from(datasSet);
+
+    await console.log(datas, "datas");
+    this.setState({ datasParaFiltro: datas });
+  };
+
+  filtrar = async () => {
+    let pontos = this.state.pontos;
+    let pontosAuxiliar = [];
+    let dataParaFiltro = this.state.dataParaFiltro;
+    console.log(dataParaFiltro, 'data selecionada');
+    
+    const formatarData = (data, formatoEntrada, formatoSaida) => {
+      const partesData = data.split(/[\/-]/);
+      const ano = partesData[formatoEntrada.ano];
+      const mes = String(partesData[formatoEntrada.mes]).padStart(2, '0');
+      const dia = String(partesData[formatoEntrada.dia]).padStart(2, '0');
+      return `${ano}-${mes}-${dia}`;
+    };
+  
+    pontos.forEach((element) => {
+      const dataFormatada = formatarData(element.data, { ano: 0, mes: 1, dia: 2 }, { ano: 0, mes: 1, dia: 2 });
+      const dataParaFiltroFormatada = formatarData(dataParaFiltro, { ano: 2, mes: 1, dia: 0 }, { ano: 0, mes: 1, dia: 2 });
+  
+      console.log(dataFormatada, dataParaFiltroFormatada, 'teste');
+  
+      if (dataFormatada === dataParaFiltroFormatada) {
+        pontosAuxiliar.push(element);
+      }
+    });
+  
+    console.log(pontosAuxiliar, 'pontos filtrados');
+  };
+  
+  
 
   render() {
     return (
       <div className="container">
+        <Modal
+          id="modal"
+          isOpen={this.state.isPopupOpen}
+          onRequestClose={this.closePopup}
+          contentLabel="Exemplo de Pop-up"
+        >
+          <Card className="card">
+            <div>
+              <p className="titulo">Você está em:</p>
+              <div className="endereco">
+                <p>{this.state.cidade}</p>
+                <p className="endereco-icon">
+                  <AiFillEnvironment></AiFillEnvironment>
+                </p>
+              </div>
+            </div>
 
-              <Modal
-                id="modal"
-                isOpen={this.state.isPopupOpen}
-                onRequestClose={this.closePopup}
-                contentLabel="Exemplo de Pop-up"
-                >
+            <div>
+              <p className="titulo">Último Registro:</p>
+              <div className="horario">
+                <p>
+                  {this.state.hora.getHours()}:{this.state.hora.getMinutes()}
+                </p>
+                <p className="hora-icon">
+                  <AiFillClockCircle></AiFillClockCircle>
+                </p>
+              </div>
+            </div>
+          </Card>
 
+          <div className="registrar-pontos projetos">
+            <Dropdown
+              id=""
+              value={this.state.projetoSelect}
+              onChange={(e) =>
+                this.setState({ projetoSelect: (this.projetoSelect = e.value) })
+              }
+              options={this.state.projetos}
+              optionLabel="titulo"
+              placeholder="Selecionar Projeto"
+            />
+          </div>
 
-                <Card className="card">
-                  <div>
-                    <p className="titulo">Você está em:</p>
-                    <div className="endereco">
-                      <p>{this.state.cidade}</p>
-                      <p className="endereco-icon">
-                        <AiFillEnvironment></AiFillEnvironment>
-                      </p>
-                    </div>
-                  </div>
+          <div className="registrar-pontos butons">
+            <button
+              class="p-button p-component bt-filtro p-button-raised p-button-warning"
+              onClick={this.closePopup}
+            >
+              Fechar
+            </button>
 
-                  <div>
-                    <p className="titulo">Último Registro:</p>
-                    <div className="horario">
-                      <p>
-                        {this.state.hora.getHours()}:{this.state.hora.getMinutes()}
-                      </p>
-                      <p className="hora-icon">
-                        <AiFillClockCircle></AiFillClockCircle>
-                      </p>
-                    </div>
-                  </div>
-                </Card>
+            <button
+              class="p-button p-component bt-filtro p-button-raised p-button-warning"
+              onClick={this.registrarPonto}
+            >
+              Registrar
+            </button>
+          </div>
+        </Modal>
 
-              <div className="registrar-pontos projetos">
-                  <Dropdown
-                    id=""
-                    value={this.state.projetoSelect}
-                    onChange={(e) =>
-                      this.setState({ projetoSelect: (this.projetoSelect = e.value) })
-                    }
-                    options={this.state.projetos}
-                    optionLabel="titulo"
-                    placeholder="Selecionar Projeto"
-                  />
-                </div>
-
-                
-
-                <div className="registrar-pontos butons">
-                  <button class="p-button p-component bt-filtro p-button-raised p-button-warning" onClick={this.closePopup}>Fechar</button>
-
-                  <button class="p-button p-component bt-filtro p-button-raised p-button-warning" onClick={this.registrarPonto}>Registrar</button>
-                </div>
-            </Modal>
-
-        
         <Toast ref={(el) => (this.state.toast = el)} />
         <ConfirmDialog
           acceptClassName="p-button-success"
@@ -255,13 +321,38 @@ export default class ListarProjetos extends React.Component {
             />
           </div>
         </div>
-        <div>
-          
-        </div>
+        <div></div>
 
         <div>
+          <div>
+          <Dropdown
+              id=""
+              value={this.state.dataParaFiltro}
+              onChange={(e) => this.setState({ dataParaFiltro: e.value })}
+              options={this.state.datasParaFiltro}
+              placeholder="Selecionar Data"
+            />
+
+            <Button
+              className="bt-filtro"
+              label="Filtrar"
+              onClick={this.filtrar}
+              title="Filtrar Projetos"
+              severity="warning"
+              raised
+            />
+
+            <Button
+              className="bt-filtro"
+              label="Limpar Filtro"
+              onClick={this.limparFiltro}
+              title="Listar Todos Projetos"
+              severity="warning"
+              raised
+            />
+          </div>
+          
           <Card className="card">
-            
             <Button
               severity="warning"
               label="Ajuste de Pontos"
@@ -269,11 +360,11 @@ export default class ListarProjetos extends React.Component {
               raised
             />
             <Button
-            onClick={this.selecionarProjetoRegime}
-            severity="warning"
-            label="Registrar Ponto"
-            title="Registrar Ponto"
-            raised
+              onClick={this.selecionarProjetoRegime}
+              severity="warning"
+              label="Registrar Ponto"
+              title="Registrar Ponto"
+              raised
             />
             <Button
               severity="warning"
@@ -292,12 +383,12 @@ export default class ListarProjetos extends React.Component {
             raised
           />
         </div> */}
-        <CardPontos 
-                    pontos = {this.state.pontos}
-                    // listarColaboradores = {this.find}
-                    // delete = {this.confirm}
-                    // editar = {this.editar}
-                />
+        <CardPontos
+          pontos={this.state.pontos}
+          // listarColaboradores = {this.find}
+          // delete = {this.confirm}
+          // editar = {this.editar}
+        />
       </div>
     );
   }
