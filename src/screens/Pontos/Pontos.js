@@ -23,6 +23,7 @@ export default class ListarProjetos extends React.Component {
     regimes: [],
     regimeSelect: [],
     pontos: [],
+    pontosAuxiliar:[],
     associacoes: [],
 
     isPopupOpen: false,
@@ -237,7 +238,13 @@ export default class ListarProjetos extends React.Component {
     });
   
     console.log(pontosAuxiliar, 'pontos filtrados');
+    this.setState({pontosAuxiliar:this.state.pontos})
+    this.setState({pontos:pontosAuxiliar})
   };
+
+  limparFiltro = ()=>{
+    this.setState({pontos:this.state.pontosAuxiliar})
+  }
   
   
 
@@ -337,7 +344,7 @@ export default class ListarProjetos extends React.Component {
               className="bt-filtro"
               label="Filtrar"
               onClick={this.filtrar}
-              title="Filtrar Projetos"
+              title="Filtrar Pontos"
               severity="warning"
               raised
             />
@@ -346,7 +353,7 @@ export default class ListarProjetos extends React.Component {
               className="bt-filtro"
               label="Limpar Filtro"
               onClick={this.limparFiltro}
-              title="Listar Todos Projetos"
+              title="Listar Todos Pontos"
               severity="warning"
               raised
             />
